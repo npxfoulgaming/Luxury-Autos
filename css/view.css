@@ -1,0 +1,255 @@
+* {
+    box-sizing: border-box;
+    scrollbar-width: none
+}
+
+::-webkit-scrollbar {
+    width: 0
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: montserrat, sans-serif
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    background-size: cover;
+    background-position: center;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    z-index: -1;
+    filter: blur(4px)
+}
+
+#page {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 15px 0;
+    max-width: 1550px
+}
+
+h1 {
+    position: fixed;
+    top: 15px;
+    left: calc((max(100%, 1550px) - 1550px)/2 + 15px);
+    font-weight: 600;
+    background: rgba(255, 255, 255, .5);
+    backdrop-filter: blur(8px);
+    padding: 10px 20px;
+    font-size: 30px;
+    color: #000;
+    z-index: 1;
+    margin: 0;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)
+}
+
+h1 a {
+    color: inherit;
+    text-decoration: none
+}
+
+#vehicles {
+    width: 100%
+}
+
+.vehicle {
+    width: 100%;
+    height: 350px;
+    display: flex
+}
+
+.vehicle:not(:first-child):not(:last-child) {
+    margin: -77px 0
+}
+
+.vehicle.invert {
+    flex-direction: row-reverse
+}
+
+.vehicle .details::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 12px
+}
+
+.vehicle.in-rotation .details::before {
+    content: "✔ Rotation";
+    color: #0b8200
+}
+
+.vehicle.not-in-rotation .details::before {
+    content: "✖ Rotation";
+    color: #b82b2b
+}
+
+body.loading-rotation .vehicle .details::before {
+    content: "Loading..."
+}
+
+.vehicle .details {
+    width: 100%;
+    height: calc(100% - 166px);
+    background: rgba(255, 255, 255, .5);
+    backdrop-filter: blur(15px);
+    margin: 83px 6px;
+    position: relative
+}
+
+.vehicle:first-child .details {
+    height: calc(100% - 83px);
+    margin: 0 6px
+}
+
+.vehicle:last-child .details {
+    height: calc(100% - 83px)
+}
+
+.vehicle .details .inner {
+    position: absolute;
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: max-content;
+    max-width: 100%
+}
+
+.vehicle .details span {
+    font-size: 22px;
+    font-weight: 600
+}
+
+.vehicle .details small {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: right
+}
+
+.vehicle .details pre {
+    margin: 0;
+    font-size: 14px;
+    font-style: italic;
+    text-align: right
+}
+
+.vehicle.invert .details pre,
+.vehicle.invert .details small {
+    text-align: left
+}
+
+.vehicle .details .colors {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    display: flex;
+    gap: 5px;
+    transition: 500ms;
+    opacity: 0
+}
+
+.vehicle:hover .details .colors {
+    opacity: 1
+}
+
+.vehicle .details .colors .color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, .25);
+    position: relative
+}
+
+.vehicle .details .colors .color::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    transition: 250ms;
+    opacity: 0
+}
+
+.vehicle .details .colors .color.active::after,
+.vehicle .details .colors .color:hover::after {
+    opacity: 1
+}
+
+.vehicle .details .colors .color[data-color=mb] {
+    background-image: url(/images/colors/mb.png)
+}
+
+.vehicle .details .colors .color[data-color=mw] {
+    background-image: url(/images/colors/mw.png)
+}
+
+.vehicle .details .colors .color[data-color=r] {
+    background-image: url(/images/colors/r.png)
+}
+
+.vehicle .details .colors .color[data-color=g] {
+    background-image: url(/images/colors/g.png)
+}
+
+.vehicle .details .colors .color[data-color=b] {
+    background-image: url(/images/colors/b.png)
+}
+
+.vehicle.invert .details .colors {
+    left: 6px;
+    right: unset
+}
+
+.vehicle .image {
+    width: calc(50% + 37px);
+    flex-shrink: 0
+}
+
+.vehicle:nth-child(odd) .image {
+    padding-left: 6px
+}
+
+.vehicle:nth-child(even) .image {
+    padding-right: 6px
+}
+
+.vehicle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+#footer {
+    background: rgba(255, 255, 255, .5);
+    backdrop-filter: blur(8px);
+    position: fixed;
+    bottom: 15px;
+    left: calc((max(100%, 1550px) - 1550px)/2 + 15px);
+    margin: 0;
+    padding: 7px 15px;
+    font-weight: 500;
+    font-size: 15px;
+    font-style: italic;
+    clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%)
+}

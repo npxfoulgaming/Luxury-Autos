@@ -1,0 +1,105 @@
+body::before {
+    background-image: url(/images/main/about.png)
+}
+
+#page {
+    max-width: 1200px;
+    width: 100%;
+    font-size: 15px;
+    line-height: 18px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 20px
+}
+
+.section {
+    background: rgba(255, 255, 255, .5);
+    backdrop-filter: blur(20px);
+    padding: 20px 30px;
+    clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+    width: calc(50% + 13px);
+    margin-top: -25px;
+    text-align: justify
+}
+
+.section:first-child {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+    margin-top: 0
+}
+
+.section:last-child {
+    clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%)
+}
+
+.section:nth-child(2n) {
+    clip-path: polygon(0 30px, 30px 0, 100% 0, 100% 100%, 30px 100%, 0 calc(100% - 30px));
+    align-self: end
+}
+
+h2 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 22px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+a {
+    color: #000;
+    border-bottom: 2px dashed #000;
+    text-decoration: none;
+    line-height: .9
+}
+
+h2 a.external {
+    display: block;
+    height: 20px;
+    width: 20px;
+    background-image: url(/images/main/link.png);
+    background-size: cover;
+    background-position: center
+}
+
+ul,
+p {
+    margin: 10px 0
+}
+
+ul:first-child,
+p:first-child {
+    margin-top: 0
+}
+
+ul:last-child,
+p:last-child {
+    margin-bottom: 0
+}
+
+ul {
+    padding-left: 25px
+}
+
+li {
+    list-style-type: '–';
+    padding-left: 5px
+}
+
+table {
+    border-collapse: collapse
+}
+
+tr {
+    border-top: 1px dashed #000
+}
+
+th {
+    text-align: left;
+    vertical-align: top
+}
+
+th,
+td {
+    padding: 5px
+}

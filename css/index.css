@@ -1,0 +1,108 @@
+* {
+    box-sizing: border-box
+}
+
+html,
+body,
+#page {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: montserrat, sans-serif
+}
+
+#page {
+    display: flex
+}
+
+#expires {
+    position: absolute;
+    top: 10px;
+    left: 11px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, .3);
+    padding: 7px 15px;
+    font-size: 20px;
+    color: #000;
+    backdrop-filter: blur(5px)
+}
+
+a {
+    width: calc(100%/3);
+    background-size: cover;
+    background-position: center;
+    display: block;
+    height: 100%;
+    transition: 500ms
+}
+
+#page a:hover {
+    width: 50%
+}
+
+a.respected {
+    background-image: url(../images/main/respected.png)
+}
+
+a.heroic {
+    background-image: url(../images/main/heroic.png)
+}
+
+a.legendary {
+    background-image: url(../images/main/legendary.png)
+}
+a.special {
+    background-image: url(../images/main/special.png)
+}
+a.casino {
+    background-image: url(../images/main/casino.png)
+}
+a.rare {
+    background-image: url(../images/main/rare.png)
+}
+
+a.notused,
+a.about {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    height: 20vh;
+    width: 30vh;
+    border: 2px solid #8299a4;
+    box-shadow: -5px -5px 20px -5px rgba(0, 0, 0, .75);
+    background-image: url(../images/main/thinking.png)
+}
+
+a.notused {
+    background-image: url(../images/main/notused.png);
+    right: unset;
+    left: 15px
+}
+
+a.notused span,
+a.about span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    transition: 500ms
+}
+
+a.notused:not(:hover) span,
+a.about:not(:hover) span {
+    opacity: 0
+}
+
+a.notused:hover,
+a.about:hover {
+    height: 30vh;
+    width: 50vh !important
+}
