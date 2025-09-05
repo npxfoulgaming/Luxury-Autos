@@ -1,0 +1,6863 @@
+{
+  "data": {
+    "1374480668": {
+      "class": 6,
+      "label": "Rice&Fins Food Delivery",
+      "model": "foodcar7"
+    },
+    "-1882910943": {
+      "class": 10,
+      "label": "Custom Flatbed",
+      "model": "flatbed2"
+    },
+    "400528305": {
+      "class": 6,
+      "label": "Harmonia Cubb",
+      "model": "honcub"
+    },
+    "931280609": {
+      "class": 0,
+      "label": "Issi Classic",
+      "price": 38000,
+      "model": "issi3"
+    },
+    "-401558446": {
+      "class": 1,
+      "label": "Hardy",
+      "model": "drifthardy"
+    },
+    "223258115": {
+      "class": 4,
+      "label": "Sabre Turbo Custom",
+      "price": 77000,
+      "model": "sabregt2"
+    },
+    "2018131173": {
+      "class": 18,
+      "label": "Unmarked Kurama",
+      "model": "fibk2"
+    },
+    "321739290": {
+      "class": 19,
+      "label": "Crusader",
+      "model": "crusader"
+    },
+    "-2138685623": {
+      "class": 6,
+      "label": "2003 Harmonia Entegra R",
+      "price": 95000,
+      "model": "dc5"
+    },
+    "-1536924937": {
+      "class": 18,
+      "label": "Police Rancher",
+      "model": "policeold1"
+    },
+    "-1461482751": {
+      "class": 6,
+      "label": "9F Cabrio",
+      "price": 108000,
+      "model": "ninef2"
+    },
+    "-1466692365": {
+      "class": 5,
+      "label": "Cheburek",
+      "model": "driftcheburek"
+    },
+    "1922255844": {
+      "class": 1,
+      "label": "Schafter LWB (Armored)",
+      "model": "schafter6"
+    },
+    "917809321": {
+      "class": 7,
+      "label": "XA-21",
+      "price": 246000,
+      "model": "xa21"
+    },
+    "179149372": {
+      "class": 0,
+      "label": "1974 Harmonia Celvik R",
+      "model": "74civ"
+    },
+    "-186537451": {
+      "class": 13,
+      "label": "Scorcher",
+      "price": 200,
+      "model": "scorcher"
+    },
+    "-2137348917": {
+      "class": 20,
+      "label": "Phantom",
+      "price": 2500,
+      "model": "phantom"
+    },
+    "-1874499785": {
+      "class": 8,
+      "label": "2020 Indigenous Chief Dark Steed",
+      "price": 53000,
+      "model": "icdh"
+    },
+    "1254014755": {
+      "class": 9,
+      "label": "Caracara",
+      "model": "caracara"
+    },
+    "-777172681": {
+      "class": 6,
+      "label": "Omnis",
+      "price": 110000,
+      "model": "omnis"
+    },
+    "353883353": {
+      "class": 15,
+      "label": "Police Maverick",
+      "model": "polmav"
+    },
+    "1127131465": {
+      "class": 18,
+      "label": "FIB",
+      "model": "fbi"
+    },
+    "-599568815": {
+      "class": 11,
+      "label": "Sadler",
+      "price": 22000,
+      "model": "sadler"
+    },
+    "1384502824": {
+      "class": 8,
+      "label": "Manchez Scout C",
+      "price": 60000,
+      "model": "manchez3"
+    },
+    "-1289225626": {
+      "class": 6,
+      "label": "Futo",
+      "model": "driftfuto2"
+    },
+    "534258863": {
+      "class": 9,
+      "label": "Space Docker",
+      "model": "dune2"
+    },
+    "-1269889662": {
+      "class": 9,
+      "label": "Hot Rod Blazer",
+      "price": 15000,
+      "model": "blazer3"
+    },
+    "-390494364": {
+      "class": 6,
+      "label": "2017 Sword Locust ARES",
+      "model": "frs"
+    },
+    "-2091594350": {
+      "class": 7,
+      "label": "2015 Scorche Nine 18s",
+      "price": 250000,
+      "model": "918"
+    },
+    "-1924800695": {
+      "class": 4,
+      "label": "Future Shock Impaler",
+      "model": "impaler3"
+    },
+    "1922257928": {
+      "class": 18,
+      "label": "Sheriff SUV",
+      "model": "sheriff2"
+    },
+    "1169395895": {
+      "class": 6,
+      "label": "Auro Rosso Julia",
+      "model": "gqv"
+    },
+    "1682114128": {
+      "class": 0,
+      "label": "Dilettante",
+      "model": "dilettante2"
+    },
+    "-1700801569": {
+      "class": 11,
+      "label": "Scrap Truck",
+      "model": "scrap"
+    },
+    "-1726022652": {
+      "class": 6,
+      "label": "Comet S2",
+      "price": 85000,
+      "model": "comet6"
+    },
+    "1755697647": {
+      "class": 6,
+      "label": "Cypher",
+      "price": 60000,
+      "model": "cypher"
+    },
+    "745926877": {
+      "class": 15,
+      "label": "Buzzard",
+      "model": "buzzard2"
+    },
+    "-1259134696": {
+      "class": 6,
+      "label": "Flash GT",
+      "price": 70000,
+      "model": "flashgt"
+    },
+    "-482719877": {
+      "class": 7,
+      "label": "Itali GTB Custom",
+      "price": 227000,
+      "model": "italigtb2"
+    },
+    "-986656474": {
+      "class": 6,
+      "label": "Sentinel Classic Widebody",
+      "model": "driftsentinel"
+    },
+    "-1214505995": {
+      "class": 16,
+      "label": "Shamal",
+      "model": "shamal"
+    },
+    "-1606187161": {
+      "class": 8,
+      "label": "Nightblade",
+      "price": 16000,
+      "model": "nightblade"
+    },
+    "-143695728": {
+      "class": 7,
+      "label": "Orion OUR 8",
+      "price": 190000,
+      "model": "r820"
+    },
+    "-1763273939": {
+      "class": 6,
+      "label": "Jester RR",
+      "model": "driftjester"
+    },
+    "-14495224": {
+      "class": 1,
+      "label": "Regina",
+      "price": 6900,
+      "model": "regina"
+    },
+    "-1579533167": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "trailers2"
+    },
+    "-431370865": {
+      "class": 8,
+      "label": "1996 Harlan Gentle Tail",
+      "price": 50000,
+      "model": "harst"
+    },
+    "1854776567": {
+      "class": 6,
+      "label": "Issi Sport",
+      "price": 106000,
+      "model": "issi7"
+    },
+    "-1876221239": {
+      "class": 6,
+      "label": "2008 Eunifity BG35",
+      "price": 165000,
+      "model": "gstyle"
+    },
+    "1981688531": {
+      "class": 16,
+      "label": "Titan",
+      "model": "titan"
+    },
+    "471399650": {
+      "class": 5,
+      "label": "LSCM Cheetah Classic",
+      "model": "cheetah3"
+    },
+    "-2040001703": {
+      "class": 6,
+      "label": "1990 Nihon Sunshine GETIR",
+      "price": 85000,
+      "model": "nisgtir"
+    },
+    "-1181258589": {
+      "class": 7,
+      "label": "McLarson Seven 65LT",
+      "price": 1500000,
+      "model": "seven65lt"
+    },
+    "1279262537": {
+      "class": 4,
+      "label": "Deviant",
+      "price": 112000,
+      "model": "deviant"
+    },
+    "-1539291163": {
+      "class": 6,
+      "label": "1999 Mazerunner Myata",
+      "price": 140000,
+      "model": "na6"
+    },
+    "-1758379524": {
+      "class": 4,
+      "label": "Vigero ZX",
+      "price": 135000,
+      "model": "vigero2"
+    },
+    "-1848994066": {
+      "class": 6,
+      "label": "Neon",
+      "price": 140000,
+      "model": "neon"
+    },
+    "1539159908": {
+      "class": 11,
+      "label": "Boat Trailer",
+      "model": "boattrailer3"
+    },
+    "1637620610": {
+      "class": 4,
+      "label": "Future Shock Imperator",
+      "model": "imperator2"
+    },
+    "234062309": {
+      "class": 7,
+      "label": "Reaper",
+      "price": 174000,
+      "model": "reaper"
+    },
+    "1561920505": {
+      "class": 6,
+      "label": "Comet Safari",
+      "price": 90000,
+      "model": "comet4"
+    },
+    "-1694247000": {
+      "class": 7,
+      "label": "1993 Foxfire Serpant",
+      "model": "93mus"
+    },
+    "1621617168": {
+      "class": 15,
+      "label": "Cargobob",
+      "model": "cargobob2"
+    },
+    "-1907071539": {
+      "class": 6,
+      "label": "Mazerosa Mazerosa GranLB",
+      "price": 1025000,
+      "model": "granlb"
+    },
+    "-1948949064": {
+      "class": 18,
+      "label": "Caracara Pursuit",
+      "model": "polcaracara"
+    },
+    "1429622905": {
+      "class": 0,
+      "label": "Brioso 300",
+      "price": 40000,
+      "model": "brioso2"
+    },
+    "-1934452204": {
+      "class": 6,
+      "label": "Rapid GT",
+      "price": 122000,
+      "model": "rapidgt"
+    },
+    "-1364401596": {
+      "class": 6,
+      "label": "Nihon 18SX",
+      "price": 150000,
+      "model": "18sx"
+    },
+    "-828728303": {
+      "class": 18,
+      "label": "Pugway PD",
+      "model": "pugway"
+    },
+    "-848721350": {
+      "class": 16,
+      "label": "F-14A Alleycat",
+      "model": "f14a2"
+    },
+    "-1216765807": {
+      "class": 7,
+      "label": "Adder",
+      "price": 220000,
+      "model": "adder"
+    },
+    "-902029319": {
+      "class": 11,
+      "label": "Tow Truck",
+      "model": "towtruck4"
+    },
+    "-1249788006": {
+      "class": 4,
+      "label": "Eudora",
+      "price": 143000,
+      "model": "eudora"
+    },
+    "2071877360": {
+      "class": 9,
+      "label": "Insurgent",
+      "model": "insurgent2"
+    },
+    "-1734169614": {
+      "class": 16,
+      "label": "Santas Sled",
+      "model": "santa"
+    },
+    "955107855": {
+      "class": 6,
+      "label": "1990 Typhoon Sura Mk3",
+      "price": 125000,
+      "model": "a70"
+    },
+    "191916658": {
+      "class": 16,
+      "label": "Streamer216",
+      "model": "streamer216"
+    },
+    "-1993295239": {
+      "class": 6,
+      "label": "2016 Chevrox Cavaro Zeelone",
+      "price": 75000,
+      "model": "zeelone"
+    },
+    "972671128": {
+      "class": 4,
+      "label": "Tampa",
+      "price": 47000,
+      "model": "tampa"
+    },
+    "814085945": {
+      "class": 7,
+      "label": "2016 McLarsen IX-Six-75L",
+      "price": 355000,
+      "model": "mc675"
+    },
+    "630371791": {
+      "class": 19,
+      "label": "Barracks",
+      "model": "barracks3"
+    },
+    "1486521356": {
+      "class": 12,
+      "label": "Youga Custom",
+      "model": "youga4"
+    },
+    "884422927": {
+      "class": 2,
+      "label": "Habanero",
+      "price": 65000,
+      "model": "habanero"
+    },
+    "1357894033": {
+      "class": 6,
+      "label": "2008 Mazerunner REX 8",
+      "price": 135000,
+      "model": "rex8"
+    },
+    "-685276541": {
+      "class": 1,
+      "label": "Emperor",
+      "price": 7000,
+      "model": "emperor"
+    },
+    "1249425552": {
+      "class": 18,
+      "label": "Impaler SZ Cruiser",
+      "model": "polimpaler5"
+    },
+    "67753863": {
+      "class": 12,
+      "label": "Yosemite Custom",
+      "price": 50000,
+      "model": "yosemite3"
+    },
+    "-537896628": {
+      "class": 11,
+      "label": "Caddy",
+      "price": 3800,
+      "model": "caddy2"
+    },
+    "1993851908": {
+      "class": 8,
+      "label": "Reever",
+      "price": 25000,
+      "model": "reever"
+    },
+    "1162065741": {
+      "class": 12,
+      "label": "Rumpo",
+      "price": 5000,
+      "model": "rumpo"
+    },
+    "456714581": {
+      "class": 18,
+      "label": "Police Transporter",
+      "model": "policet"
+    },
+    "1835260592": {
+      "class": 11,
+      "label": "Boat Trailer",
+      "model": "boattrailer2"
+    },
+    "-1035489563": {
+      "class": 12,
+      "label": "Surfer Custom",
+      "price": 110000,
+      "model": "surfer3"
+    },
+    "1030400667": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "freight"
+    },
+    "-1695471016": {
+      "class": 7,
+      "label": "Bugarto Zeyron",
+      "price": 350000,
+      "model": "bugarto"
+    },
+    "-1992613535": {
+      "class": 18,
+      "label": "Unmarked Oracle",
+      "model": "umoracle"
+    },
+    "359875117": {
+      "class": 2,
+      "label": "Baller ST",
+      "price": 85000,
+      "model": "baller7"
+    },
+    "-2027301995": {
+      "class": 1,
+      "label": "Food Delivery Emperor",
+      "model": "foodcar5"
+    },
+    "-233098306": {
+      "class": 12,
+      "label": "Boxville",
+      "price": 15500,
+      "model": "boxville2"
+    },
+    "-317684439": {
+      "class": 13,
+      "label": "Custom Racing Bicycle",
+      "model": "tribike9"
+    },
+    "310284501": {
+      "class": 5,
+      "label": "Dynasty",
+      "price": 66000,
+      "model": "dynasty"
+    },
+    "92612664": {
+      "class": 9,
+      "label": "Kalahari",
+      "price": 30000,
+      "model": "kalahari"
+    },
+    "-618617997": {
+      "class": 8,
+      "label": "Wolfsbane",
+      "price": 16000,
+      "model": "wolfsbane"
+    },
+    "2067820283": {
+      "class": 7,
+      "label": "Tyrus",
+      "price": 256000,
+      "model": "tyrus"
+    },
+    "-2143843835": {
+      "class": 2,
+      "label": "2024 Rambarini Laserdoor",
+      "model": "lanz"
+    },
+    "743478836": {
+      "class": 8,
+      "label": "Sovereign",
+      "price": 15000,
+      "model": "sovereign"
+    },
+    "-1933242328": {
+      "class": 4,
+      "label": "Broadway",
+      "price": 190000,
+      "model": "broadway"
+    },
+    "317829758": {
+      "class": 17,
+      "label": "Oldschool Bus",
+      "model": "abus"
+    },
+    "-269970895": {
+      "class": 6,
+      "label": "Jinx GPR",
+      "model": "lynxgpr"
+    },
+    "1966698497": {
+      "class": 2,
+      "label": "Woodlander",
+      "model": "woodlander"
+    },
+    "610429990": {
+      "class": 6,
+      "label": "La Coureuse",
+      "price": 233000,
+      "model": "coureur"
+    },
+    "-497103965": {
+      "class": 12,
+      "label": "2016 Hound Fraptour",
+      "price": 125000,
+      "model": "frap"
+    },
+    "470404958": {
+      "class": 2,
+      "label": "Baller LE (Armored)",
+      "model": "baller5"
+    },
+    "-2040709816": {
+      "class": 2,
+      "label": "Governors Suburbia",
+      "model": "govburb"
+    },
+    "-1585673997": {
+      "class": 6,
+      "label": "Sentinel GTS",
+      "model": "sentinel5"
+    },
+    "1097351935": {
+      "class": 18,
+      "label": "Peel, P50",
+      "model": "peel50police"
+    },
+    "-261346873": {
+      "class": 2,
+      "label": "Granger 3600LX",
+      "model": "granger2"
+    },
+    "1239571361": {
+      "class": 0,
+      "label": "Nightmare Issi",
+      "model": "issi6"
+    },
+    "-472912504": {
+      "class": 16,
+      "label": "Beechking Sky Air",
+      "model": "foxc90"
+    },
+    "821121576": {
+      "class": 6,
+      "label": "Euros",
+      "model": "drifteuros"
+    },
+    "309111610": {
+      "class": 7,
+      "label": "Primordial IX-11R",
+      "price": 205000,
+      "model": "nine11"
+    },
+    "142944341": {
+      "class": 2,
+      "label": "Baller",
+      "price": 45000,
+      "model": "baller2"
+    },
+    "117401876": {
+      "class": 5,
+      "label": "Roosevelt",
+      "price": 65000,
+      "model": "btype"
+    },
+    "-1130810103": {
+      "class": 0,
+      "label": "Dilettante",
+      "price": 9000,
+      "model": "dilettante"
+    },
+    "-366628154": {
+      "class": 16,
+      "label": "Cenna 550 Citation II",
+      "model": "citationii"
+    },
+    "1346471864": {
+      "class": 18,
+      "label": "Unmarked Contendor",
+      "model": "fibc3"
+    },
+    "-143587026": {
+      "class": 1,
+      "label": "Vorschlaghammer",
+      "model": "driftvorschlag"
+    },
+    "509498602": {
+      "class": 14,
+      "label": "Dinghy",
+      "model": "dinghy3"
+    },
+    "-1488732133": {
+      "class": 7,
+      "label": "2010 Luxis Elleffay",
+      "price": 185000,
+      "model": "elleffay"
+    },
+    "1044954915": {
+      "class": 15,
+      "label": "Skylift",
+      "model": "skylift"
+    },
+    "2006142190": {
+      "class": 8,
+      "label": "Daemon",
+      "price": 12500,
+      "model": "daemon"
+    },
+    "956849991": {
+      "class": 7,
+      "label": "Weaponized Ignus",
+      "model": "ignus2"
+    },
+    "-1829436850": {
+      "class": 2,
+      "label": "Novak",
+      "price": 105000,
+      "model": "novak"
+    },
+    "-440768424": {
+      "class": 9,
+      "label": "Street Blazer",
+      "price": 15000,
+      "model": "blazer4"
+    },
+    "-2052737935": {
+      "class": 20,
+      "label": "Mule",
+      "model": "mule3"
+    },
+    "1024243385": {
+      "class": 15,
+      "label": "KA-52 Hoax-B",
+      "model": "ka52a"
+    },
+    "-1334453816": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "trailers5"
+    },
+    "950412192": {
+      "class": 11,
+      "label": "Medium Vehicle Trailer",
+      "price": 8000,
+      "model": "trailerflat2"
+    },
+    "-1566741232": {
+      "class": 5,
+      "label": "Feltzer Classic",
+      "model": "feltzer3"
+    },
+    "-451654355": {
+      "class": 8,
+      "label": "Harlen ESS Glide",
+      "price": 45000,
+      "model": "hsg"
+    },
+    "-391595372": {
+      "class": 5,
+      "label": "Viseris",
+      "price": 91000,
+      "model": "viseris"
+    },
+    "2053223216": {
+      "class": 20,
+      "label": "Benson",
+      "model": "benson"
+    },
+    "301304410": {
+      "class": 8,
+      "label": "Stryder",
+      "model": "stryder"
+    },
+    "295054921": {
+      "class": 15,
+      "label": "Annihilator Stealth",
+      "model": "annihilator2"
+    },
+    "-1050465301": {
+      "class": 20,
+      "label": "Mule",
+      "model": "mule2"
+    },
+    "-1523428744": {
+      "class": 8,
+      "label": "Manchez",
+      "price": 8000,
+      "model": "manchez"
+    },
+    "741090084": {
+      "class": 8,
+      "label": "Gargoyle",
+      "price": 13000,
+      "model": "gargoyle"
+    },
+    "-939601823": {
+      "class": 4,
+      "label": "Dominator FX",
+      "model": "driftdominator10"
+    },
+    "-1895423907": {
+      "class": 8,
+      "label": "2004 Harlan Dina SG",
+      "price": 90000,
+      "model": "dyne"
+    },
+    "-662325435": {
+      "class": 4,
+      "label": "1960 Chevrox See10",
+      "price": 925000,
+      "model": "see10"
+    },
+    "1945374990": {
+      "class": 20,
+      "label": "Mule Custom",
+      "model": "mule4"
+    },
+    "-1807623979": {
+      "class": 1,
+      "label": "Asea",
+      "model": "asea2"
+    },
+    "-982599050": {
+      "class": 18,
+      "label": "2014 Thunder Striker",
+      "model": "21tr14charg"
+    },
+    "-1984275979": {
+      "class": 15,
+      "label": "Havok",
+      "model": "havok"
+    },
+    "-400295096": {
+      "class": 13,
+      "label": "Tri-Cycles Race Bike",
+      "price": 1000,
+      "model": "tribike3"
+    },
+    "850565707": {
+      "class": 2,
+      "label": "BeeJay XL",
+      "price": 12000,
+      "model": "bjxl"
+    },
+    "-1815410756": {
+      "class": 7,
+      "label": "Bavaria Eye 8",
+      "price": 150000,
+      "model": "eye8"
+    },
+    "2006918058": {
+      "class": 2,
+      "label": "Cavalcade",
+      "price": 17000,
+      "model": "cavalcade"
+    },
+    "-836512833": {
+      "class": 13,
+      "label": "Fixter",
+      "price": 400,
+      "model": "fixter"
+    },
+    "-1432034260": {
+      "class": 7,
+      "label": "Hound Scallion GT",
+      "price": 220000,
+      "model": "mgt"
+    },
+    "1464872465": {
+      "class": 2,
+      "label": "Stellar Sevante",
+      "price": 80000,
+      "model": "levan"
+    },
+    "418536135": {
+      "class": 7,
+      "label": "Infernus",
+      "price": 200000,
+      "model": "infernus"
+    },
+    "590709306": {
+      "class": 6,
+      "label": "Nihon Highline ARE35 LW",
+      "price": 140000,
+      "model": "lwgtr"
+    },
+    "1323778901": {
+      "class": 7,
+      "label": "Emerus",
+      "price": 235000,
+      "model": "emerus"
+    },
+    "1507916787": {
+      "class": 4,
+      "label": "Picador",
+      "price": 68000,
+      "model": "picador"
+    },
+    "1721676810": {
+      "class": 9,
+      "label": "Apocalypse Sasquatch",
+      "model": "monster3"
+    },
+    "1377217886": {
+      "class": 6,
+      "label": "Remus",
+      "price": 90000,
+      "model": "remus"
+    },
+    "-403066713": {
+      "class": 18,
+      "label": "PD Predator Boat",
+      "model": "predator1"
+    },
+    "-994371320": {
+      "class": 4,
+      "label": "Weevil Custom",
+      "price": 93000,
+      "model": "weevil2"
+    },
+    "1107404867": {
+      "class": 5,
+      "label": "Peyote Custom",
+      "price": 40000,
+      "model": "peyote3"
+    },
+    "1923400478": {
+      "class": 4,
+      "label": "Stallion",
+      "price": 16000,
+      "model": "stalion"
+    },
+    "-1532697517": {
+      "class": 9,
+      "label": "Riata",
+      "price": 55000,
+      "model": "riata"
+    },
+    "-359338691": {
+      "class": 18,
+      "label": "PD Enduro Motorcycle",
+      "model": "pdenduro"
+    },
+    "1337041428": {
+      "class": 2,
+      "label": "Serrano",
+      "price": 63000,
+      "model": "serrano"
+    },
+    "1357773445": {
+      "class": 6,
+      "label": "2017 Mercia Benzari Xmas Ayemg",
+      "model": "xmasymg"
+    },
+    "2068293287": {
+      "class": 4,
+      "label": "Lurcher",
+      "price": 14000,
+      "model": "lurcher"
+    },
+    "1255834894": {
+      "class": 18,
+      "label": "Unmarked Huntley",
+      "model": "fibh"
+    },
+    "1333653647": {
+      "class": 6,
+      "label": "2020 Azerath Bye Loco",
+      "price": 70000,
+      "model": "rbip"
+    },
+    "1177543287": {
+      "class": 2,
+      "label": "Dubsta",
+      "price": 33000,
+      "model": "dubsta"
+    },
+    "544021352": {
+      "class": 6,
+      "label": "Khamelion",
+      "price": 85000,
+      "model": "khamelion"
+    },
+    "1693751655": {
+      "class": 4,
+      "label": "Drift Yosemite",
+      "price": 68000,
+      "model": "yosemite2"
+    },
+    "-1435919434": {
+      "class": 9,
+      "label": "Bodhi",
+      "price": 13000,
+      "model": "bodhi2"
+    },
+    "608851897": {
+      "class": 6,
+      "label": "1999 Bavaria Em3",
+      "price": 115000,
+      "model": "em3"
+    },
+    "1456336509": {
+      "class": 6,
+      "label": "V-STR",
+      "price": 129000,
+      "model": "vstr"
+    },
+    "-1982433631": {
+      "class": 9,
+      "label": "Drift Walton L35",
+      "model": "driftl352"
+    },
+    "-1705304628": {
+      "class": 10,
+      "label": "Rubble",
+      "model": "rubble"
+    },
+    "390201602": {
+      "class": 8,
+      "label": "Cliffhanger",
+      "price": 13000,
+      "model": "cliffhanger"
+    },
+    "408970549": {
+      "class": 16,
+      "label": "Avenger",
+      "model": "avenger2"
+    },
+    "-1006919392": {
+      "class": 10,
+      "label": "Cutter",
+      "model": "cutter"
+    },
+    "-946960713": {
+      "class": 7,
+      "label": "2023 Stellar Vanity",
+      "model": "amv23"
+    },
+    "457113946": {
+      "class": 12,
+      "label": "2022 Mercia-Benzari Goon",
+      "price": 800000,
+      "model": "goon"
+    },
+    "1934384720": {
+      "class": 4,
+      "label": "Gauntlet Hellfire",
+      "price": 115000,
+      "model": "gauntlet4"
+    },
+    "-1622444098": {
+      "class": 7,
+      "label": "Voltic",
+      "price": 189000,
+      "model": "voltic"
+    },
+    "1564933974": {
+      "class": 7,
+      "label": "2022 Bavaria M4 Competition",
+      "price": 140000,
+      "model": "mansm4"
+    },
+    "941471002": {
+      "class": 18,
+      "label": "DOC Transporter",
+      "model": "polnspeedo"
+    },
+    "-2128233223": {
+      "class": 9,
+      "label": "Blazer",
+      "price": 12000,
+      "model": "blazer"
+    },
+    "-1578648518": {
+      "class": 5,
+      "label": "Phancy B4",
+      "price": 150000,
+      "model": "sancyb4"
+    },
+    "876832893": {
+      "class": 18,
+      "label": "PD Ranger ATV",
+      "model": "ranger2pd"
+    },
+    "1353120668": {
+      "class": 8,
+      "label": "Shinobi",
+      "price": 25000,
+      "model": "shinobi"
+    },
+    "-1660661558": {
+      "class": 15,
+      "label": "Maverick",
+      "model": "maverick"
+    },
+    "1352136073": {
+      "class": 7,
+      "label": "SC1",
+      "price": 175000,
+      "model": "sc1"
+    },
+    "-1180922538": {
+      "class": 9,
+      "label": "2021 Hound Blanco",
+      "price": 80000,
+      "model": "wildtrak"
+    },
+    "-1311240698": {
+      "class": 12,
+      "label": "Surfer",
+      "model": "surfer2"
+    },
+    "1221512915": {
+      "class": 2,
+      "label": "Seminole",
+      "price": 8000,
+      "model": "seminole"
+    },
+    "-1649536104": {
+      "class": 20,
+      "label": "Phantom Wedge",
+      "model": "phantom2"
+    },
+    "196747873": {
+      "class": 6,
+      "label": "Elegy Retro Custom",
+      "price": 85000,
+      "model": "elegy"
+    },
+    "171420343": {
+      "class": 6,
+      "label": "2023 Bravaria EM-2",
+      "model": "nbjm2"
+    },
+    "-2013828405": {
+      "class": 6,
+      "label": "1993 Typhoon MR Too",
+      "price": 215000,
+      "model": "nbjmrtoo"
+    },
+    "-1757836725": {
+      "class": 6,
+      "label": "Seven-70",
+      "price": 98000,
+      "model": "seven70"
+    },
+    "1447690049": {
+      "class": 6,
+      "label": "Itali GTO Stinger TT",
+      "price": 240000,
+      "model": "stingertt"
+    },
+    "1580292663": {
+      "class": 1,
+      "label": "Hardy Way",
+      "model": "hardy"
+    },
+    "-1244461404": {
+      "class": 1,
+      "label": "Tailgater S",
+      "price": 95000,
+      "model": "tailgater2"
+    },
+    "-1681653521": {
+      "class": 4,
+      "label": "Drift Yosemite",
+      "model": "driftyosemite"
+    },
+    "723973206": {
+      "class": 4,
+      "label": "Dukes",
+      "price": 50000,
+      "model": "dukes"
+    },
+    "-1809822327": {
+      "class": 1,
+      "label": "Asea",
+      "price": 6000,
+      "model": "asea"
+    },
+    "513887552": {
+      "class": 16,
+      "label": "Mig-29A Pivot",
+      "model": "mig29a"
+    },
+    "-452604007": {
+      "class": 6,
+      "label": "RT3000",
+      "price": 125000,
+      "model": "rt3000"
+    },
+    "-1598193226": {
+      "class": 16,
+      "label": "F18E Super Hornet",
+      "model": "fa18e"
+    },
+    "445865749": {
+      "class": 16,
+      "label": "B-2A Stealth Bomber",
+      "model": "spirit"
+    },
+    "540101442": {
+      "class": 6,
+      "label": "Apocalypse ZR380",
+      "model": "zr380"
+    },
+    "996383885": {
+      "class": 9,
+      "label": "Boor",
+      "price": 220000,
+      "model": "boor"
+    },
+    "-634879114": {
+      "class": 8,
+      "label": "Nemesis",
+      "price": 9000,
+      "model": "nemesis"
+    },
+    "-436393803": {
+      "class": 6,
+      "label": "Folkshaven Gulf RS",
+      "price": 60000,
+      "model": "gulfrs"
+    },
+    "-946047670": {
+      "class": 6,
+      "label": "Paragon S",
+      "model": "paragon3"
+    },
+    "719660200": {
+      "class": 6,
+      "label": "Ruston",
+      "price": 103000,
+      "model": "ruston"
+    },
+    "-1057531381": {
+      "class": 7,
+      "label": "2018 Demon Energizer",
+      "model": "valciv18"
+    },
+    "1668332124": {
+      "class": 8,
+      "label": "V8 Undead Chopper",
+      "model": "zombiev8"
+    },
+    "-909201658": {
+      "class": 8,
+      "label": "PCJ 600",
+      "price": 8000,
+      "model": "pcj"
+    },
+    "-891462355": {
+      "class": 8,
+      "label": "Bati 801RR",
+      "price": 16000,
+      "model": "bati2"
+    },
+    "2072156101": {
+      "class": 12,
+      "label": "Bison",
+      "price": 15000,
+      "model": "bison2"
+    },
+    "-1323100960": {
+      "class": 11,
+      "label": "Tow Truck",
+      "model": "towtruck"
+    },
+    "-345122144": {
+      "class": 8,
+      "label": "Harway Chopper",
+      "price": 30000,
+      "model": "hchop"
+    },
+    "298565713": {
+      "class": 9,
+      "label": "Verus",
+      "price": 18000,
+      "model": "verus"
+    },
+    "2061630439": {
+      "class": 16,
+      "label": "F-22 Predator",
+      "model": "f22a"
+    },
+    "40817712": {
+      "class": 4,
+      "label": "Greenwood",
+      "price": 118000,
+      "model": "greenwood"
+    },
+    "802856453": {
+      "class": 9,
+      "label": "MonstroCiti",
+      "model": "monstrociti"
+    },
+    "819197656": {
+      "class": 7,
+      "label": "ETR1",
+      "price": 201000,
+      "model": "sheava"
+    },
+    "437538602": {
+      "class": 14,
+      "label": "Speeder",
+      "model": "speeder2"
+    },
+    "-461850249": {
+      "class": 4,
+      "label": "Tahoma Coupe",
+      "price": 155000,
+      "model": "tahoma"
+    },
+    "-32236122": {
+      "class": 19,
+      "label": "Half-track",
+      "model": "halftrack"
+    },
+    "2046537925": {
+      "class": 18,
+      "label": "Police Cruiser",
+      "model": "police"
+    },
+    "-1674384553": {
+      "class": 18,
+      "label": "Stanier LE Cruiser",
+      "model": "police5"
+    },
+    "1582249670": {
+      "class": 1,
+      "label": "2024 Eterniti ES50",
+      "model": "gdaq50"
+    },
+    "793004262": {
+      "class": 18,
+      "label": "Unmarked Dominator",
+      "model": "fibd3"
+    },
+    "-1540373595": {
+      "class": 6,
+      "label": "Vectre",
+      "price": 80000,
+      "model": "vectre"
+    },
+    "-682211828": {
+      "class": 4,
+      "label": "Buccaneer",
+      "price": 67000,
+      "model": "buccaneer"
+    },
+    "-1645478852": {
+      "class": 19,
+      "label": "M1A2 Abrams",
+      "model": "m1a2"
+    },
+    "822018448": {
+      "class": 8,
+      "label": "Defiler",
+      "price": 20000,
+      "model": "defiler"
+    },
+    "-1591034791": {
+      "class": 6,
+      "label": "Orion E-Fron",
+      "model": "etrn"
+    },
+    "1416471345": {
+      "class": 3,
+      "label": "Previon",
+      "price": 100000,
+      "model": "previon"
+    },
+    "-51305952": {
+      "class": 18,
+      "label": "2020 PD Slam Flatbed",
+      "model": "pdslamfb"
+    },
+    "-1855505138": {
+      "class": 1,
+      "label": "Rhinehart",
+      "price": 120000,
+      "model": "rhinehart"
+    },
+    "683047626": {
+      "class": 2,
+      "label": "Contender",
+      "price": 45000,
+      "model": "contender"
+    },
+    "-101479964": {
+      "class": 12,
+      "label": "Bugershit Food Van",
+      "model": "bsvan"
+    },
+    "-1483514058": {
+      "class": 3,
+      "label": "Rutherford Crown Veyth",
+      "price": 200000,
+      "model": "rrw"
+    },
+    "-1988996143": {
+      "class": 18,
+      "label": "2018 Thunder Beast SE",
+      "model": "18beast"
+    },
+    "-1600252419": {
+      "class": 15,
+      "label": "Valkyrie",
+      "model": "valkyrie"
+    },
+    "-49115651": {
+      "class": 4,
+      "label": "Vamos",
+      "price": 81000,
+      "model": "vamos"
+    },
+    "1149876222": {
+      "class": 7,
+      "label": "Akira Enesx",
+      "price": 150000,
+      "model": "filthy"
+    },
+    "1489874736": {
+      "class": 19,
+      "label": "Thruster",
+      "model": "thruster"
+    },
+    "-725565208": {
+      "class": 6,
+      "label": "Mistral Revolution IX",
+      "price": 95000,
+      "model": "revo9"
+    },
+    "168163693": {
+      "class": 11,
+      "label": "Prime Gear Track-Tor",
+      "nprprice":"5,000",
+      "model": "rmodtracktor"
+    },
+    "-1309991892": {
+      "class": 6,
+      "label": "Bavaria EFM2",
+      "model": "fm2"
+    },
+    "2139203625": {
+      "class": 9,
+      "label": "Apocalypse Brutus",
+      "model": "brutus"
+    },
+    "457814204": {
+      "class": 1,
+      "label": "Chavos V6",
+      "model": "driftchavosv6"
+    },
+    "-797101702": {
+      "class": 6,
+      "label": "Ramborini Whirlwind",
+      "price": 1375000,
+      "model": "lhuracant"
+    },
+    "1949211328": {
+      "class": 15,
+      "label": "Frogger",
+      "model": "frogger2"
+    },
+    "-1878411025": {
+      "class": 3,
+      "label": "2023 Mazerosa GT M20",
+      "price": 1900000,
+      "model": "mc20h"
+    },
+    "-893984159": {
+      "class": 6,
+      "label": "10F",
+      "price": 175000,
+      "model": "tenf"
+    },
+    "-1237253773": {
+      "class": 9,
+      "label": "Dubsta 6x6",
+      "price": 59000,
+      "model": "dubsta3"
+    },
+    "-915704871": {
+      "class": 4,
+      "label": "Pisswasser Dominator",
+      "model": "dominator2"
+    },
+    "-1842748181": {
+      "class": 8,
+      "label": "Faggio Sport",
+      "price": 2000,
+      "model": "faggio"
+    },
+    "-1132721664": {
+      "class": 6,
+      "label": "Imorgon",
+      "price": 120000,
+      "model": "imorgon"
+    },
+    "-87525510": {
+      "class": 14,
+      "label": "RMS Titanic",
+      "model": "titanic2"
+    },
+    "-181562642": {
+      "class": 6,
+      "label": "Futo GTX",
+      "model": "driftfuto"
+    },
+    "184361638": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "freightcar"
+    },
+    "586013744": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "tankercar"
+    },
+    "872704284": {
+      "class": 6,
+      "label": "Sultan Classic",
+      "price": 115000,
+      "model": "sultan2"
+    },
+    "-295689028": {
+      "class": 7,
+      "label": "Sultan RS",
+      "price": 148000,
+      "model": "sultanrs"
+    },
+    "1142902145": {
+      "class": 9,
+      "label": "Up&Atom Food Delivery",
+      "model": "foodcar6"
+    },
+    "-1268028353": {
+      "class": 15,
+      "label": "Weazel News Supervolito",
+      "model": "nheli2"
+    },
+    "-1671539132": {
+      "class": 15,
+      "label": "SuperVolito Carbon",
+      "model": "supervolito2"
+    },
+    "-1386191424": {
+      "class": 16,
+      "label": "Pyro",
+      "model": "pyro"
+    },
+    "-718863280": {
+      "class": 18,
+      "label": "Brush Ram Firetruck",
+      "model": "brushram"
+    },
+    "386089410": {
+      "class": 7,
+      "label": "Cyclone II",
+      "model": "cyclone2"
+    },
+    "-890287243": {
+      "class": 7,
+      "label": "2019 Rambarini Inventodor",
+      "price": 350000,
+      "model": "avnt"
+    },
+    "80636076": {
+      "class": 4,
+      "label": "Dominator",
+      "price": 79000,
+      "model": "dominator"
+    },
+    "-789894171": {
+      "class": 2,
+      "label": "Cavalcade",
+      "price": 19000,
+      "model": "cavalcade2"
+    },
+    "-1507230520": {
+      "class": 6,
+      "label": "Futo GTX",
+      "price": 60000,
+      "model": "futo2"
+    },
+    "2016027501": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "trailerlogs"
+    },
+    "-922064858": {
+      "class": 18,
+      "label": "2016 Terrafirm Gauker RPV",
+      "model": "gauker"
+    },
+    "-643306443": {
+      "class": 7,
+      "label": "Stellar Verlina Rocket",
+      "model": "val"
+    },
+    "127317925": {
+      "class": 6,
+      "label": "Coquette D5",
+      "model": "coquette6"
+    },
+    "-845979911": {
+      "class": 11,
+      "label": "Ripley",
+      "model": "ripley"
+    },
+    "-1008861746": {
+      "class": 1,
+      "label": "Tailgater",
+      "price": 70000,
+      "model": "tailgater"
+    },
+    "-609625092": {
+      "class": 8,
+      "label": "Vortex",
+      "price": 18000,
+      "model": "vortex"
+    },
+    "886810209": {
+      "class": 5,
+      "label": "Stromberg",
+      "model": "stromberg"
+    },
+    "-1776615689": {
+      "class": 12,
+      "label": "Rumpo",
+      "model": "rumpo2"
+    },
+    "-1637149482": {
+      "class": 11,
+      "label": "Army Trailer",
+      "model": "armytrailer2"
+    },
+    "-893578776": {
+      "class": 8,
+      "label": "Ruffian",
+      "price": 16000,
+      "model": "ruffian"
+    },
+    "1093792632": {
+      "class": 7,
+      "label": "Nero Custom",
+      "price": 270000,
+      "model": "nero2"
+    },
+    "-102335483": {
+      "class": 2,
+      "label": "Squaddie",
+      "model": "squaddie"
+    },
+    "-624535416": {
+      "class": 6,
+      "label": "1996 Hound Croswell",
+      "price": 190000,
+      "model": "resc"
+    },
+    "-1624083468": {
+      "class": 6,
+      "label": "Remus",
+      "model": "driftremus"
+    },
+    "-1569277087": {
+      "class": 18,
+      "label": "2020 Slam 35HD",
+      "model": "valor20ram"
+    },
+    "162432206": {
+      "class": 4,
+      "label": "2013 Falcon Stallion 5hundred",
+      "price": 105000,
+      "model": "mst"
+    },
+    "1886268224": {
+      "class": 6,
+      "label": "Specter",
+      "price": 109000,
+      "model": "specter"
+    },
+    "-1349095620": {
+      "class": 9,
+      "label": "Caracara 4x4",
+      "price": 64000,
+      "model": "caracara2"
+    },
+    "-520214134": {
+      "class": 2,
+      "label": "Rambarini Uros",
+      "price": 962500,
+      "model": "urus"
+    },
+    "-863358884": {
+      "class": 2,
+      "label": "Baller ST-D",
+      "model": "baller8"
+    },
+    "37348240": {
+      "class": 4,
+      "label": "Hotknife",
+      "price": 40000,
+      "model": "hotknife"
+    },
+    "850991848": {
+      "class": 20,
+      "label": "Biff",
+      "model": "biff"
+    },
+    "-1647941228": {
+      "class": 18,
+      "label": "FIB",
+      "model": "fbi2"
+    },
+    "908897389": {
+      "class": 14,
+      "label": "Toro",
+      "model": "toro2"
+    },
+    "-305727417": {
+      "class": 17,
+      "label": "Brickade",
+      "model": "brickade"
+    },
+    "-1006888373": {
+      "class": 7,
+      "label": "Pegassi Reaper",
+      "model": "reagpr"
+    },
+    "1475773103": {
+      "class": 12,
+      "label": "Rumpo Custom",
+      "price": 35000,
+      "model": "rumpo3"
+    },
+    "499169875": {
+      "class": 6,
+      "label": "Fusilade",
+      "price": 59000,
+      "model": "fusilade"
+    },
+    "-1758137366": {
+      "class": 7,
+      "label": "Penetrator",
+      "price": 199000,
+      "model": "penetrator"
+    },
+    "-1696146015": {
+      "class": 7,
+      "label": "Bullet",
+      "price": 170000,
+      "model": "bullet"
+    },
+    "433954513": {
+      "class": 9,
+      "label": "Nightshark",
+      "model": "nightshark"
+    },
+    "-120287622": {
+      "class": 12,
+      "label": "Journey",
+      "price": 9500,
+      "model": "journey"
+    },
+    "1195295228": {
+      "class": 7,
+      "label": "1990 Nihon R2SX",
+      "price": 220000,
+      "model": "r2sx"
+    },
+    "-1353081087": {
+      "class": 8,
+      "label": "Vindicator",
+      "price": 20000,
+      "model": "vindicator"
+    },
+    "744545831": {
+      "class": 9,
+      "label": "Pallet Lifter Supersport",
+      "model": "palletcar"
+    },
+    "736902334": {
+      "class": 6,
+      "label": "Buffalo S",
+      "price": 95000,
+      "model": "buffalo2"
+    },
+    "-726768679": {
+      "class": 15,
+      "label": "Sea Sparrow",
+      "model": "seasparrow"
+    },
+    "-276009041": {
+      "class": 16,
+      "label": "Concorde",
+      "model": "bac"
+    },
+    "-1640135981": {
+      "class": 6,
+      "label": "1981 TDM Flux",
+      "model": "dmc12wb"
+    },
+    "-447711397": {
+      "class": 6,
+      "label": "Paragon R",
+      "price": 135000,
+      "model": "paragon"
+    },
+    "1806048398": {
+      "class": 0,
+      "label": "Food Delivery Karin",
+      "model": "foodcar3"
+    },
+    "-1470089635": {
+      "class": 15,
+      "label": "Weazel News Maverick",
+      "model": "newsmav"
+    },
+    "469291905": {
+      "class": 18,
+      "label": "Lifeguard",
+      "model": "lguard"
+    },
+    "1777363799": {
+      "class": 1,
+      "label": "Washington",
+      "price": 12000,
+      "model": "washington"
+    },
+    "400514754": {
+      "class": 14,
+      "label": "Squalo",
+      "model": "squalo"
+    },
+    "-1953408836": {
+      "class": 18,
+      "label": "2024 Hound Heavy Duty",
+      "model": "24valor2500"
+    },
+    "1974713035": {
+      "class": 3,
+      "label": "2020 Orion AreS 3S",
+      "model": "ares3s"
+    },
+    "1304459735": {
+      "class": 6,
+      "label": "Growler",
+      "price": 110000,
+      "model": "growler"
+    },
+    "366786352": {
+      "class": 4,
+      "label": "Ellie 6GT Drift",
+      "price": 60000,
+      "model": "ellie6str"
+    },
+    "-2119578145": {
+      "class": 4,
+      "label": "Faction",
+      "price": 14000,
+      "model": "faction"
+    },
+    "75131841": {
+      "class": 1,
+      "label": "Glendale",
+      "price": 53000,
+      "model": "glendale"
+    },
+    "356391690": {
+      "class": 11,
+      "label": "Proptrailer",
+      "model": "proptrailer"
+    },
+    "1394036463": {
+      "class": 15,
+      "label": "Cargobob",
+      "model": "cargobob3"
+    },
+    "-121446169": {
+      "class": 9,
+      "label": "Kamacho",
+      "price": 60000,
+      "model": "kamacho"
+    },
+    "1909141499": {
+      "class": 1,
+      "label": "Fugitive",
+      "price": 61000,
+      "model": "fugitive"
+    },
+    "-1961627517": {
+      "class": 1,
+      "label": "Stretch",
+      "price": 59000,
+      "model": "stretch"
+    },
+    "1909700336": {
+      "class": 20,
+      "label": "Nightmare Cerberus",
+      "model": "cerberus3"
+    },
+    "-488123221": {
+      "class": 14,
+      "label": "Police Predator",
+      "model": "predator"
+    },
+    "-1009268949": {
+      "class": 8,
+      "label": "Zombie Bobber",
+      "price": 16000,
+      "model": "zombiea"
+    },
+    "1713614119": {
+      "class": 8,
+      "label": "Harlan Fallen Rider",
+      "price": 42000,
+      "model": "fallen"
+    },
+    "941800958": {
+      "class": 5,
+      "label": "Casco",
+      "price": 49000,
+      "model": "casco"
+    },
+    "-255678177": {
+      "class": 8,
+      "label": "Hakuchou Drag",
+      "price": 27000,
+      "model": "hakuchou2"
+    },
+    "1106185298": {
+      "class": 7,
+      "label": "Furelli Berlinetta",
+      "price": 298000,
+      "model": "berlinetta"
+    },
+    "-2030171296": {
+      "class": 1,
+      "label": "Cognoscenti",
+      "price": 15000,
+      "model": "cognoscenti"
+    },
+    "1346171487": {
+      "class": 15,
+      "label": "AS-350 Helicopter",
+      "model": "as350"
+    },
+    "1725292264": {
+      "class": 2,
+      "label": "2021 Slam Tex-Racing 4x4",
+      "model": "ramtrx21"
+    },
+    "-2028904199": {
+      "class": 12,
+      "label": "Youga Custom",
+      "model": "youga5"
+    },
+    "272929391": {
+      "class": 7,
+      "label": "Tempesta",
+      "price": 230000,
+      "model": "tempesta"
+    },
+    "989381445": {
+      "class": 9,
+      "label": "Sandking SWB",
+      "price": 40000,
+      "model": "sandking2"
+    },
+    "-624529134": {
+      "class": 3,
+      "label": "Jackal",
+      "price": 79000,
+      "model": "jackal"
+    },
+    "-1527436269": {
+      "class": 1,
+      "label": "Cinquemila",
+      "price": 110000,
+      "model": "cinquemila"
+    },
+    "200238385": {
+      "class": 7,
+      "label": "2004 Furelli XF-430s",
+      "price": 1500000,
+      "model": "xeff430"
+    },
+    "-214906006": {
+      "class": 6,
+      "label": "Jester Classic",
+      "price": 95000,
+      "model": "jester3"
+    },
+    "-1193103848": {
+      "class": 3,
+      "label": "Zion Cabrio",
+      "price": 67000,
+      "model": "zion2"
+    },
+    "970356638": {
+      "class": 16,
+      "label": "Duster",
+      "model": "duster"
+    },
+    "-1013450936": {
+      "class": 4,
+      "label": "Buccaneer Custom",
+      "price": 71000,
+      "model": "buccaneer2"
+    },
+    "1591739866": {
+      "class": 7,
+      "label": "Deveste Eight",
+      "model": "deveste"
+    },
+    "-660007725": {
+      "class": 6,
+      "label": "Banshee GTS",
+      "model": "banshee3"
+    },
+    "1274868363": {
+      "class": 6,
+      "label": "Bestia GTS",
+      "price": 75000,
+      "model": "bestiagts"
+    },
+    "-1193912403": {
+      "class": 6,
+      "label": "Calico GTF",
+      "price": 90000,
+      "model": "calico"
+    },
+    "1236861718": {
+      "class": 8,
+      "label": "Food Delivery Scooter",
+      "model": "foodbike"
+    },
+    "-304124483": {
+      "class": 12,
+      "label": "86 Silverline Pickup",
+      "price": 105000,
+      "model": "silv86"
+    },
+    "868868440": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "metrotrain"
+    },
+    "390902130": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "raketrailer"
+    },
+    "2123327359": {
+      "class": 7,
+      "label": "X80 Proto",
+      "price": 310000,
+      "model": "prototipo"
+    },
+    "-362150785": {
+      "class": 9,
+      "label": "Hades Import",
+      "price": 50000,
+      "model": "hellion"
+    },
+    "-1289722222": {
+      "class": 1,
+      "label": "Ingot",
+      "price": 9500,
+      "model": "ingot"
+    },
+    "444994115": {
+      "class": 4,
+      "label": "Apocalypse Imperator",
+      "model": "imperator"
+    },
+    "1951180813": {
+      "class": 12,
+      "label": "Taco Van",
+      "price": 15000,
+      "model": "taco"
+    },
+    "-637943082": {
+      "class": 16,
+      "label": "RQ-4 UAV",
+      "model": "rq4"
+    },
+    "1518533038": {
+      "class": 20,
+      "label": "Hauler",
+      "price": 10500,
+      "model": "hauler"
+    },
+    "2045537284": {
+      "class": 6,
+      "label": "Bavaria G-Force Fury ",
+      "model": "lcm8"
+    },
+    "1213239367": {
+      "class": 6,
+      "label": "2023 Hyena Snatchback",
+      "model": "snatchback"
+    },
+    "-401643538": {
+      "class": 4,
+      "label": "Burger Shot Stallion",
+      "model": "stalion2"
+    },
+    "970598228": {
+      "class": 6,
+      "label": "Sultan",
+      "price": 86000,
+      "model": "sultan"
+    },
+    "-1100548694": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "trailers4"
+    },
+    "1706429227": {
+      "class": 7,
+      "label": "2008 Nihon R3P",
+      "price": 140000,
+      "model": "r3p"
+    },
+    "-1479935577": {
+      "class": 3,
+      "label": "FR36",
+      "model": "driftfr36"
+    },
+    "65402552": {
+      "class": 12,
+      "label": "Youga",
+      "price": 10000,
+      "model": "youga"
+    },
+    "-5153954": {
+      "class": 3,
+      "label": "Exemplar",
+      "price": 91000,
+      "model": "exemplar"
+    },
+    "1452003510": {
+      "class": 18,
+      "label": "Impaler LX Cruiser",
+      "model": "polimpaler6"
+    },
+    "-884690486": {
+      "class": 11,
+      "label": "Docktug",
+      "model": "docktug"
+    },
+    "-114627507": {
+      "class": 1,
+      "label": "Turreted Limo",
+      "model": "limo2"
+    },
+    "-1883002148": {
+      "class": 1,
+      "label": "Emperor",
+      "price": 2200,
+      "model": "emperor2"
+    },
+    "741586030": {
+      "class": 18,
+      "label": "Park Ranger",
+      "model": "pranger"
+    },
+    "-644710429": {
+      "class": 16,
+      "label": "Cuban 800",
+      "model": "cuban800"
+    },
+    "290013743": {
+      "class": 14,
+      "label": "Tropic",
+      "model": "tropic"
+    },
+    "-979292575": {
+      "class": 4,
+      "label": "Clique Wagon",
+      "price": 133000,
+      "model": "clique2"
+    },
+    "1938952078": {
+      "class": 18,
+      "label": "Fire Truck",
+      "model": "firetruk"
+    },
+    "-1810806490": {
+      "class": 2,
+      "label": "Seminole Frontier",
+      "price": 65000,
+      "model": "seminole2"
+    },
+    "410882957": {
+      "class": 6,
+      "label": "Kuruma (Armored)",
+      "model": "kuruma2"
+    },
+    "2025593404": {
+      "class": 15,
+      "label": "Cargobob",
+      "model": "cargobob4"
+    },
+    "687627128": {
+      "class": 7,
+      "label": "Suzume",
+      "model": "suzume"
+    },
+    "-1360147149": {
+      "class": 18,
+      "label": "Unmarked Speedo",
+      "model": "fibs"
+    },
+    "1968807591": {
+      "class": 8,
+      "label": "Pizza Boy",
+      "model": "pizzaboy"
+    },
+    "-665055536": {
+      "class": 7,
+      "label": "1993 Nihon ARE 32",
+      "price": 210000,
+      "model": "are32"
+    },
+    "987469656": {
+      "class": 6,
+      "label": "Sugoi",
+      "price": 99000,
+      "model": "sugoi"
+    },
+    "1542143200": {
+      "class": 19,
+      "label": "Future Shock Scarab",
+      "model": "scarab2"
+    },
+    "-2042350822": {
+      "class": 9,
+      "label": "Nightmare Bruiser",
+      "model": "bruiser3"
+    },
+    "1051415893": {
+      "class": 5,
+      "label": "JB 700",
+      "price": 71000,
+      "model": "jb700"
+    },
+    "-1232836011": {
+      "class": 7,
+      "label": "RE-7B",
+      "model": "le7b"
+    },
+    "-1423481308": {
+      "class": 6,
+      "label": "2019 Legacy RapidStorm S",
+      "model": "wrx19"
+    },
+    "6774487": {
+      "class": 8,
+      "label": "Chimera",
+      "price": 14000,
+      "model": "chimera"
+    },
+    "1406216273": {
+      "class": 6,
+      "label": "Orion ARS4",
+      "price": 75000,
+      "model": "ars4"
+    },
+    "1992041063": {
+      "class": 1,
+      "label": "Chavos V6",
+      "model": "chavosv6"
+    },
+    "1126868326": {
+      "class": 9,
+      "label": "Injection",
+      "price": 22000,
+      "model": "bfinjection"
+    },
+    "1011753235": {
+      "class": 5,
+      "label": "Coquette Classic",
+      "price": 135000,
+      "model": "coquette2"
+    },
+    "-825837129": {
+      "class": 4,
+      "label": "Vigero",
+      "price": 73000,
+      "model": "vigero"
+    },
+    "-1352468814": {
+      "class": 11,
+      "label": "Trailer",
+      "price": 12000,
+      "model": "trflat"
+    },
+    "-1804415708": {
+      "class": 4,
+      "label": "Peyote Gasser",
+      "price": 50000,
+      "model": "peyote2"
+    },
+    "1941029835": {
+      "class": 17,
+      "label": "Tour Bus",
+      "price": 10000,
+      "model": "tourbus"
+    },
+    "338562499": {
+      "class": 7,
+      "label": "Vacca",
+      "price": 191000,
+      "model": "vacca"
+    },
+    "-282946103": {
+      "class": 14,
+      "label": "Suntrap",
+      "model": "suntrap"
+    },
+    "2031587082": {
+      "class": 5,
+      "label": "Retinue Mk II",
+      "price": 101000,
+      "model": "retinue2"
+    },
+    "-1045541610": {
+      "class": 6,
+      "label": "Comet",
+      "price": 105000,
+      "model": "comet2"
+    },
+    "-882629065": {
+      "class": 5,
+      "label": "Nebula Turbo",
+      "price": 63000,
+      "model": "nebula"
+    },
+    "-1106353882": {
+      "class": 6,
+      "label": "Jester (Racecar)",
+      "price": 106000,
+      "model": "jester2"
+    },
+    "-307958377": {
+      "class": 16,
+      "label": "Blimp",
+      "model": "blimp3"
+    },
+    "-768044142": {
+      "class": 2,
+      "label": "Dorado",
+      "price": 130000,
+      "model": "dorado"
+    },
+    "349315417": {
+      "class": 4,
+      "label": "Redwood Gauntlet",
+      "model": "gauntlet2"
+    },
+    "1141395928": {
+      "class": 6,
+      "label": "Comet S2 Cabrio",
+      "model": "comet7"
+    },
+    "-214455498": {
+      "class": 20,
+      "label": "Stockade",
+      "model": "stockade3"
+    },
+    "447548909": {
+      "class": 16,
+      "label": "Volatol",
+      "model": "volatol"
+    },
+    "-1620126302": {
+      "class": 6,
+      "label": "Neo",
+      "price": 155000,
+      "model": "neo"
+    },
+    "-769147461": {
+      "class": 11,
+      "label": "Caddy",
+      "model": "caddy3"
+    },
+    "1886712733": {
+      "class": 10,
+      "label": "Dozer",
+      "model": "bulldozer"
+    },
+    "-890497712": {
+      "class": 7,
+      "label": "Stellar 007",
+      "price": 200000,
+      "model": "a007"
+    },
+    "970385471": {
+      "class": 16,
+      "label": "Hydra",
+      "model": "hydra"
+    },
+    "584706112": {
+      "class": 8,
+      "label": "Harlan Templar",
+      "price": 45000,
+      "model": "templar"
+    },
+    "158928067": {
+      "class": 6,
+      "label": "2016 Mazerunner MXP",
+      "price": 100000,
+      "model": "mxp"
+    },
+    "1426219628": {
+      "class": 7,
+      "label": "FMJ",
+      "price": 231000,
+      "model": "fmj"
+    },
+    "1891140410": {
+      "class": 18,
+      "label": "Outreach Faction",
+      "model": "polfaction2"
+    },
+    "500482303": {
+      "class": 5,
+      "label": "Swinger",
+      "price": 145000,
+      "model": "swinger"
+    },
+    "-1123464718": {
+      "class": 18,
+      "label": "2006 Thunder Striker",
+      "model": "06srt"
+    },
+    "562680400": {
+      "class": 19,
+      "label": "APC",
+      "model": "apc"
+    },
+    "-361348193": {
+      "class": 4,
+      "label": "Gauntlet Hellfire",
+      "model": "driftgauntlet4"
+    },
+    "920453016": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "freightcont1"
+    },
+    "444171386": {
+      "class": 12,
+      "label": "Boxville",
+      "price": 14500,
+      "model": "boxville4"
+    },
+    "-757735410": {
+      "class": 8,
+      "label": "FCR 1000 Custom",
+      "price": 20000,
+      "model": "fcr2"
+    },
+    "-1030275036": {
+      "class": 14,
+      "label": "Seashark",
+      "model": "seashark"
+    },
+    "-1108591207": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "freightcar2"
+    },
+    "1783355638": {
+      "class": 11,
+      "label": "Lawn Mower",
+      "price": 3000,
+      "model": "mower"
+    },
+    "782665360": {
+      "class": 19,
+      "label": "Rhino Tank",
+      "model": "rhino"
+    },
+    "1617472902": {
+      "class": 5,
+      "label": "Fagaloa",
+      "price": 20000,
+      "model": "fagaloa"
+    },
+    "-1662714101": {
+      "class": 0,
+      "label": "Food Delivery Blista",
+      "model": "foodcar2"
+    },
+    "-1700874274": {
+      "class": 16,
+      "label": "LF-22 Starling",
+      "model": "starling"
+    },
+    "-442229240": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "freight2"
+    },
+    "-1139558211": {
+      "class": 16,
+      "label": "Air Force One",
+      "model": "afo"
+    },
+    "704435172": {
+      "class": 1,
+      "label": "Cognoscenti 55 (Armored)",
+      "model": "cog552"
+    },
+    "2091594960": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "tr4"
+    },
+    "-362690998": {
+      "class": 5,
+      "label": "Jester Classic",
+      "model": "driftjester3"
+    },
+    "1770332643": {
+      "class": 9,
+      "label": "Duneloader",
+      "price": 5000,
+      "model": "dloader"
+    },
+    "-1673356438": {
+      "class": 16,
+      "label": "Velum",
+      "model": "velum"
+    },
+    "758895617": {
+      "class": 5,
+      "label": "Z-Type",
+      "price": 350000,
+      "model": "ztype"
+    },
+    "1074745671": {
+      "class": 6,
+      "label": "Specter Custom",
+      "price": 114000,
+      "model": "specter2"
+    },
+    "627535535": {
+      "class": 8,
+      "label": "FCR 1000",
+      "price": 17000,
+      "model": "fcr"
+    },
+    "-280563304": {
+      "class": 8,
+      "label": "2010 Gnarly Stag",
+      "price": 750000,
+      "model": "volva"
+    },
+    "-326143852": {
+      "class": 4,
+      "label": "Duke O'Death",
+      "model": "dukes2"
+    },
+    "-1874009509": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "freightcar3"
+    },
+    "-1321131184": {
+      "class": 18,
+      "label": "Terminus Patrol",
+      "model": "polterminus"
+    },
+    "-1829802492": {
+      "class": 7,
+      "label": "811",
+      "price": 279000,
+      "model": "pfister811"
+    },
+    "-507495760": {
+      "class": 6,
+      "label": "Schlagen GT",
+      "price": 119000,
+      "model": "schlagen"
+    },
+    "1762279763": {
+      "class": 5,
+      "label": "Tornado",
+      "model": "tornado3"
+    },
+    "1058115860": {
+      "class": 16,
+      "label": "Jet",
+      "model": "jet"
+    },
+    "-831834716": {
+      "class": 5,
+      "label": "Fränken Stange",
+      "price": 73000,
+      "model": "btype2"
+    },
+    "-392675425": {
+      "class": 16,
+      "label": "Seabreeze",
+      "model": "seabreeze"
+    },
+    "-1029730482": {
+      "class": 2,
+      "label": "Cavalcade XL",
+      "model": "cavalcade3"
+    },
+    "-1043459709": {
+      "class": 14,
+      "label": "Marquis",
+      "model": "marquis"
+    },
+    "1917016601": {
+      "class": 17,
+      "label": "Trashmaster",
+      "model": "trash"
+    },
+    "1718909989": {
+      "class": 7,
+      "label": "2017 Stellar Vorkan",
+      "price": 1775000,
+      "model": "vulcan3"
+    },
+    "-2096690334": {
+      "class": 4,
+      "label": "Impaler",
+      "price": 28000,
+      "model": "impaler"
+    },
+    "-478639183": {
+      "class": 4,
+      "label": "Impaler SZ",
+      "price": 220000,
+      "model": "impaler5"
+    },
+    "1876516712": {
+      "class": 12,
+      "label": "Camper",
+      "price": 9500,
+      "model": "camper"
+    },
+    "1131912276": {
+      "class": 13,
+      "label": "BMX",
+      "price": 200,
+      "model": "bmx"
+    },
+    "1491375716": {
+      "class": 11,
+      "label": "Forklift",
+      "model": "forklift"
+    },
+    "-1973172295": {
+      "class": 18,
+      "label": "Unmarked Cruiser",
+      "model": "police4"
+    },
+    "1283517198": {
+      "class": 17,
+      "label": "Airport Bus",
+      "model": "airbus"
+    },
+    "-391594584": {
+      "class": 3,
+      "label": "Felon",
+      "price": 69000,
+      "model": "felon"
+    },
+    "1448677353": {
+      "class": 14,
+      "label": "Tropic",
+      "model": "tropic2"
+    },
+    "-2079788230": {
+      "class": 5,
+      "label": "GT500",
+      "price": 69000,
+      "model": "gt500"
+    },
+    "1315816827": {
+      "class": 7,
+      "label": "2005 Hound Falcon GT",
+      "price": 220000,
+      "model": "fgt"
+    },
+    "394110044": {
+      "class": 5,
+      "label": "JB 700W",
+      "price": 84000,
+      "model": "jb7002"
+    },
+    "475220373": {
+      "class": 10,
+      "label": "Mixer",
+      "model": "mixer2"
+    },
+    "1753414259": {
+      "class": 8,
+      "label": "Enduro",
+      "price": 5000,
+      "model": "enduro"
+    },
+    "2006667053": {
+      "class": 4,
+      "label": "Voodoo Custom",
+      "price": 17000,
+      "model": "voodoo"
+    },
+    "-1476447243": {
+      "class": 11,
+      "label": "Army Trailer",
+      "model": "armytrailer"
+    },
+    "1723137093": {
+      "class": 1,
+      "label": "Stratum",
+      "model": "stratum"
+    },
+    "-2058878099": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "trailers3"
+    },
+    "-562789253": {
+      "class": 7,
+      "label": "2020 Bavaria Black S",
+      "price": 115000,
+      "model": "mansq60"
+    },
+    "-74027062": {
+      "class": 12,
+      "label": "Rumpo Weazel News Van",
+      "model": "newsvan"
+    },
+    "1761301369": {
+      "class": 6,
+      "label": "Rapid GT X",
+      "model": "rapidgt4"
+    },
+    "330661258": {
+      "class": 3,
+      "label": "Cognoscenti Cabrio",
+      "price": 67000,
+      "model": "cogcabrio"
+    },
+    "-1800170043": {
+      "class": 4,
+      "label": "Gauntlet",
+      "price": 62000,
+      "model": "gauntlet"
+    },
+    "728350375": {
+      "class": 20,
+      "label": "Benson (Cluckin' Bell)",
+      "model": "benson2"
+    },
+    "1491277511": {
+      "class": 8,
+      "label": "Sanctus",
+      "price": 20000,
+      "model": "sanctus"
+    },
+    "1336872304": {
+      "class": 14,
+      "label": "Kosatka",
+      "model": "kosatka"
+    },
+    "1031562256": {
+      "class": 7,
+      "label": "Tezeract",
+      "price": 305000,
+      "model": "tezeract"
+    },
+    "-1797613329": {
+      "class": 5,
+      "label": "Tornado Custom",
+      "price": 45000,
+      "model": "tornado5"
+    },
+    "1742022738": {
+      "class": 4,
+      "label": "Nightmare Slamvan",
+      "model": "slamvan6"
+    },
+    "-1659004814": {
+      "class": 15,
+      "label": "Weaponized Conada",
+      "model": "conada2"
+    },
+    "-1048341725": {
+      "class": 6,
+      "label": "2002 Mart Kart",
+      "model": "skart"
+    },
+    "-2048333973": {
+      "class": 7,
+      "label": "Itali GTB",
+      "price": 207000,
+      "model": "italigtb"
+    },
+    "-1145760495": {
+      "class": 4,
+      "label": "77 Phoenix FB",
+      "price": 75000,
+      "model": "fb77"
+    },
+    "-768236378": {
+      "class": 9,
+      "label": "Draugur",
+      "model": "draugur"
+    },
+    "1897744184": {
+      "class": 9,
+      "label": "Dune FAV",
+      "model": "dune3"
+    },
+    "1076201208": {
+      "class": 6,
+      "label": "300R",
+      "price": 300000,
+      "model": "r300"
+    },
+    "-114291515": {
+      "class": 8,
+      "label": "Bati 801",
+      "price": 15000,
+      "model": "bati"
+    },
+    "1537277726": {
+      "class": 0,
+      "label": "Future Shock Issi",
+      "model": "issi5"
+    },
+    "-1374500452": {
+      "class": 8,
+      "label": "Nightmare Deathbike",
+      "model": "deathbike3"
+    },
+    "-1745779170": {
+      "class": 16,
+      "label": "Fireblade Mk.IIB",
+      "model": "spitfire"
+    },
+    "728614474": {
+      "class": 12,
+      "label": "Clown Van",
+      "price": 13000,
+      "model": "speedo2"
+    },
+    "-667151410": {
+      "class": 4,
+      "label": "Rat-Loader",
+      "price": 12000,
+      "model": "ratloader"
+    },
+    "219613597": {
+      "class": 12,
+      "label": "Speedo Custom",
+      "model": "speedo4"
+    },
+    "-1747797506": {
+      "class": 7,
+      "label": "Typhoon Pursuer Drift",
+      "price": 45000,
+      "model": "j100"
+    },
+    "48339065": {
+      "class": 10,
+      "label": "Tipper",
+      "model": "tiptruck"
+    },
+    "435658079": {
+      "class": 18,
+      "label": "Pump Firetruck",
+      "model": "fpump"
+    },
+    "-505223465": {
+      "class": 6,
+      "label": "Omnis e-GT",
+      "price": 123000,
+      "model": "omnisegt"
+    },
+    "-1576586413": {
+      "class": 17,
+      "label": "Brickade 6x6",
+      "model": "brickade2"
+    },
+    "-1934551443": {
+      "class": 6,
+      "label": "1998 Typhoon Sukara MK4",
+      "price": 95000,
+      "model": "sup2"
+    },
+    "-1231830671": {
+      "class": 12,
+      "label": "Nihon Tytyn",
+      "price": 185000,
+      "model": "tytan"
+    },
+    "-122993285": {
+      "class": 7,
+      "label": "Turismo Omaggio",
+      "price": 295000,
+      "model": "turismo3"
+    },
+    "-1346687836": {
+      "class": 12,
+      "label": "Burrito",
+      "price": 8000,
+      "model": "burrito"
+    },
+    "-1660945322": {
+      "class": 5,
+      "label": "Mamba",
+      "price": 97000,
+      "model": "mamba"
+    },
+    "-490857604": {
+      "class": 6,
+      "label": "2024 Subsonic XRZ",
+      "price": 1225000,
+      "model": "24barez"
+    },
+    "-1372848492": {
+      "class": 6,
+      "label": "Kuruma",
+      "price": 72000,
+      "model": "kuruma"
+    },
+    "1731890143": {
+      "class": 18,
+      "label": "2013 Hound Roamer Interceptor",
+      "model": "21trcvpi"
+    },
+    "-1013118944": {
+      "class": 3,
+      "label": "2018 Bentleigh Continent GT",
+      "price": 220000,
+      "model": "contss18c"
+    },
+    "-498054846": {
+      "class": 4,
+      "label": "Virgo",
+      "price": 34000,
+      "model": "virgo"
+    },
+    "1234311532": {
+      "class": 7,
+      "label": "GP1",
+      "price": 206000,
+      "model": "gp1"
+    },
+    "-1189015600": {
+      "class": 9,
+      "label": "Sandking XL",
+      "price": 45000,
+      "model": "sandking"
+    },
+    "1737773231": {
+      "class": 6,
+      "label": "Rapid GT",
+      "price": 123000,
+      "model": "rapidgt2"
+    },
+    "744705981": {
+      "class": 15,
+      "label": "Frogger",
+      "model": "frogger"
+    },
+    "-1485523546": {
+      "class": 6,
+      "label": "Schafter V12",
+      "price": 91000,
+      "model": "schafter3"
+    },
+    "-575431438": {
+      "class": 6,
+      "label": "1998 MV Gulf Mark4",
+      "price": 80000,
+      "model": "golf4"
+    },
+    "1748565021": {
+      "class": 7,
+      "label": "Entity MT",
+      "model": "entity3"
+    },
+    "679453769": {
+      "class": 20,
+      "label": "Future Shock Cerberus",
+      "model": "cerberus2"
+    },
+    "2112052861": {
+      "class": 20,
+      "label": "Pounder",
+      "model": "pounder"
+    },
+    "554408685": {
+      "class": 2,
+      "label": "Everon RS",
+      "model": "everon3"
+    },
+    "-842765535": {
+      "class": 12,
+      "label": "Boxville (LSDS)",
+      "model": "boxville6"
+    },
+    "15214558": {
+      "class": 0,
+      "label": "Brioso 300 Widebody",
+      "price": 85000,
+      "model": "brioso3"
+    },
+    "916547552": {
+      "class": 8,
+      "label": "Rampant Rocket",
+      "model": "rrocket"
+    },
+    "-1722343009": {
+      "class": 6,
+      "label": "2008 Unity Pulse",
+      "price": 1600000,
+      "model": "pulse"
+    },
+    "-2064372143": {
+      "class": 9,
+      "label": "Mesa",
+      "price": 29000,
+      "model": "mesa3"
+    },
+    "1998317458": {
+      "class": 6,
+      "label": "Mercia Benzari V63s",
+      "price": 75000,
+      "model": "v63s"
+    },
+    "475599196": {
+      "class": 18,
+      "label": "Burger PD Car Amphibious",
+      "model": "patty"
+    },
+    "658490459": {
+      "class": 18,
+      "label": "Armored Chevrox Suburbia",
+      "model": "sspres"
+    },
+    "-1379621977": {
+      "class": 1,
+      "label": "2018 V Wagon TT",
+      "model": "v60"
+    },
+    "-1240172147": {
+      "class": 1,
+      "label": "Vorschlaghammer",
+      "model": "vorschlaghammer"
+    },
+    "634118882": {
+      "class": 2,
+      "label": "Baller LE LWB",
+      "price": 60000,
+      "model": "baller4"
+    },
+    "-956048545": {
+      "class": 17,
+      "label": "Taxi",
+      "price": 1500,
+      "model": "taxi"
+    },
+    "-1763555241": {
+      "class": 16,
+      "label": "Ultralight",
+      "model": "microlight"
+    },
+    "992657080": {
+      "class": 6,
+      "label": "2010 Bavaria Z4Gee T3",
+      "price": 165000,
+      "model": "e89"
+    },
+    "-1790546981": {
+      "class": 4,
+      "label": "Faction Custom 1",
+      "price": 45000,
+      "model": "faction2"
+    },
+    "1239723846": {
+      "class": 14,
+      "label": "Titan Submersible",
+      "model": "subtitan"
+    },
+    "-1775728740": {
+      "class": 2,
+      "label": "Granger",
+      "price": 21000,
+      "model": "granger"
+    },
+    "1543134283": {
+      "class": 15,
+      "label": "Valkyrie MOD.0",
+      "model": "valkyrie2"
+    },
+    "-1779120616": {
+      "class": 18,
+      "label": "Police Roadcruiser",
+      "model": "policeold2"
+    },
+    "-1295027632": {
+      "class": 16,
+      "label": "Nimbus",
+      "model": "nimbus"
+    },
+    "2009033534": {
+      "class": 6,
+      "label": "2023 Primordial IX-11Rs",
+      "price": 1800000,
+      "model": "nine11rs"
+    },
+    "-749299473": {
+      "class": 16,
+      "label": "Mogul",
+      "model": "mogul"
+    },
+    "-153098439": {
+      "class": 8,
+      "label": "2019 Judge X",
+      "model": "judger"
+    },
+    "887537515": {
+      "class": 11,
+      "label": "Utility Truck",
+      "model": "utillitruck2"
+    },
+    "-275506985": {
+      "class": 6,
+      "label": "Bavaria G-07",
+      "model": "bavaria7"
+    },
+    "-433375717": {
+      "class": 5,
+      "label": "Monroe",
+      "price": 52000,
+      "model": "monroe"
+    },
+    "-165394758": {
+      "class": 7,
+      "label": "Torero XO",
+      "price": 295000,
+      "model": "torero2"
+    },
+    "-631322662": {
+      "class": 6,
+      "label": "Penumbra FF",
+      "price": 121000,
+      "model": "penumbra2"
+    },
+    "1502869817": {
+      "class": 11,
+      "label": "Mobile Operations Center",
+      "model": "trailerlarge"
+    },
+    "-159126838": {
+      "class": 8,
+      "label": "Innovation",
+      "price": 17000,
+      "model": "innovation"
+    },
+    "159274291": {
+      "class": 5,
+      "label": "Ardent",
+      "price": 110000,
+      "model": "ardent"
+    },
+    "-2095439403": {
+      "class": 4,
+      "label": "Phoenix",
+      "price": 12000,
+      "model": "phoenix"
+    },
+    "-1134706562": {
+      "class": 7,
+      "label": "Taipan",
+      "price": 201000,
+      "model": "taipan"
+    },
+    "-1566607184": {
+      "class": 4,
+      "label": "Clique",
+      "price": 90000,
+      "model": "clique"
+    },
+    "-324618589": {
+      "class": 7,
+      "label": "S80RR",
+      "model": "s80"
+    },
+    "1881415402": {
+      "class": 6,
+      "label": "Niobe",
+      "model": "niobe"
+    },
+    "861409633": {
+      "class": 14,
+      "label": "Jetmax",
+      "model": "jetmax"
+    },
+    "-591651781": {
+      "class": 6,
+      "label": "Go Go Monkey Blista",
+      "price": 80000,
+      "model": "blista3"
+    },
+    "-998177792": {
+      "class": 7,
+      "label": "Visione",
+      "price": 281000,
+      "model": "visione"
+    },
+    "-1178021069": {
+      "class": 9,
+      "label": "Wheelchair",
+      "model": "wheelchair"
+    },
+    "-773802025": {
+      "class": 18,
+      "label": "Dominator FX Interceptor",
+      "model": "poldominator10"
+    },
+    "1284356689": {
+      "class": 9,
+      "label": "Zhaba",
+      "model": "zhaba"
+    },
+    "-1476696782": {
+      "class": 7,
+      "label": "Bavaria Eye8 Freedom",
+      "price": 1002500,
+      "model": "rmodmi8lb"
+    },
+    "-999594302": {
+      "class": 3,
+      "label": "Euros X32",
+      "model": "eurosx32"
+    },
+    "1265391242": {
+      "class": 8,
+      "label": "Hakuchou",
+      "price": 25000,
+      "model": "hakuchou"
+    },
+    "640818791": {
+      "class": 8,
+      "label": "Lectro",
+      "price": 17000,
+      "model": "lectro"
+    },
+    "-604842630": {
+      "class": 1,
+      "label": "Cognoscenti (Armored)",
+      "model": "cognoscenti2"
+    },
+    "1032823388": {
+      "class": 6,
+      "label": "9F",
+      "price": 107000,
+      "model": "ninef"
+    },
+    "1555633335": {
+      "class": 1,
+      "label": "2017 Scorche Panarama",
+      "price": 170000,
+      "model": "17man"
+    },
+    "1046206681": {
+      "class": 5,
+      "label": "Michelli GT",
+      "price": 60000,
+      "model": "michelli"
+    },
+    "79613282": {
+      "class": 12,
+      "label": "News Van 2",
+      "model": "newsvan2"
+    },
+    "1706945532": {
+      "class": 4,
+      "label": "Ruiner ZZ-8",
+      "price": 135000,
+      "model": "ruiner4"
+    },
+    "-1273978259": {
+      "class": 6,
+      "label": "2015 Stellar Morton GT",
+      "price": 175000,
+      "model": "vgt12"
+    },
+    "-1386336041": {
+      "class": 8,
+      "label": "Powersurge",
+      "price": 80000,
+      "model": "powersurge"
+    },
+    "-399841706": {
+      "class": 11,
+      "label": "Baletrailer",
+      "model": "baletrailer"
+    },
+    "595848268": {
+      "class": 8,
+      "label": "2022 Harleway Softrear Fatbody",
+      "model": "nazgul"
+    },
+    "2038858402": {
+      "class": 9,
+      "label": "Nightmare Brutus",
+      "model": "brutus3"
+    },
+    "1796978743": {
+      "class": 18,
+      "label": "UC Declasse Asea",
+      "model": "aseacop"
+    },
+    "1115909093": {
+      "class": 6,
+      "label": "Hotring Sabre",
+      "price": 100000,
+      "model": "hotring"
+    },
+    "-28083979": {
+      "class": 7,
+      "label": "Luxis LC EX500",
+      "price": 150000,
+      "model": "lcex500"
+    },
+    "941494461": {
+      "class": 4,
+      "label": "Ruiner 2000",
+      "model": "ruiner2"
+    },
+    "-405626514": {
+      "class": 8,
+      "label": "Shotaro",
+      "model": "shotaro"
+    },
+    "-1450650718": {
+      "class": 0,
+      "label": "Prairie",
+      "price": 7000,
+      "model": "prairie"
+    },
+    "-863689840": {
+      "class": 2,
+      "label": "Range Rambler EVQ",
+      "price": 1050000,
+      "model": "evoq"
+    },
+    "-1214293858": {
+      "class": 16,
+      "label": "Luxor Deluxe",
+      "model": "luxor2"
+    },
+    "373261600": {
+      "class": 4,
+      "label": "Future Shock Slamvan",
+      "model": "slamvan5"
+    },
+    "-376434238": {
+      "class": 7,
+      "label": "Tyrant",
+      "price": 300000,
+      "model": "tyrant"
+    },
+    "1841130506": {
+      "class": 5,
+      "label": "Retinue",
+      "price": 52000,
+      "model": "retinue"
+    },
+    "1036591958": {
+      "class": 16,
+      "label": "P-45 Nokota",
+      "model": "nokota"
+    },
+    "-913589546": {
+      "class": 1,
+      "label": "Glendale Custom",
+      "price": 62000,
+      "model": "glendale2"
+    },
+    "1392481335": {
+      "class": 7,
+      "label": "Cyclone",
+      "price": 189000,
+      "model": "cyclone"
+    },
+    "-331467772": {
+      "class": 6,
+      "label": "Itali GTO",
+      "price": 185000,
+      "model": "italigto"
+    },
+    "1356124575": {
+      "class": 9,
+      "label": "Technical Custom",
+      "model": "technical3"
+    },
+    "-1101107018": {
+      "class": 1,
+      "label": "Minimus",
+      "model": "minimus"
+    },
+    "-48031959": {
+      "class": 9,
+      "label": "Blazer Lifeguard",
+      "price": 14000,
+      "model": "blazer2"
+    },
+    "1545842587": {
+      "class": 5,
+      "label": "Stinger",
+      "price": 79000,
+      "model": "stinger"
+    },
+    "1956216962": {
+      "class": 11,
+      "label": "Tanker 2",
+      "model": "tanker2"
+    },
+    "1083058878": {
+      "class": 16,
+      "label": "Skybus A321",
+      "model": "a321"
+    },
+    "-1184640984": {
+      "class": 8,
+      "label": "Food Delivery Scooter v2",
+      "model": "foodbike2"
+    },
+    "-1351786721": {
+      "class": 18,
+      "label": "EMS Hound Pathmaker",
+      "model": "emssuv"
+    },
+    "-89291282": {
+      "class": 3,
+      "label": "Felon GT",
+      "price": 69000,
+      "model": "felon2"
+    },
+    "629969764": {
+      "class": 2,
+      "label": "Astron",
+      "price": 106000,
+      "model": "astron"
+    },
+    "-670086588": {
+      "class": 9,
+      "label": "Patriot Mil-Spec",
+      "model": "patriot3"
+    },
+    "903794909": {
+      "class": 5,
+      "label": "Savestra",
+      "price": 85000,
+      "model": "savestra"
+    },
+    "904750859": {
+      "class": 20,
+      "label": "Mule",
+      "model": "mule"
+    },
+    "624293437": {
+      "class": 6,
+      "label": "1993 Nihon 300 Zebra",
+      "model": "z32"
+    },
+    "1447265225": {
+      "class": 7,
+      "label": "Furelli Veloce88",
+      "price": 250000,
+      "model": "four88"
+    },
+    "1181327175": {
+      "class": 15,
+      "label": "Akula",
+      "model": "akula"
+    },
+    "-1627077503": {
+      "class": 12,
+      "label": "Zirconium, Journey",
+      "model": "journey2"
+    },
+    "-2100640717": {
+      "class": 14,
+      "label": "Tug",
+      "model": "tug"
+    },
+    "1861786828": {
+      "class": 14,
+      "label": "Longfin",
+      "model": "longfin"
+    },
+    "1039032026": {
+      "class": 6,
+      "label": "Blista Compact",
+      "price": 75000,
+      "model": "blista2"
+    },
+    "788747387": {
+      "class": 15,
+      "label": "Buzzard Attack Chopper",
+      "model": "buzzard"
+    },
+    "-579789303": {
+      "class": 4,
+      "label": "1970 Chevrox Cavaro",
+      "price": 65000,
+      "model": "cam70"
+    },
+    "1534326199": {
+      "class": 5,
+      "label": "Uranus LozSpeed",
+      "model": "uranus"
+    },
+    "1492612435": {
+      "class": 22,
+      "label": "BR8",
+      "model": "openwheel1"
+    },
+    "-1011366497": {
+      "class": 4,
+      "label": "Sinister Revenant",
+      "price": 115000,
+      "model": "dcd"
+    },
+    "906515397": {
+      "class": 15,
+      "label": "MH6 Helicopter",
+      "model": "mh6"
+    },
+    "1151402103": {
+      "class": 7,
+      "label": "2004 GMsea Guerra",
+      "model": "gstsierra1"
+    },
+    "2049897956": {
+      "class": 5,
+      "label": "Rapid GT Classic",
+      "price": 86000,
+      "model": "rapidgt3"
+    },
+    "712162987": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "trailersmall"
+    },
+    "-646043376": {
+      "class": 6,
+      "label": "Mistral Belipse",
+      "price": 82000,
+      "model": "lipse"
+    },
+    "906642318": {
+      "class": 1,
+      "label": "Cognoscenti 55",
+      "price": 14000,
+      "model": "cog55"
+    },
+    "1127861609": {
+      "class": 13,
+      "label": "Whippet Race Bike",
+      "price": 1000,
+      "model": "tribike"
+    },
+    "1118611807": {
+      "class": 0,
+      "label": "Asbo",
+      "price": 60000,
+      "model": "asbo"
+    },
+    "-1106120762": {
+      "class": 6,
+      "label": "Future Shock ZR380",
+      "model": "zr3802"
+    },
+    "-1888073107": {
+      "class": 2,
+      "label": "1976 Creep Strangler",
+      "model": "j76"
+    },
+    "1993373021": {
+      "class": 3,
+      "label": "1988 Bobcat EXJ80",
+      "price": 1100000,
+      "model": "jagxjs80"
+    },
+    "-2096818938": {
+      "class": 9,
+      "label": "Technical",
+      "model": "technical"
+    },
+    "1923534526": {
+      "class": 6,
+      "label": "ZR350",
+      "model": "driftzr350"
+    },
+    "668439077": {
+      "class": 9,
+      "label": "Apocalypse Bruiser",
+      "model": "bruiser"
+    },
+    "994452486": {
+      "class": 4,
+      "label": "1988 Chevrox Montecristo",
+      "model": "carlo"
+    },
+    "-216635788": {
+      "class": 9,
+      "label": "2023 Hammer EV",
+      "model": "humev22"
+    },
+    "-859665685": {
+      "class": 6,
+      "label": "2017 Stormseeker S one",
+      "price": 2000000,
+      "model": "ms1"
+    },
+    "-1627000575": {
+      "class": 18,
+      "label": "Police Cruiser",
+      "model": "police2"
+    },
+    "-1860900134": {
+      "class": 9,
+      "label": "Insurgent Pick-Up",
+      "model": "insurgent"
+    },
+    "408825843": {
+      "class": 9,
+      "label": "Outlaw",
+      "price": 50000,
+      "model": "outlaw"
+    },
+    "-907477130": {
+      "class": 12,
+      "label": "Bugstars Burrito",
+      "price": 8000,
+      "model": "burrito2"
+    },
+    "-570033273": {
+      "class": 8,
+      "label": "Zombie Chopper",
+      "price": 17000,
+      "model": "zombieb"
+    },
+    "1044193113": {
+      "class": 7,
+      "label": "Thrax",
+      "price": 300000,
+      "model": "thrax"
+    },
+    "1912215274": {
+      "class": 18,
+      "label": "Police Cruiser",
+      "model": "police3"
+    },
+    "-1492917079": {
+      "class": 6,
+      "label": "Veto Modern",
+      "model": "veto2"
+    },
+    "-701263831": {
+      "class": 2,
+      "label": "Chevrox Suburbia",
+      "price": 75000,
+      "model": "subn"
+    },
+    "2132890591": {
+      "class": 11,
+      "label": "Utility Truck",
+      "price": 13000,
+      "model": "utillitruck3"
+    },
+    "655665811": {
+      "class": 7,
+      "label": "Zeno",
+      "price": 260000,
+      "model": "zeno"
+    },
+    "-1744505657": {
+      "class": 4,
+      "label": "Nightmare Impaler",
+      "model": "impaler4"
+    },
+    "1593933419": {
+      "class": 15,
+      "label": "Sparrow",
+      "model": "seasparrow3"
+    },
+    "1119641113": {
+      "class": 4,
+      "label": "Slamvan Custom",
+      "price": 54000,
+      "model": "slamvan3"
+    },
+    "1233534620": {
+      "class": 9,
+      "label": "Marshall",
+      "model": "marshall"
+    },
+    "-1508420500": {
+      "class": 4,
+      "label": "Tampa GT",
+      "model": "tampa4"
+    },
+    "1784254509": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "tr3"
+    },
+    "506038926": {
+      "class": 16,
+      "label": "F-117A Nighthawk",
+      "model": "f117a"
+    },
+    "771711535": {
+      "class": 14,
+      "label": "Submersible",
+      "model": "submersible"
+    },
+    "-339587598": {
+      "class": 15,
+      "label": "Swift",
+      "model": "swift"
+    },
+    "-823509173": {
+      "class": 19,
+      "label": "Barracks",
+      "model": "barracks"
+    },
+    "-1327443726": {
+      "class": 18,
+      "label": "2016 Eagle Pathmaker",
+      "model": "21tr16fpiu"
+    },
+    "-1504665178": {
+      "class": 16,
+      "label": "Boinger 737-800",
+      "model": "b737800"
+    },
+    "-1881846085": {
+      "class": 19,
+      "label": "Anti-Aircraft Trailer",
+      "model": "trailersmall2"
+    },
+    "-1205801634": {
+      "class": 4,
+      "label": "Blade",
+      "price": 77000,
+      "model": "blade"
+    },
+    "893081117": {
+      "class": 12,
+      "label": "Burrito",
+      "price": 8000,
+      "model": "burrito4"
+    },
+    "1455990255": {
+      "class": 5,
+      "label": "Toreador",
+      "model": "toreador"
+    },
+    "471034616": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "tvtrailer2"
+    },
+    "-2120700196": {
+      "class": 7,
+      "label": "Entity XXR",
+      "price": 192000,
+      "model": "entity2"
+    },
+    "513796448": {
+      "class": 16,
+      "label": "Space Shuttle",
+      "model": "sshuttle"
+    },
+    "1747439474": {
+      "class": 20,
+      "label": "Stockade",
+      "model": "stockade"
+    },
+    "-654498607": {
+      "class": 4,
+      "label": "Brigham",
+      "price": 350000,
+      "model": "brigham"
+    },
+    "1766503135": {
+      "class": 18,
+      "label": "EMS Rescue Boat",
+      "model": "predator2"
+    },
+    "867799010": {
+      "class": 6,
+      "label": "Pariah",
+      "price": 119000,
+      "model": "pariah"
+    },
+    "1909189272": {
+      "class": 6,
+      "label": "GB200",
+      "price": 89000,
+      "model": "gb200"
+    },
+    "-1930048799": {
+      "class": 3,
+      "label": "Windsor Drop",
+      "price": 34000,
+      "model": "windsor2"
+    },
+    "-677466500": {
+      "class": 16,
+      "label": "C-17A Globemaster III",
+      "model": "globe"
+    },
+    "1058484733": {
+      "class": 6,
+      "label": "1981 Renoir 5 Turbo Rally",
+      "price": 72000,
+      "model": "yrenault5tb"
+    },
+    "140304931": {
+      "class": 4,
+      "label": "1969 Demon Energizer",
+      "price": 65000,
+      "model": "69char"
+    },
+    "1147287684": {
+      "class": 11,
+      "label": "Caddy",
+      "price": 3300,
+      "model": "caddy"
+    },
+    "409049982": {
+      "class": 0,
+      "label": "Blista Kanjo",
+      "price": 85000,
+      "model": "kanjo"
+    },
+    "1070967343": {
+      "class": 14,
+      "label": "Toro",
+      "model": "toro"
+    },
+    "1483171323": {
+      "class": 5,
+      "label": "Deluxo",
+      "model": "deluxo"
+    },
+    "1717532765": {
+      "class": 4,
+      "label": "Manana Custom",
+      "model": "manana2"
+    },
+    "787852917": {
+      "class": 4,
+      "label": "1969 Chevrox Cavaro",
+      "model": "rcam69"
+    },
+    "-1361687965": {
+      "class": 4,
+      "label": "Chino Custom",
+      "price": 59000,
+      "model": "chino2"
+    },
+    "-1016279499": {
+      "class": 8,
+      "label": "2000 Harlan Daggerstone Springer",
+      "price": 80000,
+      "model": "springer"
+    },
+    "864249007": {
+      "class": 7,
+      "label": "Rambarini Lomadro",
+      "price": 300000,
+      "model": "5gtl"
+    },
+    "-1762329869": {
+      "class": 18,
+      "label": "Ladder Firetruck",
+      "model": "arrowladder"
+    },
+    "666166960": {
+      "class": 2,
+      "label": "Baller LE LWB (Armored)",
+      "model": "baller6"
+    },
+    "-441504144": {
+      "class": 7,
+      "label": "2002 Mercia Breeze S63",
+      "price": 1300000,
+      "model": "b63"
+    },
+    "1341323324": {
+      "class": 4,
+      "label": "66 Hound Fastrack",
+      "price": 950000,
+      "model": "66fast"
+    },
+    "1078682497": {
+      "class": 5,
+      "label": "Pigalle",
+      "price": 95000,
+      "model": "pigalle"
+    },
+    "-682108547": {
+      "class": 7,
+      "label": "Zorrusso",
+      "price": 279000,
+      "model": "zorrusso"
+    },
+    "699456151": {
+      "class": 12,
+      "label": "Surfer",
+      "price": 10000,
+      "model": "surfer"
+    },
+    "-1471265912": {
+      "class": 11,
+      "label": "Chevrox DJ Pickup",
+      "model": "1500dj"
+    },
+    "627094268": {
+      "class": 1,
+      "label": "Romero Hearse",
+      "price": 14000,
+      "model": "romero"
+    },
+    "1229411063": {
+      "class": 15,
+      "label": "Sparrow",
+      "model": "seasparrow2"
+    },
+    "1307736079": {
+      "class": 2,
+      "label": "Castigator",
+      "model": "castigator"
+    },
+    "-2124201592": {
+      "class": 5,
+      "label": "Manana",
+      "price": 36000,
+      "model": "manana"
+    },
+    "-888242983": {
+      "class": 1,
+      "label": "Schafter V12 (Armored)",
+      "model": "schafter5"
+    },
+    "-10917683": {
+      "class": 7,
+      "label": "LM87",
+      "model": "lm87"
+    },
+    "258105345": {
+      "class": 6,
+      "label": "Cypher",
+      "model": "driftcypher"
+    },
+    "-1453280962": {
+      "class": 8,
+      "label": "Sanchez",
+      "price": 6000,
+      "model": "sanchez2"
+    },
+    "2038480341": {
+      "class": 6,
+      "label": "Euros",
+      "price": 95000,
+      "model": "euros"
+    },
+    "917028873": {
+      "class": 8,
+      "label": "2010 TVS Tuk Tuk",
+      "price": 600000,
+      "model": "tunak"
+    },
+    "993517076": {
+      "class": 6,
+      "label": "2001 Bavaria EM3",
+      "price": 210000,
+      "model": "eforty6"
+    },
+    "-1728685474": {
+      "class": 6,
+      "label": "Coquette D10",
+      "price": 160000,
+      "model": "coquette4"
+    },
+    "1259463318": {
+      "class": 6,
+      "label": "2004 Sokaru WARE EX",
+      "price": 165000,
+      "model": "sokaru"
+    },
+    "426742808": {
+      "class": 4,
+      "label": "Dominator ASP",
+      "price": 100000,
+      "model": "dominator7"
+    },
+    "1093697054": {
+      "class": 6,
+      "label": "Bavaria BMCI 5",
+      "price": 110000,
+      "model": "bmci"
+    },
+    "-50547061": {
+      "class": 15,
+      "label": "Cargobob",
+      "model": "cargobob"
+    },
+    "-1218882528": {
+      "class": 22,
+      "label": "Truffade Alpha-Type",
+      "model": "type1"
+    },
+    "-619930876": {
+      "class": 4,
+      "label": "Buffalo STX",
+      "model": "buffalo4"
+    },
+    "-1207431159": {
+      "class": 11,
+      "label": "Army Trailer",
+      "model": "armytanker"
+    },
+    "-2122646867": {
+      "class": 4,
+      "label": "Gauntlet Classic Custom",
+      "price": 70000,
+      "model": "gauntlet5"
+    },
+    "-1071380347": {
+      "class": 6,
+      "label": "Drift Tampa",
+      "price": 85000,
+      "model": "tampa2"
+    },
+    "-1995326987": {
+      "class": 6,
+      "label": "Feltzer",
+      "price": 80000,
+      "model": "feltzer2"
+    },
+    "368211810": {
+      "class": 16,
+      "label": "Cargo Plane",
+      "model": "cargoplane"
+    },
+    "686471183": {
+      "class": 6,
+      "label": "8F Drafter",
+      "price": 140000,
+      "model": "drafter"
+    },
+    "-1575399130": {
+      "class": 6,
+      "label": "16 Demon Chaser",
+      "model": "16char"
+    },
+    "1830407356": {
+      "class": 5,
+      "label": "Peyote",
+      "price": 18000,
+      "model": "peyote"
+    },
+    "-692292317": {
+      "class": 19,
+      "label": "Chernobog",
+      "model": "chernobog"
+    },
+    "1790834270": {
+      "class": 8,
+      "label": "Diabolus Custom",
+      "price": 25000,
+      "model": "diablous2"
+    },
+    "1762839497": {
+      "class": 6,
+      "label": "20 Typhoon Sura",
+      "price": 1237500,
+      "model": "tsgr20"
+    },
+    "-631760477": {
+      "class": 6,
+      "label": "Massacro (Racecar)",
+      "price": 106000,
+      "model": "massacro2"
+    },
+    "-286046740": {
+      "class": 9,
+      "label": "RC Bandito",
+      "model": "rcbandito"
+    },
+    "600450546": {
+      "class": 4,
+      "label": "Hustler",
+      "price": 55000,
+      "model": "hustler"
+    },
+    "1690520685": {
+      "class": 6,
+      "label": "2013 Sokaru XRZ",
+      "price": 100000,
+      "model": "xrz"
+    },
+    "-1150599089": {
+      "class": 1,
+      "label": "Primo",
+      "price": 49000,
+      "model": "primo"
+    },
+    "-980573366": {
+      "class": 14,
+      "label": "Weaponized Dinghy",
+      "model": "dinghy5"
+    },
+    "788045382": {
+      "class": 8,
+      "label": "Sanchez (livery)",
+      "model": "sanchez"
+    },
+    "-349601129": {
+      "class": 9,
+      "label": "Bifta",
+      "price": 38000,
+      "model": "bifta"
+    },
+    "239897677": {
+      "class": 16,
+      "label": "F-160 Raiju",
+      "model": "raiju"
+    },
+    "-1628000569": {
+      "class": 18,
+      "label": "Dorado Cruiser",
+      "model": "poldorado"
+    },
+    "1343932732": {
+      "class": 20,
+      "label": "Mule",
+      "model": "mule5"
+    },
+    "-1958189855": {
+      "class": 16,
+      "label": "Cargo Plane",
+      "model": "cargoplane2"
+    },
+    "-148559974": {
+      "class": 0,
+      "label": "Tiny Peanut",
+      "model": "peanut"
+    },
+    "1075432268": {
+      "class": 15,
+      "label": "Swift Deluxe",
+      "model": "swift2"
+    },
+    "838982985": {
+      "class": 5,
+      "label": "190z",
+      "price": 87000,
+      "model": "z190"
+    },
+    "-1122289213": {
+      "class": 3,
+      "label": "Zion",
+      "price": 63000,
+      "model": "zion"
+    },
+    "-344943009": {
+      "class": 0,
+      "label": "Blista",
+      "price": 55000,
+      "model": "blista"
+    },
+    "710198397": {
+      "class": 15,
+      "label": "SuperVolito",
+      "model": "supervolito"
+    },
+    "-1204392333": {
+      "class": 18,
+      "label": "2023 Primordial Taygan",
+      "model": "pdtaygan"
+    },
+    "-1112451515": {
+      "class": 6,
+      "label": "2023 Unity GT Four-30",
+      "price": 1750000,
+      "model": "oriongt"
+    },
+    "231083307": {
+      "class": 14,
+      "label": "Speeder",
+      "model": "speeder"
+    },
+    "1565978651": {
+      "class": 16,
+      "label": "V-65 Molotok",
+      "model": "molotok"
+    },
+    "-69293006": {
+      "class": 16,
+      "label": "Avenger",
+      "model": "avenger4"
+    },
+    "1180875963": {
+      "class": 9,
+      "label": "Technical Aqua",
+      "model": "technical2"
+    },
+    "-1479664699": {
+      "class": 9,
+      "label": "Brawler",
+      "price": 46000,
+      "model": "brawler"
+    },
+    "-973016778": {
+      "class": 9,
+      "label": "Firebolt ASP",
+      "model": "firebolt"
+    },
+    "-442313018": {
+      "class": 11,
+      "label": "Tow Truck",
+      "model": "towtruck2"
+    },
+    "1550581940": {
+      "class": 2,
+      "label": "Issi Rally",
+      "price": 207000,
+      "model": "issi8"
+    },
+    "-975345305": {
+      "class": 16,
+      "label": "Rogue",
+      "model": "rogue"
+    },
+    "-2107990196": {
+      "class": 10,
+      "label": "Guardian",
+      "price": 45000,
+      "model": "guardian"
+    },
+    "2078290630": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "tr2"
+    },
+    "1692272545": {
+      "class": 16,
+      "label": "B-11 Strikeforce",
+      "model": "strikeforce"
+    },
+    "-1883869285": {
+      "class": 1,
+      "label": "Premier",
+      "price": 7000,
+      "model": "premier"
+    },
+    "121658888": {
+      "class": 12,
+      "label": "Boxville",
+      "price": 16000,
+      "model": "boxville3"
+    },
+    "1074326203": {
+      "class": 19,
+      "label": "Barracks Semi",
+      "model": "barracks2"
+    },
+    "987935035": {
+      "class": 6,
+      "label": "Orion REES 7",
+      "price": 135000,
+      "model": "13r7"
+    },
+    "-555800365": {
+      "class": 16,
+      "label": "Gulfstream G650",
+      "model": "g650"
+    },
+    "301427732": {
+      "class": 8,
+      "label": "Hexer",
+      "price": 17000,
+      "model": "hexer"
+    },
+    "-1896488056": {
+      "class": 9,
+      "label": "Yosemite 1500",
+      "model": "yosemite1500"
+    },
+    "-1924433270": {
+      "class": 9,
+      "label": "Insurgent Pick-Up Custom",
+      "model": "insurgent3"
+    },
+    "-746882698": {
+      "class": 6,
+      "label": "Schwartzer",
+      "price": 84000,
+      "model": "schwarzer"
+    },
+    "-220677802": {
+      "class": 6,
+      "label": "Chevrox See7R",
+      "model": "sea7r"
+    },
+    "1349725314": {
+      "class": 3,
+      "label": "Sentinel XS",
+      "price": 81000,
+      "model": "sentinel"
+    },
+    "1290625056": {
+      "class": 15,
+      "label": "Eurocopter AS332 EMS Airbus",
+      "model": "as332"
+    },
+    "-365873403": {
+      "class": 16,
+      "label": "RO-86 Alkonost",
+      "model": "alkonost"
+    },
+    "-1890996696": {
+      "class": 9,
+      "label": "Future Shock Brutus",
+      "model": "brutus2"
+    },
+    "-178442374": {
+      "class": 4,
+      "label": "Impaler LX",
+      "model": "impaler6"
+    },
+    "-313185164": {
+      "class": 7,
+      "label": "Autarch",
+      "price": 240000,
+      "model": "autarch"
+    },
+    "-901163259": {
+      "class": 16,
+      "label": "Dodo",
+      "model": "dodo"
+    },
+    "1581459400": {
+      "class": 3,
+      "label": "Windsor",
+      "price": 32000,
+      "model": "windsor"
+    },
+    "-777275802": {
+      "class": 11,
+      "label": "Freighttrailer",
+      "model": "freighttrailer"
+    },
+    "177270108": {
+      "class": 20,
+      "label": "Phantom Custom",
+      "price": 13000,
+      "model": "phantom3"
+    },
+    "1132262048": {
+      "class": 12,
+      "label": "Burrito",
+      "model": "burrito5"
+    },
+    "873639469": {
+      "class": 3,
+      "label": "Sentinel",
+      "price": 29000,
+      "model": "sentinel2"
+    },
+    "-877478386": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "trailers"
+    },
+    "833469436": {
+      "class": 4,
+      "label": "Lost Slamvan",
+      "price": 20000,
+      "model": "slamvan2"
+    },
+    "-235770318": {
+      "class": 6,
+      "label": "2020 Orion 5-RS",
+      "model": "rs520"
+    },
+    "1033245328": {
+      "class": 14,
+      "label": "Dinghy",
+      "model": "dinghy"
+    },
+    "321186144": {
+      "class": 1,
+      "label": "Stafford",
+      "price": 40000,
+      "model": "stafford"
+    },
+    "-1894894188": {
+      "class": 1,
+      "label": "Surge",
+      "price": 53000,
+      "model": "surge"
+    },
+    "-1089039904": {
+      "class": 6,
+      "label": "Furore GT",
+      "price": 82000,
+      "model": "furoregt"
+    },
+    "1043222410": {
+      "class": 16,
+      "label": "Tula",
+      "model": "tula"
+    },
+    "691148275": {
+      "class": 9,
+      "label": "Walton L35 Stock",
+      "model": "l352"
+    },
+    "1366597237": {
+      "class": 15,
+      "label": "MH-53J Pave Low III",
+      "model": "pavelow"
+    },
+    "-1940854501": {
+      "class": 6,
+      "label": "Harmonia Civoro EG",
+      "price": 85000,
+      "model": "eg6"
+    },
+    "-1177863319": {
+      "class": 0,
+      "label": "Issi",
+      "price": 14000,
+      "model": "issi2"
+    },
+    "1104234922": {
+      "class": 6,
+      "label": "Sentinel",
+      "price": 67000,
+      "model": "sentinel3"
+    },
+    "-1921512137": {
+      "class": 18,
+      "label": "Police Bike",
+      "model": "policeb2"
+    },
+    "621481054": {
+      "class": 16,
+      "label": "Luxor",
+      "model": "luxor"
+    },
+    "946779680": {
+      "class": 0,
+      "label": "Pizza Delivery Panto",
+      "model": "foodcar4"
+    },
+    "2069146067": {
+      "class": 8,
+      "label": "Oppressor Mk II",
+      "model": "oppressor2"
+    },
+    "1790474093": {
+      "class": 6,
+      "label": "Thunder Striker Rev",
+      "model": "rchar"
+    },
+    "775514032": {
+      "class": 6,
+      "label": "SM722",
+      "price": 350000,
+      "model": "sm722"
+    },
+    "804243323": {
+      "class": 18,
+      "label": "Streeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeetch",
+      "model": "streeetch"
+    },
+    "491353472": {
+      "class": 14,
+      "label": "USS Iona",
+      "model": "iowa"
+    },
+    "-311022263": {
+      "class": 14,
+      "label": "Seashark",
+      "model": "seashark3"
+    },
+    "628003514": {
+      "class": 0,
+      "label": "Apocalypse Issi",
+      "model": "issi4"
+    },
+    "1089816240": {
+      "class": 20,
+      "label": "Bobcat Security Stockade",
+      "model": "stockade4"
+    },
+    "-1983622024": {
+      "class": 13,
+      "label": "Junk Energy Inductor",
+      "price": 1000,
+      "model": "inductor2"
+    },
+    "1634142953": {
+      "class": 6,
+      "label": "2006 Mercia-Benzari Aymg V63",
+      "price": 105000,
+      "model": "v63"
+    },
+    "3467202": {
+      "class": 7,
+      "label": "1990 Mazerunner EFC3",
+      "price": 130000,
+      "model": "fc3s"
+    },
+    "55628203": {
+      "class": 8,
+      "label": "Faggio",
+      "price": 2000,
+      "model": "faggio2"
+    },
+    "-1786460813": {
+      "class": 6,
+      "label": "zr3806str",
+      "price": 115000,
+      "model": "zr3806str"
+    },
+    "2134119907": {
+      "class": 4,
+      "label": "Beater Dukes",
+      "price": 71000,
+      "model": "dukes3"
+    },
+    "-1404136503": {
+      "class": 8,
+      "label": "Daemon Custom",
+      "price": 17500,
+      "model": "daemon2"
+    },
+    "-801550069": {
+      "class": 20,
+      "label": "Apocalypse Cerberus",
+      "model": "cerberus"
+    },
+    "-133970931": {
+      "class": 8,
+      "label": "Bound Rider",
+      "price": 42000,
+      "model": "slave"
+    },
+    "1341619767": {
+      "class": 16,
+      "label": "Vestra",
+      "model": "vestra"
+    },
+    "-409512831": {
+      "class": 12,
+      "label": "Cherry Popper Ice Cream Truck",
+      "price": 15000,
+      "model": "taco2"
+    },
+    "669204833": {
+      "class": 7,
+      "label": "Virtue",
+      "price": 250000,
+      "model": "virtue"
+    },
+    "83136452": {
+      "class": 2,
+      "label": "Rebla GTS",
+      "price": 95000,
+      "model": "rebla"
+    },
+    "-82626025": {
+      "class": 15,
+      "label": "Savage",
+      "model": "savage"
+    },
+    "-150975354": {
+      "class": 16,
+      "label": "Atomic Blimp",
+      "model": "blimp"
+    },
+    "-506359117": {
+      "class": 2,
+      "label": "2018 Bavaria EX-6",
+      "price": 85000,
+      "model": "x6m"
+    },
+    "461465043": {
+      "class": 2,
+      "label": "Jubilee",
+      "model": "jubilee"
+    },
+    "482197771": {
+      "class": 6,
+      "label": "Lynx",
+      "price": 91000,
+      "model": "lynx"
+    },
+    "-1372798934": {
+      "class": 2,
+      "label": "Vivanite",
+      "price": 190000,
+      "model": "vivanite"
+    },
+    "228428425": {
+      "class": 18,
+      "label": "Unmarked Baller",
+      "model": "fibb"
+    },
+    "-730904777": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "tanker"
+    },
+    "-755532233": {
+      "class": 4,
+      "label": "Nightmare Imperator",
+      "model": "imperator3"
+    },
+    "-1523619738": {
+      "class": 16,
+      "label": "Alpha-Z1",
+      "model": "alphaz1"
+    },
+    "-1456504864": {
+      "class": 7,
+      "label": "1999 Nihon Highline ARE 34",
+      "price": 190000,
+      "model": "eare34"
+    },
+    "1336514315": {
+      "class": 6,
+      "label": "Hotring Hellfire",
+      "model": "gauntlet6"
+    },
+    "1641462412": {
+      "class": 11,
+      "label": "Tractor",
+      "model": "tractor"
+    },
+    "-808457413": {
+      "class": 2,
+      "label": "Patriot",
+      "price": 25000,
+      "model": "patriot"
+    },
+    "-2130482718": {
+      "class": 10,
+      "label": "Dump",
+      "model": "dump"
+    },
+    "235768976": {
+      "class": 18,
+      "label": "2018 Corvex Zee ARE1 SE",
+      "model": "zr1rb"
+    },
+    "-1696319096": {
+      "class": 6,
+      "label": "Drift Tampa",
+      "model": "drifttampa"
+    },
+    "223240013": {
+      "class": 5,
+      "label": "Cheetah Classic",
+      "price": 125000,
+      "model": "cheetah2"
+    },
+    "-2118308144": {
+      "class": 16,
+      "label": "Avenger",
+      "model": "avenger"
+    },
+    "1632265132": {
+      "class": 6,
+      "label": "Furelli Veloce88 Freedomwalker",
+      "model": "four88lb"
+    },
+    "-208911803": {
+      "class": 6,
+      "label": "Jugular",
+      "price": 115000,
+      "model": "jugular"
+    },
+    "-1858654120": {
+      "class": 6,
+      "label": "ZR350",
+      "price": 105000,
+      "model": "zr350"
+    },
+    "-426933872": {
+      "class": 16,
+      "label": "Avenger",
+      "model": "avenger3"
+    },
+    "-1207771834": {
+      "class": 9,
+      "label": "Rusty Rebel",
+      "model": "rebel"
+    },
+    "-960289747": {
+      "class": 21,
+      "label": "Cable Car",
+      "model": "cablecar"
+    },
+    "86520421": {
+      "class": 8,
+      "label": "BF400",
+      "price": 4000,
+      "model": "bf400"
+    },
+    "729783779": {
+      "class": 4,
+      "label": "Slamvan",
+      "price": 39000,
+      "model": "slamvan"
+    },
+    "-291649400": {
+      "class": 14,
+      "label": "DDG-151 Nathan Joel",
+      "model": "james"
+    },
+    "-1943285540": {
+      "class": 4,
+      "label": "Nightshade",
+      "price": 69000,
+      "model": "nightshade"
+    },
+    "2035069708": {
+      "class": 8,
+      "label": "Esskey",
+      "price": 7000,
+      "model": "esskey"
+    },
+    "165968051": {
+      "class": 4,
+      "label": "Buffalo EVX",
+      "price": 215000,
+      "model": "buffalo5"
+    },
+    "-988501280": {
+      "class": 5,
+      "label": "Cheburek",
+      "price": 41000,
+      "model": "cheburek"
+    },
+    "-834353991": {
+      "class": 6,
+      "label": "Komoda",
+      "price": 125000,
+      "model": "komoda"
+    },
+    "1873600305": {
+      "class": 8,
+      "label": "Rat Bike",
+      "price": 12000,
+      "model": "ratbike"
+    },
+    "-583006956": {
+      "class": 18,
+      "label": "Ambulance EFF Four50",
+      "model": "ambulance6"
+    },
+    "662793086": {
+      "class": 2,
+      "label": "I-Wagen",
+      "price": 98000,
+      "model": "iwagen"
+    },
+    "-1903012613": {
+      "class": 1,
+      "label": "Asterope",
+      "price": 58000,
+      "model": "asterope"
+    },
+    "943734638": {
+      "class": 20,
+      "label": "Phantom Old School",
+      "price": 12345,
+      "model": "phantomoldschool"
+    },
+    "2052293244": {
+      "class": 9,
+      "label": "Silverline Trale Bozz",
+      "price": 120000,
+      "model": "tralebozz"
+    },
+    "1871995513": {
+      "class": 4,
+      "label": "Yosemite",
+      "price": 75000,
+      "model": "yosemite"
+    },
+    "-1960756985": {
+      "class": 22,
+      "label": "R88",
+      "model": "formula2"
+    },
+    "1373123368": {
+      "class": 1,
+      "label": "Warrener",
+      "price": 39000,
+      "model": "warrener"
+    },
+    "165154707": {
+      "class": 16,
+      "label": "Miljet",
+      "model": "miljet"
+    },
+    "-986944621": {
+      "class": 4,
+      "label": "Dominator GTX",
+      "price": 88000,
+      "model": "dominator3"
+    },
+    "-1146969353": {
+      "class": 19,
+      "label": "Apocalypse Scarab",
+      "model": "scarab"
+    },
+    "-1590337689": {
+      "class": 9,
+      "label": "Blazer Aqua",
+      "model": "blazer5"
+    },
+    "-2098947590": {
+      "class": 5,
+      "label": "Stinger GT",
+      "price": 80000,
+      "model": "stingergt"
+    },
+    "1488164764": {
+      "class": 12,
+      "label": "Paradise",
+      "price": 13000,
+      "model": "paradise"
+    },
+    "-44799464": {
+      "class": 12,
+      "label": "Speedo Custom",
+      "model": "speedo5"
+    },
+    "296357396": {
+      "class": 12,
+      "label": "Gang Burrito",
+      "price": 15000,
+      "model": "gburrito2"
+    },
+    "-915234475": {
+      "class": 7,
+      "label": "Champion",
+      "model": "champion"
+    },
+    "-715746948": {
+      "class": 9,
+      "label": "Nightmare Sasquatch",
+      "model": "monster5"
+    },
+    "1171614426": {
+      "class": 18,
+      "label": "Ambulance",
+      "model": "ambulance"
+    },
+    "-663299102": {
+      "class": 9,
+      "label": "Desert Raid",
+      "price": 65000,
+      "model": "trophytruck2"
+    },
+    "914654722": {
+      "class": 2,
+      "label": "Mesa",
+      "price": 9000,
+      "model": "mesa"
+    },
+    "1653666139": {
+      "class": 20,
+      "label": "Pounder Custom",
+      "model": "pounder2"
+    },
+    "-511601230": {
+      "class": 3,
+      "label": "Oracle",
+      "price": 77000,
+      "model": "oracle2"
+    },
+    "-1257057490": {
+      "class": 6,
+      "label": "2022 Furelli Flamestrike Romer",
+      "price": 1675000,
+      "model": "roma22"
+    },
+    "1896491931": {
+      "class": 4,
+      "label": "Moonbeam Custom",
+      "price": 37000,
+      "model": "moonbeam2"
+    },
+    "523724515": {
+      "class": 4,
+      "label": "Voodoo",
+      "price": 8000,
+      "model": "voodoo2"
+    },
+    "-1943578229": {
+      "class": 6,
+      "label": "2018 Typhoon GT Eight6",
+      "price": 135000,
+      "model": "toy86"
+    },
+    "1269098716": {
+      "class": 2,
+      "label": "Landstalker",
+      "price": 7000,
+      "model": "landstalker"
+    },
+    "-897824023": {
+      "class": 13,
+      "label": "Inductor",
+      "price": 1000,
+      "model": "inductor"
+    },
+    "-1795651771": {
+      "class": 18,
+      "label": "Hound Scallion SE",
+      "model": "pdmus"
+    },
+    "1353720154": {
+      "class": 10,
+      "label": "Flatbed",
+      "price": 2000,
+      "model": "flatbed"
+    },
+    "1489967196": {
+      "class": 6,
+      "label": "Schafter LWB",
+      "price": 90000,
+      "model": "schafter4"
+    },
+    "-1706603682": {
+      "class": 14,
+      "label": "Avisa",
+      "model": "avisa"
+    },
+    "840387324": {
+      "class": 9,
+      "label": "Future Shock Sasquatch",
+      "model": "monster4"
+    },
+    "-432008408": {
+      "class": 2,
+      "label": "XLS (Armored)",
+      "model": "xls2"
+    },
+    "-1405937764": {
+      "class": 5,
+      "label": "Infernus Classic",
+      "price": 180000,
+      "model": "infernus2"
+    },
+    "-34623805": {
+      "class": 18,
+      "label": "Police Bike",
+      "model": "policeb"
+    },
+    "-212993243": {
+      "class": 19,
+      "label": "Barrage",
+      "model": "barrage"
+    },
+    "387748548": {
+      "class": 20,
+      "label": "Hauler Custom",
+      "model": "hauler2"
+    },
+    "178657734": {
+      "class": 2,
+      "label": "Mercia-Benzari G-Carriage",
+      "price": 975000,
+      "model": "gclas9"
+    },
+    "-1444114309": {
+      "class": 7,
+      "label": "Ignus",
+      "price": 305000,
+      "model": "ignus"
+    },
+    "-1126264336": {
+      "class": 12,
+      "label": "Minivan Custom",
+      "price": 14000,
+      "model": "minivan2"
+    },
+    "767087018": {
+      "class": 6,
+      "label": "Alpha",
+      "price": 100000,
+      "model": "alpha"
+    },
+    "-1267543371": {
+      "class": 4,
+      "label": "Ellie",
+      "price": 73000,
+      "model": "ellie"
+    },
+    "-227741703": {
+      "class": 4,
+      "label": "Ruiner",
+      "price": 58000,
+      "model": "ruiner"
+    },
+    "-536105557": {
+      "class": 9,
+      "label": "Ratel",
+      "model": "ratel"
+    },
+    "274946574": {
+      "class": 6,
+      "label": "10F Widebody",
+      "model": "tenf2"
+    },
+    "-810318068": {
+      "class": 12,
+      "label": "Speedo",
+      "price": 13000,
+      "model": "speedo"
+    },
+    "-2045594037": {
+      "class": 9,
+      "label": "Rebel",
+      "price": 29000,
+      "model": "rebel2"
+    },
+    "1690421418": {
+      "class": 5,
+      "label": "Nebula Turbo",
+      "model": "driftnebula"
+    },
+    "-394762736": {
+      "class": 0,
+      "label": "Motor Potty",
+      "model": "potty"
+    },
+    "1026149675": {
+      "class": 12,
+      "label": "Youga Classic",
+      "price": 13000,
+      "model": "youga2"
+    },
+    "-420911112": {
+      "class": 2,
+      "label": "Patriot Stretch",
+      "price": 69000,
+      "model": "patriot2"
+    },
+    "-1242608589": {
+      "class": 7,
+      "label": "Vigilante",
+      "model": "vigilante"
+    },
+    "2072687711": {
+      "class": 6,
+      "label": "Carbonizzare",
+      "price": 99000,
+      "model": "carbonizzare"
+    },
+    "-1666944573": {
+      "class": 6,
+      "label": "2021 Hound Scallion Rock 3EV",
+      "model": "fme"
+    },
+    "-1528416545": {
+      "class": 16,
+      "label": "B-52H Stratofortress",
+      "model": "b52"
+    },
+    "1560980623": {
+      "class": 11,
+      "label": "Airtug",
+      "model": "airtug"
+    },
+    "-1812949672": {
+      "class": 8,
+      "label": "Future Shock Deathbike",
+      "model": "deathbike2"
+    },
+    "-129283887": {
+      "class": 20,
+      "label": "Phantom",
+      "model": "phantom4"
+    },
+    "1576693251": {
+      "class": 8,
+      "label": "2008 Harlan Dragon Hog",
+      "model": "dragoon"
+    },
+    "-1440329385": {
+      "class": 6,
+      "label": "2008 Typhoon Sukara MK4-WB",
+      "price": 105000,
+      "model": "sup4"
+    },
+    "-465825307": {
+      "class": 3,
+      "label": "FR36",
+      "price": 225000,
+      "model": "fr36"
+    },
+    "1424881593": {
+      "class": 18,
+      "label": "2018 Thunder Striker",
+      "model": "valor18ch"
+    },
+    "-1375060657": {
+      "class": 4,
+      "label": "Future Shock Dominator",
+      "model": "dominator5"
+    },
+    "-1969666614": {
+      "class": 16,
+      "label": "SU-27 Flanker",
+      "model": "su27"
+    },
+    "722226637": {
+      "class": 4,
+      "label": "Gauntlet Classic",
+      "price": 75000,
+      "model": "gauntlet3"
+    },
+    "1645267888": {
+      "class": 9,
+      "label": "Rancher XL",
+      "price": 20000,
+      "model": "rancherxl"
+    },
+    "736672010": {
+      "class": 4,
+      "label": "Dominator GTT",
+      "price": 80000,
+      "model": "dominator8"
+    },
+    "1739845664": {
+      "class": 12,
+      "label": "Bison",
+      "price": 15000,
+      "model": "bison3"
+    },
+    "525509695": {
+      "class": 4,
+      "label": "Moonbeam",
+      "price": 14000,
+      "model": "moonbeam"
+    },
+    "-754687673": {
+      "class": 6,
+      "label": "Corsita",
+      "price": 178000,
+      "model": "corsita"
+    },
+    "-54332285": {
+      "class": 9,
+      "label": "Freecrawler",
+      "price": 90000,
+      "model": "freecrawler"
+    },
+    "1119899073": {
+      "class": 12,
+      "label": "1978 Hound Effone 50",
+      "price": 60000,
+      "model": "effone50"
+    },
+    "-431692672": {
+      "class": 0,
+      "label": "Panto",
+      "price": 9000,
+      "model": "panto"
+    },
+    "943752001": {
+      "class": 12,
+      "label": "Pony",
+      "price": 14000,
+      "model": "pony2"
+    },
+    "1077822991": {
+      "class": 18,
+      "label": "Police Bicycle",
+      "model": "pbike"
+    },
+    "-2122757008": {
+      "class": 16,
+      "label": "Mallard",
+      "model": "stunt"
+    },
+    "-210308634": {
+      "class": 9,
+      "label": "Winky",
+      "price": 37000,
+      "model": "winky"
+    },
+    "-2007026063": {
+      "class": 18,
+      "label": "Police Prison Bus",
+      "model": "pbus"
+    },
+    "345756458": {
+      "class": 17,
+      "label": "Festival Bus",
+      "model": "pbus2"
+    },
+    "-671564942": {
+      "class": 11,
+      "label": "Tow Truck",
+      "model": "towtruck3"
+    },
+    "-1205689942": {
+      "class": 18,
+      "label": "Police Riot",
+      "model": "riot"
+    },
+    "-1745203402": {
+      "class": 12,
+      "label": "Gang Burrito",
+      "price": 15000,
+      "model": "gburrito"
+    },
+    "740289177": {
+      "class": 9,
+      "label": "Vagrant",
+      "price": 65000,
+      "model": "vagrant"
+    },
+    "569305213": {
+      "class": 20,
+      "label": "Packer",
+      "price": 9500,
+      "model": "packer"
+    },
+    "-982130927": {
+      "class": 5,
+      "label": "Turismo Classic",
+      "price": 190000,
+      "model": "turismo2"
+    },
+    "-42959138": {
+      "class": 15,
+      "label": "FH-1 Hunter",
+      "model": "hunter"
+    },
+    "-683983328": {
+      "class": 6,
+      "label": "2016 Luxis Eye S 3fifty",
+      "price": 105000,
+      "model": "s3fifty"
+    },
+    "11251904": {
+      "class": 8,
+      "label": "Carbon RS",
+      "price": 19000,
+      "model": "carbonrs"
+    },
+    "-857356038": {
+      "class": 6,
+      "label": "Veto Classic",
+      "model": "veto"
+    },
+    "-2033222435": {
+      "class": 5,
+      "label": "Tornado",
+      "model": "tornado4"
+    },
+    "734217681": {
+      "class": 11,
+      "label": "Sadler",
+      "model": "sadler2"
+    },
+    "2016857647": {
+      "class": 6,
+      "label": "Futo",
+      "price": 64000,
+      "model": "futo"
+    },
+    "1836027715": {
+      "class": 8,
+      "label": "Thrust",
+      "price": 17000,
+      "model": "thrust"
+    },
+    "-741120335": {
+      "class": 1,
+      "label": "Asterope GZ",
+      "price": 205000,
+      "model": "asterope2"
+    },
+    "784544772": {
+      "class": 6,
+      "label": "2023 Mazerunner Track",
+      "price": 1425000,
+      "model": "mx5hr"
+    },
+    "-2140431165": {
+      "class": 8,
+      "label": "Bagger",
+      "price": 8000,
+      "model": "bagger"
+    },
+    "1077420264": {
+      "class": 16,
+      "label": "Velum 5-Seater",
+      "model": "velum2"
+    },
+    "-304802106": {
+      "class": 6,
+      "label": "Buffalo",
+      "price": 90000,
+      "model": "buffalo"
+    },
+    "-838099166": {
+      "class": 2,
+      "label": "Landstalker XL",
+      "price": 64000,
+      "model": "landstalker2"
+    },
+    "-1756021720": {
+      "class": 9,
+      "label": "Everon",
+      "price": 135000,
+      "model": "everon"
+    },
+    "-1988428699": {
+      "class": 20,
+      "label": "Terrorbyte",
+      "model": "terbyte"
+    },
+    "661493923": {
+      "class": 6,
+      "label": "Comet SR",
+      "price": 110000,
+      "model": "comet5"
+    },
+    "-1693015116": {
+      "class": 18,
+      "label": "RCV",
+      "model": "riot2"
+    },
+    "-38879449": {
+      "class": 2,
+      "label": "Aleutian",
+      "model": "aleutian"
+    },
+    "237764926": {
+      "class": 6,
+      "label": "Sprunk Buffalo",
+      "model": "buffalo3"
+    },
+    "2044532910": {
+      "class": 9,
+      "label": "Menacer",
+      "model": "menacer"
+    },
+    "1674767892": {
+      "class": 7,
+      "label": "2018 Auro Rosso Spyra 4S",
+      "price": 120000,
+      "model": "fourcee"
+    },
+    "-1292245263": {
+      "class": 8,
+      "label": "Kasaki Shoken 300",
+      "price": 25000,
+      "model": "nin300"
+    },
+    "-1041692462": {
+      "class": 6,
+      "label": "Banshee",
+      "price": 105000,
+      "model": "banshee"
+    },
+    "1314474649": {
+      "class": 6,
+      "label": "2015 Orion TFS",
+      "price": 115000,
+      "model": "tfs"
+    },
+    "-1670998136": {
+      "class": 8,
+      "label": "Double-T",
+      "price": 22500,
+      "model": "double"
+    },
+    "1549009676": {
+      "class": 4,
+      "label": "Arbiter GT",
+      "model": "arbitergt"
+    },
+    "1939284556": {
+      "class": 7,
+      "label": "Vagner",
+      "price": 304000,
+      "model": "vagner"
+    },
+    "1954121213": {
+      "class": 12,
+      "label": "Swift Van",
+      "price": 65000,
+      "model": "nspeedo"
+    },
+    "-377465520": {
+      "class": 6,
+      "label": "Penumbra",
+      "price": 94000,
+      "model": "penumbra"
+    },
+    "-1865955898": {
+      "class": 7,
+      "label": "Stellar Conqueror",
+      "price": 220000,
+      "model": "ast"
+    },
+    "347619240": {
+      "class": 15,
+      "label": "Higgins Helitours Maverick",
+      "model": "maverick2"
+    },
+    "837858166": {
+      "class": 15,
+      "label": "Annihilator",
+      "model": "annihilator"
+    },
+    "822383829": {
+      "class": 6,
+      "label": "Hoarden Marlue",
+      "model": "hmal"
+    },
+    "1878062887": {
+      "class": 2,
+      "label": "Baller LE",
+      "price": 59000,
+      "model": "baller3"
+    },
+    "-32878452": {
+      "class": 16,
+      "label": "RM-10 Bombushka",
+      "model": "bombushka"
+    },
+    "-1491268273": {
+      "class": 2,
+      "label": "Astron Custom",
+      "model": "astron2"
+    },
+    "-264880512": {
+      "class": 6,
+      "label": "1999 Nihon GT (ARE 34)",
+      "price": 1312500,
+      "model": "are34"
+    },
+    "867467158": {
+      "class": 14,
+      "label": "Dinghy",
+      "model": "dinghy4"
+    },
+    "-941272559": {
+      "class": 6,
+      "label": "Locust",
+      "price": 125000,
+      "model": "locust"
+    },
+    "-303604192": {
+      "class": 20,
+      "label": "Phantom Day Tractor",
+      "price": 14000,
+      "model": "phantomday"
+    },
+    "-1233767450": {
+      "class": 18,
+      "label": "Gauntlet Interceptor",
+      "model": "polgauntlet"
+    },
+    "-1490587261": {
+      "class": 0,
+      "label": "2018 Harmonia Cricket R",
+      "price": 1125000,
+      "model": "fkcivr"
+    },
+    "2074435700": {
+      "class": 4,
+      "label": "Goliath 6GT",
+      "price": 75000,
+      "model": "gauntlet6str"
+    },
+    "-410205223": {
+      "class": 6,
+      "label": "Revolter",
+      "price": 93000,
+      "model": "revolter"
+    },
+    "-1066334226": {
+      "class": 14,
+      "label": "Kraken",
+      "model": "submersible2"
+    },
+    "-16098358": {
+      "class": 6,
+      "label": "1988 Pegasso 20Five Rally",
+      "price": 79000,
+      "model": "ypg205t16b"
+    },
+    "-1685021548": {
+      "class": 4,
+      "label": "Sabre Turbo",
+      "price": 63000,
+      "model": "sabregt"
+    },
+    "-223461503": {
+      "class": 7,
+      "label": "Pipistrello",
+      "model": "pipistrello"
+    },
+    "-784816453": {
+      "class": 10,
+      "label": "Mixer",
+      "model": "mixer"
+    },
+    "-1281684762": {
+      "class": 16,
+      "label": "P-996 LAZER",
+      "model": "lazer"
+    },
+    "219698136": {
+      "class": 16,
+      "label": "Stratus SF50",
+      "model": "sf50vision"
+    },
+    "372621319": {
+      "class": 4,
+      "label": "Vigero ZX Convertible",
+      "price": 230000,
+      "model": "vigero3"
+    },
+    "1644055914": {
+      "class": 0,
+      "label": "Weevil",
+      "price": 39000,
+      "model": "weevil"
+    },
+    "-1700816196": {
+      "class": 6,
+      "label": "Roam Rambler Vello",
+      "price": 70000,
+      "model": "vello"
+    },
+    "-310465116": {
+      "class": 12,
+      "label": "Minivan",
+      "price": 7000,
+      "model": "minivan"
+    },
+    "-538103818": {
+      "class": 6,
+      "label": "1990 Harmonia C-AREX",
+      "price": 100000,
+      "model": "honc"
+    },
+    "-1309251704": {
+      "class": 2,
+      "label": "2020 Roam Rambler GW",
+      "price": 80000,
+      "model": "rgw"
+    },
+    "-748008636": {
+      "class": 2,
+      "label": "Mesa",
+      "model": "mesa2"
+    },
+    "-1492702287": {
+      "class": 7,
+      "label": "Stellar Verlina Standard",
+      "model": "val2"
+    },
+    "960812448": {
+      "class": 7,
+      "label": "Furia",
+      "price": 250000,
+      "model": "furia"
+    },
+    "1532171089": {
+      "class": 1,
+      "label": "Deity",
+      "model": "deity"
+    },
+    "-1563772142": {
+      "class": 9,
+      "label": "2023 Creep Annihilator",
+      "model": "glad"
+    },
+    "-1255698084": {
+      "class": 17,
+      "label": "Trashmaster",
+      "model": "trash2"
+    },
+    "989294410": {
+      "class": 7,
+      "label": "Rocket Voltic",
+      "model": "voltic2"
+    },
+    "-294678663": {
+      "class": 3,
+      "label": "Postlude",
+      "price": 130000,
+      "model": "postlude"
+    },
+    "886934177": {
+      "class": 1,
+      "label": "Intruder",
+      "price": 48000,
+      "model": "intruder"
+    },
+    "-1311154784": {
+      "class": 7,
+      "label": "Cheetah",
+      "price": 220000,
+      "model": "cheetah"
+    },
+    "682434785": {
+      "class": 12,
+      "label": "Armored Boxville",
+      "model": "boxville5"
+    },
+    "87306382": {
+      "class": 6,
+      "label": "2022 Zaddy Batwing",
+      "model": "bwing"
+    },
+    "784565758": {
+      "class": 4,
+      "label": "Coquette BlackFin",
+      "price": 105000,
+      "model": "coquette3"
+    },
+    "-312295511": {
+      "class": 9,
+      "label": "Ramp Buggy",
+      "model": "dune5"
+    },
+    "-1743316013": {
+      "class": 12,
+      "label": "Burrito",
+      "price": 8000,
+      "model": "burrito3"
+    },
+    "101905590": {
+      "class": 9,
+      "label": "Trophy Truck",
+      "price": 55000,
+      "model": "trophytruck"
+    },
+    "-771791367": {
+      "class": 4,
+      "label": "2009 Hound Silvermoon Scallion",
+      "model": "s281"
+    },
+    "-773074419": {
+      "class": 7,
+      "label": "Rambarini Reformante",
+      "price": 350000,
+      "model": "18perf"
+    },
+    "-1045911276": {
+      "class": 11,
+      "label": "Slamtruck",
+      "model": "slamtruck"
+    },
+    "-441209695": {
+      "class": 4,
+      "label": "Dominator GT",
+      "price": 235000,
+      "model": "dominator9"
+    },
+    "-531748265": {
+      "class": 6,
+      "label": "Mercia-Benzari MG63",
+      "price": 105000,
+      "model": "mg63"
+    },
+    "-1746576111": {
+      "class": 16,
+      "label": "Mammatus",
+      "model": "mammatus"
+    },
+    "-1694081890": {
+      "class": 9,
+      "label": "Future Shock Bruiser",
+      "model": "bruiser2"
+    },
+    "1171524508": {
+      "class": 11,
+      "label": "Towtruck Custom",
+      "price": 10000,
+      "model": "towcustom"
+    },
+    "-2022483795": {
+      "class": 6,
+      "label": "Comet Retro Custom",
+      "price": 115000,
+      "model": "comet3"
+    },
+    "-426439627": {
+      "class": 18,
+      "label": "Unmarked Buffalo",
+      "model": "fibb2"
+    },
+    "1456744817": {
+      "class": 4,
+      "label": "Tulip",
+      "price": 66000,
+      "model": "tulip"
+    },
+    "448402357": {
+      "class": 13,
+      "label": "Cruiser",
+      "price": 100,
+      "model": "cruiser"
+    },
+    "-827162039": {
+      "class": 9,
+      "label": "Ramp Buggy",
+      "model": "dune4"
+    },
+    "-2098954619": {
+      "class": 0,
+      "label": "BF Club",
+      "price": 57000,
+      "model": "club"
+    },
+    "-1845487887": {
+      "class": 15,
+      "label": "Volatus",
+      "model": "volatus"
+    },
+    "-1291952903": {
+      "class": 7,
+      "label": "Entity XF",
+      "price": 172000,
+      "model": "entityxf"
+    },
+    "745122135": {
+      "class": 7,
+      "label": "Corvex Sea 7",
+      "price": 75000,
+      "model": "sea7"
+    },
+    "1445631933": {
+      "class": 11,
+      "label": "Fieldmaster",
+      "model": "tractor3"
+    },
+    "1348744438": {
+      "class": 3,
+      "label": "Oracle XS",
+      "price": 76000,
+      "model": "oracle"
+    },
+    "654941932": {
+      "class": 6,
+      "label": "Hound Bozz Scallion",
+      "price": 1000000,
+      "model": "rmus"
+    },
+    "-2140210194": {
+      "class": 11,
+      "label": "Docktrailer",
+      "model": "docktrailer"
+    },
+    "1737348074": {
+      "class": 18,
+      "label": "Greenwood Cruiser",
+      "model": "polgreenwood"
+    },
+    "-1529242755": {
+      "class": 6,
+      "label": "Raiden",
+      "price": 99000,
+      "model": "raiden"
+    },
+    "-1092429330": {
+      "class": 16,
+      "label": "Piper Aerostar 700P",
+      "model": "pa60"
+    },
+    "-674927303": {
+      "class": 6,
+      "label": "Raptor",
+      "price": 113000,
+      "model": "raptor"
+    },
+    "2100457220": {
+      "class": 6,
+      "label": "Panthere",
+      "price": 200000,
+      "model": "panthere"
+    },
+    "-1137532101": {
+      "class": 2,
+      "label": "FQ 2",
+      "price": 36000,
+      "model": "fq2"
+    },
+    "-131348178": {
+      "class": 6,
+      "label": "Hotring Everon",
+      "model": "everon2"
+    },
+    "-2040426790": {
+      "class": 1,
+      "label": "Primo Custom",
+      "price": 53000,
+      "model": "primo2"
+    },
+    "-1912017790": {
+      "class": 17,
+      "label": "Wastelander",
+      "model": "wastelander"
+    },
+    "240201337": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "freightcont2"
+    },
+    "-2046582190": {
+      "class": 8,
+      "label": "Kasaki ZeeX 10ARE",
+      "model": "zeex10are"
+    },
+    "-16948145": {
+      "class": 12,
+      "label": "Bison",
+      "price": 17000,
+      "model": "bison"
+    },
+    "-477831899": {
+      "class": 15,
+      "label": "Conada",
+      "model": "conada"
+    },
+    "1416466158": {
+      "class": 6,
+      "label": "Paragon R (Armored)",
+      "model": "paragon2"
+    },
+    "-119658072": {
+      "class": 12,
+      "label": "Pony",
+      "price": 14000,
+      "model": "pony"
+    },
+    "-1255452397": {
+      "class": 1,
+      "label": "Schafter",
+      "price": 63000,
+      "model": "schafter2"
+    },
+    "-591610296": {
+      "class": 3,
+      "label": "F620",
+      "price": 25000,
+      "model": "f620"
+    },
+    "-64075878": {
+      "class": 3,
+      "label": "Kanjo SJ",
+      "price": 96000,
+      "model": "kanjosj"
+    },
+    "-616331036": {
+      "class": 14,
+      "label": "Seashark",
+      "model": "seashark2"
+    },
+    "-566387422": {
+      "class": 6,
+      "label": "Elegy RH8",
+      "price": 95000,
+      "model": "elegy2"
+    },
+    "1546483767": {
+      "class": 3,
+      "label": "2022 Bavaria EV4",
+      "model": "i422"
+    },
+    "1824333165": {
+      "class": 16,
+      "label": "Besra",
+      "model": "besra"
+    },
+    "-2136446391": {
+      "class": 6,
+      "label": "2020 Mercia-Benzaria Freedom Stroll",
+      "price": 90000,
+      "model": "lwcla45"
+    },
+    "1086534307": {
+      "class": 8,
+      "label": "Manchez Scout",
+      "price": 16000,
+      "model": "manchez2"
+    },
+    "1579902654": {
+      "class": 4,
+      "label": "Dominator FX",
+      "model": "dominator10"
+    },
+    "884483972": {
+      "class": 8,
+      "label": "Oppressor",
+      "model": "oppressor"
+    },
+    "-1578888621": {
+      "class": 16,
+      "label": "Dorner 228",
+      "model": "do228"
+    },
+    "444583674": {
+      "class": 10,
+      "label": "Dock Handler",
+      "model": "handler"
+    },
+    "-1543762099": {
+      "class": 2,
+      "label": "Gresley",
+      "price": 15000,
+      "model": "gresley"
+    },
+    "-1403128555": {
+      "class": 7,
+      "label": "Zentorno",
+      "price": 268000,
+      "model": "zentorno"
+    },
+    "-694377870": {
+      "class": 18,
+      "label": "Prisoner transporter",
+      "model": "gcptvan"
+    },
+    "642617954": {
+      "class": 21,
+      "label": "Freight Train",
+      "model": "freightgrain"
+    },
+    "-1149725334": {
+      "class": 6,
+      "label": "Itali RSX",
+      "price": 240000,
+      "model": "italirsx"
+    },
+    "1549126457": {
+      "class": 0,
+      "label": "Brioso R/A",
+      "price": 59000,
+      "model": "brioso"
+    },
+    "-1661854193": {
+      "class": 9,
+      "label": "Dune Buggy",
+      "price": 11000,
+      "model": "dune"
+    },
+    "2001038975": {
+      "class": 3,
+      "label": "2022 Bavaria G-770s",
+      "model": "m7cstm"
+    },
+    "2025009910": {
+      "class": 16,
+      "label": "F-15J Eagle",
+      "model": "f15j2"
+    },
+    "384071873": {
+      "class": 6,
+      "label": "Surano",
+      "price": 105000,
+      "model": "surano"
+    },
+    "1987142870": {
+      "class": 7,
+      "label": "Osiris",
+      "price": 275000,
+      "model": "osiris"
+    },
+    "776394198": {
+      "class": 2,
+      "label": "Creep JTK",
+      "price": 90000,
+      "model": "jtk"
+    },
+    "-1289178744": {
+      "class": 8,
+      "label": "Faggio Mod",
+      "price": 3000,
+      "model": "faggio3"
+    },
+    "-142942670": {
+      "class": 6,
+      "label": "Massacro",
+      "price": 105000,
+      "model": "massacro"
+    },
+    "-1582061455": {
+      "class": 6,
+      "label": "Jester RR",
+      "price": 110000,
+      "model": "jester4"
+    },
+    "-1919151179": {
+      "class": 11,
+      "label": "Slam Civilian Tow",
+      "price": 20000,
+      "model": "civflatbed"
+    },
+    "1887331236": {
+      "class": 6,
+      "label": "Tropos Rallye",
+      "price": 102000,
+      "model": "tropos"
+    },
+    "-1356880839": {
+      "class": 6,
+      "label": "Sentinel Classic Widebody",
+      "price": 140000,
+      "model": "sentinel4"
+    },
+    "-604287337": {
+      "class": 7,
+      "label": "2023 Kongtech Presto",
+      "model": "jesko"
+    },
+    "-2137594733": {
+      "class": 7,
+      "label": "2016 Mercia Benzari Ayemg",
+      "price": 200000,
+      "model": "ayemg"
+    },
+    "-32908761": {
+      "class": 6,
+      "label": "2016 Nihon GT (ARE 35)",
+      "price": 1575000,
+      "model": "are35"
+    },
+    "16646064": {
+      "class": 4,
+      "label": "Virgo Classic",
+      "price": 42000,
+      "model": "virgo3"
+    },
+    "858355070": {
+      "class": 16,
+      "label": "Titan 250 D",
+      "model": "titan2"
+    },
+    "-1358197432": {
+      "class": 7,
+      "label": "Tigon",
+      "price": 259000,
+      "model": "tigon"
+    },
+    "-2076478498": {
+      "class": 11,
+      "label": "Fieldmaster",
+      "model": "tractor2"
+    },
+    "1448406120": {
+      "class": 6,
+      "label": "2001 Luxis Eyes300",
+      "price": 115000,
+      "model": "eyes300"
+    },
+    "-1233807380": {
+      "class": 13,
+      "label": "Endurex Race Bike",
+      "price": 1000,
+      "model": "tribike2"
+    },
+    "-915439516": {
+      "class": 18,
+      "label": "2018 Hound Tauron",
+      "model": "21trfpis"
+    },
+    "-140902153": {
+      "class": 8,
+      "label": "Vader",
+      "price": 12000,
+      "model": "vader"
+    },
+    "51060236": {
+      "class": 15,
+      "label": "EMS Pontoon Rescue Helicopter",
+      "model": "buzzard6"
+    },
+    "464687292": {
+      "class": 5,
+      "label": "Tornado",
+      "price": 15000,
+      "model": "tornado"
+    },
+    "1933662059": {
+      "class": 9,
+      "label": "Rancher XL",
+      "model": "rancherxl2"
+    },
+    "1741861769": {
+      "class": 6,
+      "label": "Streiter",
+      "price": 54000,
+      "model": "streiter"
+    },
+    "2042703219": {
+      "class": 18,
+      "label": "Coquette D10 Pursuit",
+      "model": "polcoquette4"
+    },
+    "2136773105": {
+      "class": 2,
+      "label": "Rocoto",
+      "price": 35000,
+      "model": "rocoto"
+    },
+    "-1558399629": {
+      "class": 5,
+      "label": "Tornado Rat Rod",
+      "price": 39000,
+      "model": "tornado6"
+    },
+    "-1218829471": {
+      "class": 8,
+      "label": "2023 Low Bar",
+      "model": "lowbar"
+    },
+    "1917062038": {
+      "class": 17,
+      "label": "Trash Truck",
+      "model": "trash3"
+    },
+    "777714999": {
+      "class": 4,
+      "label": "Ruiner",
+      "model": "ruiner3"
+    },
+    "1531094468": {
+      "class": 5,
+      "label": "Tornado",
+      "price": 18000,
+      "model": "tornado2"
+    },
+    "-27326686": {
+      "class": 8,
+      "label": "Apocalypse Deathbike",
+      "model": "deathbike"
+    },
+    "1019737494": {
+      "class": 11,
+      "label": "Graintrailer",
+      "model": "graintrailer"
+    },
+    "-1477580979": {
+      "class": 1,
+      "label": "Stanier",
+      "price": 51000,
+      "model": "stanier"
+    },
+    "-1254331310": {
+      "class": 19,
+      "label": "Invade and Persuade Tank",
+      "model": "minitank"
+    },
+    "1181339704": {
+      "class": 22,
+      "label": "DR1",
+      "model": "openwheel2"
+    },
+    "-2020653691": {
+      "class": 6,
+      "label": "1996 Bravaria Editon 3",
+      "model": "m3wb"
+    },
+    "-1635068488": {
+      "class": 16,
+      "label": "B-17E Soaring Fortress",
+      "model": "b17e"
+    },
+    "1595740562": {
+      "class": 1,
+      "label": "Rapid Stanier Off Road",
+      "model": "stanier5"
+    },
+    "1672195559": {
+      "class": 8,
+      "label": "Akuma",
+      "price": 12000,
+      "model": "akuma"
+    },
+    "759625212": {
+      "class": 6,
+      "label": "2008 Mistral Evolution X",
+      "price": 90000,
+      "model": "lanex400"
+    },
+    "-1167641834": {
+      "class": 13,
+      "label": "Segway",
+      "model": "pugwayciv"
+    },
+    "-861217386": {
+      "class": 14,
+      "label": "Ameliorate 200",
+      "model": "amels200"
+    },
+    "-1098802077": {
+      "class": 17,
+      "label": "Rental Shuttle Bus",
+      "price": 10000,
+      "model": "rentalbus"
+    },
+    "-1478704292": {
+      "class": 6,
+      "label": "Nightmare ZR380",
+      "model": "zr3803"
+    },
+    "-239841468": {
+      "class": 8,
+      "label": "Diabolus",
+      "price": 12000,
+      "model": "diablous"
+    },
+    "-2103821244": {
+      "class": 17,
+      "label": "Dune",
+      "model": "rallytruck"
+    },
+    "1121330119": {
+      "class": 6,
+      "label": "Envisage",
+      "model": "envisage"
+    },
+    "-1414960708": {
+      "class": 16,
+      "label": "Hawkley HS 748",
+      "model": "hs748"
+    },
+    "-579747861": {
+      "class": 19,
+      "label": "Nightmare Scarab",
+      "model": "scarab3"
+    },
+    "-1435527158": {
+      "class": 19,
+      "label": "TM-02 Khanjali",
+      "model": "khanjali"
+    },
+    "1102544804": {
+      "class": 6,
+      "label": "Verlierer",
+      "price": 106000,
+      "model": "verlierer2"
+    },
+    "153036344": {
+      "class": 16,
+      "label": "A-10C Lightning II",
+      "model": "a10c"
+    },
+    "1802742206": {
+      "class": 12,
+      "label": "Youga Custom",
+      "price": 45000,
+      "model": "youga3"
+    },
+    "1080561763": {
+      "class": 5,
+      "label": "Supreme Lux",
+      "model": "deluxo2"
+    },
+    "255237103": {
+      "class": 4,
+      "label": "Hound Scallion Shelly GT",
+      "price": 1000000,
+      "model": "frgt5"
+    },
+    "-1864913817": {
+      "class": 2,
+      "label": "2017 Bentleigh Bustayga",
+      "model": "beng"
+    },
+    "-1227371850": {
+      "class": 18,
+      "label": "Kasaki Concurs PD Motorcycle",
+      "model": "kasaki"
+    },
+    "-240286507": {
+      "class": 18,
+      "label": "2018 Chevrox Taiga",
+      "model": "valor18ta"
+    },
+    "-759439799": {
+      "class": 6,
+      "label": "2024 Typhoon Traveler",
+      "model": "24tac"
+    },
+    "-1222329808": {
+      "class": 15,
+      "label": "CH47 Cargobob (Military)",
+      "model": "foxch47"
+    },
+    "1663218586": {
+      "class": 7,
+      "label": "T20",
+      "price": 241000,
+      "model": "t20"
+    },
+    "-589178377": {
+      "class": 4,
+      "label": "Rat-Truck",
+      "price": 48000,
+      "model": "ratloader2"
+    },
+    "84351789": {
+      "class": 16,
+      "label": "Duster 300-H",
+      "model": "duster2"
+    },
+    "-1651067813": {
+      "class": 2,
+      "label": "Radius",
+      "price": 15000,
+      "model": "radi"
+    },
+    "1925283191": {
+      "class": 15,
+      "label": "Police MH6 Little Bird",
+      "model": "buzzard5"
+    },
+    "1995793815": {
+      "class": 4,
+      "label": "1971 Plimoth Gee TX",
+      "price": 92000,
+      "model": "ffgtx"
+    },
+    "-664141241": {
+      "class": 7,
+      "label": "Krieger",
+      "price": 262000,
+      "model": "krieger"
+    },
+    "1197361861": {
+      "class": 7,
+      "label": "Texla V-Roadrunner",
+      "price": 1475000,
+      "model": "tr22"
+    },
+    "579912970": {
+      "class": 1,
+      "label": "Warrener HKR",
+      "price": 60000,
+      "model": "warrener2"
+    },
+    "-659369999": {
+      "class": 7,
+      "label": "2024 Orion 7-RS",
+      "model": "24rs7"
+    },
+    "-638562243": {
+      "class": 7,
+      "label": "Scramjet",
+      "model": "scramjet"
+    },
+    "-1293924613": {
+      "class": 4,
+      "label": "Nightmare Dominator",
+      "model": "dominator6"
+    },
+    "1441487375": {
+      "class": 6,
+      "label": "2018 Bavaria EM4 Freedom Stroll",
+      "price": 175000,
+      "model": "f82lw"
+    },
+    "2014313426": {
+      "class": 19,
+      "label": "Vetir",
+      "model": "vetir"
+    },
+    "-352682313": {
+      "class": 15,
+      "label": "DH-7 Iron Mule",
+      "model": "cargobob5"
+    },
+    "1484920335": {
+      "class": 6,
+      "label": "Jester RR Widebody",
+      "model": "jester5"
+    },
+    "1862507111": {
+      "class": 5,
+      "label": "Zion Classic",
+      "price": 69000,
+      "model": "zion3"
+    },
+    "-1444856003": {
+      "class": 18,
+      "label": "Burrito (Bail Enforcement)",
+      "model": "policet3"
+    },
+    "633712403": {
+      "class": 7,
+      "label": "Banshee 900R",
+      "price": 170000,
+      "model": "banshee2"
+    },
+    "15219735": {
+      "class": 4,
+      "label": "Hermes",
+      "price": 65000,
+      "model": "hermes"
+    },
+    "-1046553768": {
+      "class": 3,
+      "label": "2018 Mercia-Benzari Ess63",
+      "model": "ess63"
+    },
+    "451431892": {
+      "class": 6,
+      "label": "1993 Harmonia Preluge",
+      "model": "honpre"
+    },
+    "167522317": {
+      "class": 9,
+      "label": "Terminus",
+      "price": 189000,
+      "model": "terminus"
+    },
+    "-419040462": {
+      "class": 1,
+      "label": "1990 Unity Charlatan",
+      "model": "ucarl"
+    },
+    "-1007528109": {
+      "class": 16,
+      "label": "Howard NX-25",
+      "model": "howard"
+    },
+    "-1605045090": {
+      "class": 18,
+      "label": "2013 Chevrox Capricorn",
+      "model": "valorcap"
+    },
+    "-469815735": {
+      "class": 4,
+      "label": "1969 Chevrox Cavaro",
+      "price": 75000,
+      "model": "cam69"
+    },
+    "-1958428933": {
+      "class": 5,
+      "label": "Coquette D1",
+      "model": "coquette5"
+    },
+    "-578747419": {
+      "class": 4,
+      "label": "17 Chevrox Cavaro",
+      "price": 90000,
+      "model": "cam17"
+    },
+    "742705683": {
+      "class": 18,
+      "label": "1991 Chevrox PD Glazer",
+      "model": "pdglazer"
+    },
+    "-1683328900": {
+      "class": 18,
+      "label": "Sheriff Cruiser",
+      "model": "sheriff"
+    },
+    "516990260": {
+      "class": 11,
+      "label": "Utility Truck",
+      "model": "utillitruck"
+    },
+    "-1241712818": {
+      "class": 1,
+      "label": "Emperor",
+      "model": "emperor3"
+    },
+    "-947761570": {
+      "class": 10,
+      "label": "Tipper",
+      "model": "tiptruck2"
+    },
+    "1203490606": {
+      "class": 2,
+      "label": "XLS",
+      "price": 31000,
+      "model": "xls"
+    },
+    "1034187331": {
+      "class": 7,
+      "label": "Nero",
+      "price": 210000,
+      "model": "nero"
+    },
+    "108773431": {
+      "class": 6,
+      "label": "Coquette",
+      "price": 92000,
+      "model": "coquette"
+    },
+    "1123216662": {
+      "class": 1,
+      "label": "Super Diamond",
+      "price": 49000,
+      "model": "superd"
+    },
+    "-274902627": {
+      "class": 6,
+      "label": "2020 Orion AYE6",
+      "price": 99000,
+      "model": "aye6"
+    },
+    "-1210451983": {
+      "class": 4,
+      "label": "Weaponized Tampa",
+      "model": "tampa3"
+    },
+    "524108981": {
+      "class": 11,
+      "label": "Boat Trailer",
+      "model": "boattrailer"
+    },
+    "-1592388473": {
+      "class": 6,
+      "label": "15 Nihon Silver Ess15",
+      "price": 135000,
+      "model": "ess15"
+    },
+    "1695939105": {
+      "class": 9,
+      "label": "Karin Technical",
+      "model": "technical4"
+    },
+    "486987393": {
+      "class": 2,
+      "label": "Huntley S",
+      "price": 62000,
+      "model": "huntley"
+    },
+    "-2072933068": {
+      "class": 17,
+      "label": "Dashound",
+      "model": "coach"
+    },
+    "-1365403783": {
+      "class": 6,
+      "label": "2015 Lepord XR-KS GT",
+      "price": 95000,
+      "model": "xkgt"
+    },
+    "408192225": {
+      "class": 7,
+      "label": "Turismo R",
+      "price": 300000,
+      "model": "turismor"
+    },
+    "-1252811363": {
+      "class": 2,
+      "label": "2023 Hyindia Cona",
+      "model": "k22n"
+    },
+    "-1763675285": {
+      "class": 9,
+      "label": "Walton L35",
+      "price": 151000,
+      "model": "l35"
+    },
+    "-1762326590": {
+      "class": 8,
+      "label": "Harmonia Glowedwing",
+      "model": "goldwing"
+    },
+    "-291021213": {
+      "class": 6,
+      "label": "Sultan RS Classic",
+      "price": 120000,
+      "model": "sultan3"
+    },
+    "-1686870033": {
+      "class": 7,
+      "label": "Orion XR62 Wagon",
+      "price": 75000,
+      "model": "xr62"
+    },
+    "1215871760": {
+      "class": 4,
+      "label": "1966 Chevrox Nebula",
+      "model": "66nov"
+    },
+    "-1887798322": {
+      "class": 9,
+      "label": "Creep Strangler",
+      "price": 55000,
+      "model": "jp12"
+    },
+    "198399297": {
+      "class": 7,
+      "label": "2019 Pastrami Hyena",
+      "model": "heyena"
+    },
+    "-1770643266": {
+      "class": 11,
+      "label": "Trailer",
+      "model": "tvtrailer"
+    },
+    "686516684": {
+      "class": 15,
+      "label": "Police Pontoon Helicopter",
+      "model": "buzzard4"
+    },
+    "-845961253": {
+      "class": 9,
+      "label": "Monster",
+      "model": "monster"
+    },
+    "-2039755226": {
+      "class": 4,
+      "label": "Faction Custom Donk",
+      "price": 46000,
+      "model": "faction3"
+    },
+    "1474015055": {
+      "class": 8,
+      "label": "Kasaki OUR1",
+      "price": 45000,
+      "model": "r1"
+    },
+    "1133471123": {
+      "class": 6,
+      "label": "S95",
+      "model": "s95"
+    },
+    "166056560": {
+      "class": 2,
+      "label": "Mercia Benzari GW65",
+      "price": 140000,
+      "model": "gw65"
+    },
+    "1037059299": {
+      "class": 15,
+      "label": "SWAT Blackhawk",
+      "model": "swathel"
+    },
+    "-2028620891": {
+      "class": 6,
+      "label": "99 Venom Chaser",
+      "model": "99vip"
+    },
+    "349605904": {
+      "class": 4,
+      "label": "Chino",
+      "price": 52000,
+      "model": "chino"
+    },
+    "-2061049099": {
+      "class": 4,
+      "label": "Apocalypse Slamvan",
+      "model": "slamvan4"
+    },
+    "1504306544": {
+      "class": 5,
+      "label": "Torero",
+      "price": 195000,
+      "model": "torero"
+    },
+    "276773164": {
+      "class": 14,
+      "label": "Dinghy",
+      "model": "dinghy2"
+    },
+    "1009171724": {
+      "class": 4,
+      "label": "Apocalypse Impaler",
+      "model": "impaler2"
+    },
+    "340154634": {
+      "class": 22,
+      "label": "PR4",
+      "model": "formula"
+    },
+    "-276744698": {
+      "class": 14,
+      "label": "Kurtz 31 Patrol Boat",
+      "model": "patrolboat"
+    },
+    "-441645134": {
+      "class": 20,
+      "label": "Phantom FlatTop",
+      "price": 12000,
+      "model": "phantomflattop"
+    },
+    "268758436": {
+      "class": 4,
+      "label": "Tulip M-100",
+      "price": 175000,
+      "model": "tulip2"
+    },
+    "-688189648": {
+      "class": 4,
+      "label": "Apocalypse Dominator",
+      "model": "dominator4"
+    },
+    "-432814115": {
+      "class": 7,
+      "label": "Kongtech Gemeni",
+      "model": "gemeni"
+    },
+    "-602287871": {
+      "class": 5,
+      "label": "Roosevelt Valor",
+      "price": 69000,
+      "model": "btype3"
+    },
+    "-955220795": {
+      "class": 5,
+      "label": "BF Lady Bird",
+      "price": 80000,
+      "model": "ladybird6str"
+    },
+    "-808831384": {
+      "class": 2,
+      "label": "Baller",
+      "price": 20000,
+      "model": "baller"
+    },
+    "-1589129298": {
+      "class": 6,
+      "label": "Mazerunner EffD-X7",
+      "price": 1125000,
+      "model": "fd"
+    },
+    "1918798425": {
+      "class": 8,
+      "label": "Harlan Crashout",
+      "price": 55000,
+      "model": "brkout2"
+    },
+    "-394074634": {
+      "class": 2,
+      "label": "Dubsta",
+      "price": 33000,
+      "model": "dubsta2"
+    },
+    "-899509638": {
+      "class": 4,
+      "label": "Virgo Classic Custom",
+      "price": 51000,
+      "model": "virgo2"
+    },
+    "841808271": {
+      "class": 0,
+      "label": "Rhapsody",
+      "price": 57000,
+      "model": "rhapsody"
+    },
+    "-2115793025": {
+      "class": 8,
+      "label": "Avarus",
+      "price": 10000,
+      "model": "avarus"
+    },
+    "-1987130134": {
+      "class": 12,
+      "label": "Boxville",
+      "price": 15000,
+      "model": "boxville"
+    },
+    "-1297672541": {
+      "class": 6,
+      "label": "Jester",
+      "price": 105000,
+      "model": "jester"
+    },
+    "-613725916": {
+      "class": 16,
+      "label": "Xero Blimp",
+      "model": "blimp2"
+    },
+    "-1168952148": {
+      "class": 2,
+      "label": "Toros",
+      "price": 70000,
+      "model": "toros"
+    },
+    "-713569950": {
+      "class": 17,
+      "label": "Bus",
+      "model": "bus"
+    },
+    "1069929536": {
+      "class": 12,
+      "label": "Bobcat XL",
+      "price": 25000,
+      "model": "bobcatxl"
+    },
+    "1794105431": {
+      "class": 7,
+      "label": "2021 Ramberini Evo2",
+      "model": "evo2"
+    },
+    "-977717902": {
+      "class": 6,
+      "label": "1993 Nihon GT (ARE 33)",
+      "price": 1237500,
+      "model": "gxr33"
+    }
+  },
+  "statusCode": 200
+}

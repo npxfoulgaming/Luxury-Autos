@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Casino Imports - Luxury Autos</title>
+    <meta name="title" content="Casino Imports - Luxury Autos">
+    <meta name="description" content="A Catalog for the Luxury Autos to help you find your import dream car easily.">
+    <meta property="twitter:image" content="https://i.postimg.cc/vZWjpPw9/banner-min.png">
+    <link rel="icon" href="https://i.postimg.cc/T25wYrTT/legacyrpnepal.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/view.css" />
+    <script>
+        const category = "heroic",
+            title = "Casino",
+            server = "";
+    </script>
+</head>
+<div id="page">
+    <h1><a href="/?expires=&amp;s=">Casino Imports</a></h1>
+    <p id="footer">© Luxury Autos By FouL Gaming</p></div>
+<body>
+    <div id="page">
+        <h1><a href="/?expires=&s=">Casino Imports</a></h1>
+        <div id="vehicles"></div>
+    </div>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/polyfill.js"></script>
+    <script src="/js/view.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div id="vehicles"></div>
+
+<script>
+$(document).ready(function () {
+    $.getJSON("/cars.json", function (response) {
+        const vehiclesData = response.data;
+        const $vehicles = $("#vehicles");
+        $vehicles.empty();
+
+        // Different clip-path styles
+        const clipPaths = [
+            "polygon(0 0, 100% 0, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%)",
+            "polygon(0 80px, 80px 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 80px))",
+            "polygon(0 0, calc(100% - 80px) 0, 100% 80px, 100% 100%, 0 100%)",
+            "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
+        ];
+
+        Object.entries(vehiclesData).forEach(([modelHash, car], index) => {
+            const invert = index % 2 === 0 ? "row-reverse" : "row";
+            const price = car.nprprice ?? car.price ?? "N/A";
+            const clip = clipPaths[index % clipPaths.length];
+
+            const html = `
+                <div style="display:flex;flex-direction:${invert};margin:10px 0;border:1px solid #555;overflow:hidden;border-radius:6px;">
+                    
+                    <div style="flex:1;padding:15px;background:rgba(255,255,255,0.9);color:#000;display:flex;flex-direction:column;justify-content:space-between;">
+                        <div>
+                            <div style="font-size:18px;font-weight:bold;">${car.label}</div>
+                            <div style="font-size:14px;color:#444;margin-top:5px;">रु ${price}</div>
+                            <div style="font-size:12px;opacity:0.7;margin-top:8px;">${car.model}</div>
+                        </div>
+                        <div style="display:flex;gap:6px;margin-top:10px;">
+                            <div style="width:16px;height:16px;border-radius:50%;background:#000;border:1px solid #111;"></div>
+                            <div style="width:16px;height:16px;border-radius:50%;background:#eee;border:1px solid #111;"></div>
+                            <div style="width:16px;height:16px;border-radius:50%;background:red;border:1px solid #111;"></div>
+                            <div style="width:16px;height:16px;border-radius:50%;background:green;border:1px solid #111;"></div>
+                            <div style="width:16px;height:16px;border-radius:50%;background:blue;border:1px solid #111;"></div>
+                        </div>
+                    </div>
+
+                    <div style="flex:1.3;overflow:hidden;clip-path:${clip};">
+                        <img src="/images/casino/${car.model}.png" alt="${car.label}" style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy">
+                    </div>
+                </div>
+            `;
+            $vehicles.append(html);
+        });
+    });
+});
+    </script>
+</body>
+
+</html>

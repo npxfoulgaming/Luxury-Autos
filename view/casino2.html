@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Casino Imports - Luxury Autos</title>
+    <meta name="title" content="Casino Imports - Luxury Autos">
+    <meta name="description" content="A Catalog for the Luxury Autos to help you find your import dream car easily.">
+    <meta property="twitter:image" content="https://i.postimg.cc/vZWjpPw9/banner-min.png">
+    <link rel="icon" href="https://i.postimg.cc/T25wYrTT/legacyrpnepal.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/view.css" />
+    <script>
+        const category = "heroic",
+            title = "Casino",
+            server = "";
+    </script>
+</head>
+<div id="page">
+    <h1><a href="/?expires=&amp;s=">Casino Imports</a></h1>
+    <p id="footer">© Luxury Autos By FouL Gaming</p></div>
+<body>
+    <div id="page">
+        <h1><a href="/?expires=&s=">Casino Imports</a></h1>
+        <div id="vehicles"></div>
+    </div>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/polyfill.js"></script>
+    <script src="/js/view.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $.getJSON("/cars.json", function (response) {
+        const vehiclesData = response.data;
+        const $vehicles = $("#vehicles");
+        $vehicles.empty();
+
+        // Exact sequence of clip-paths you want
+        const clipPaths = [
+            "polygon(0 0, 100% 0, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%)", // 1st
+            "polygon(0 80px, 80px 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 80px))",   // 2nd
+            "polygon(0 0, calc(100% - 80px) 0, 100% 80px, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%)", // 3rd
+            "polygon(0 80px, 80px 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 80px))",   // 4th
+            "polygon(0 0, calc(100% - 80px) 0, 100% 80px, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%)", // 5th
+            "polygon(0 80px, 80px 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 80px))",   // 6th
+            "polygon(0 0, calc(100% - 80px) 0, 100% 80px, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%)", // 7th
+            "polygon(0 80px, 80px 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 80px))",   // 8th
+            // Keep extending for 9th, 10th... or fallback below
+        ];
+
+        // Fallbacks for last items
+        const fallbackPaths = [
+            "polygon(0 0, calc(100% - 80px) 0, 100% 80px, 100% 100%, 0 100%)",
+            "polygon(0 80px, 80px 0, 100% 0, 100% 100%, 0 100%)"
+        ];
+
+        Object.entries(vehiclesData).forEach(([modelHash, car], index) => {
+            const invertClass = index % 2 === 0 ? "invert" : "";
+            const price = car.nprprice ?? car.price ?? "N/A";
+
+            // Use your defined sequence, fallback if out of range
+            let clip = clipPaths[index] || fallbackPaths[index % fallbackPaths.length];
+
+            const html = `
+                <div class="vehicle ${invertClass}" data-model="${car.model}" data-hash="${modelHash}">
+                    <div class="details">
+                        <div class="inner">
+                            <span>${car.label}</span>
+                            <small>रु ${price}</small>
+                            <pre>${car.model}</pre>
+                        </div>
+                        <div class="colors">
+                            <div class="color" data-color="mb" title="Matte Black"></div>
+                            <div class="color" data-color="mw" title="Matte White"></div>
+                            <div class="color" data-color="r" title="Red"></div>
+                            <div class="color" data-color="g" title="Green"></div>
+                            <div class="color" data-color="b" title="Blue"></div>
+                        </div>
+                    </div>
+                    <div class="image" style="clip-path: ${clip}">
+                        <img alt="${car.label}" src="/images/casino/${car.model}.png" loading="lazy">
+                    </div>
+                </div>
+            `;
+            $vehicles.append(html);
+        });
+    });
+});
+</script>
+
+</body>
+
+</html>
