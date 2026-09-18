@@ -51,7 +51,7 @@ h1 {
     padding: 10px 20px;
     font-size: 30px;
     color: #000;
-    z-index: 100;
+    z-index: 1000;
     margin: 0;
     clip-path: polygon(
         0 0,
@@ -86,10 +86,6 @@ h1 a {
     flex-direction: row-reverse;
 }
 
-/* --------------------------------------------------
-   ROTATION
--------------------------------------------------- */
-
 .vehicle .details::before {
     content: "";
     position: absolute;
@@ -114,10 +110,6 @@ body.loading-rotation .vehicle .details::before {
     content: "Loading...";
 }
 
-/* --------------------------------------------------
-   DETAILS
--------------------------------------------------- */
-
 .vehicle .details {
     width: 100%;
     height: calc(100% - 166px);
@@ -126,7 +118,9 @@ body.loading-rotation .vehicle .details::before {
     -webkit-backdrop-filter: blur(15px);
     margin: 83px 6px;
     position: relative;
-    transition: box-shadow 0.25s ease;
+    transition:
+        box-shadow 0.25s ease,
+        background 0.25s ease;
 }
 
 .vehicle:first-child .details {
@@ -148,51 +142,54 @@ body.loading-rotation .vehicle .details::before {
     max-width: 100%;
 }
 
-.vehicle .details span {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-/* --------------------------------------------------
+/* ==========================================================
    VEHICLE NAME
--------------------------------------------------- */
+========================================================== */
 
 .vehicle-name {
     display: inline-flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 7px;
+    gap: 8px;
     position: relative;
+    max-width: 100%;
 }
 
 .vehicle-name > span {
+    font-size: 22px;
+    font-weight: 600;
     display: inline-block;
 }
 
-/* --------------------------------------------------
+/* ==========================================================
    LINK ICON
--------------------------------------------------- */
+
+   JavaScript inserts this automatically.
+========================================================== */
 
 .vehicle-link {
-    display: inline-flex;
+    display: inline-flex !important;
     align-items: center;
     justify-content: center;
 
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
 
-    flex: 0 0 24px;
+    flex: 0 0 26px;
+
+    padding: 0;
+    margin: 0;
 
     color: #000;
     text-decoration: none;
 
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
 
     transform: translateX(-5px) scale(0.85);
 
-    border-radius: 5px;
+    pointer-events: none;
+
+    border-radius: 6px;
 
     transition:
         opacity 0.18s ease,
@@ -202,21 +199,34 @@ body.loading-rotation .vehicle .details::before {
 }
 
 /*
- * Show the icon whenever the name/details is hovered.
- */
-.vehicle .details:hover .vehicle-link,
+   Show when hovering the vehicle name.
+*/
 .vehicle-name:hover .vehicle-link,
-.vehicle-link:focus-visible {
-    opacity: 0.8;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateX(0) scale(1);
+
+/*
+   Also show when hovering the details.
+*/
+.vehicle .details:hover .vehicle-link,
+
+/*
+   Keyboard accessibility.
+*/
+.vehicle-link:focus-visible,
+
+/*
+   Keep it visible after copying.
+*/
+.vehicle-link.copied {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(0) scale(1) !important;
 }
 
 .vehicle-link:hover {
     opacity: 1 !important;
-    background: rgba(255, 255, 255, 0.65);
-    transform: translateX(0) scale(1.08);
+    background: rgba(255, 255, 255, 0.75);
+    transform: translateX(0) scale(1.1) !important;
 }
 
 .vehicle-link svg {
@@ -226,9 +236,9 @@ body.loading-rotation .vehicle .details::before {
     pointer-events: none;
 }
 
-/* --------------------------------------------------
-   TOOLTIP
--------------------------------------------------- */
+/* ==========================================================
+   LINK TOOLTIP
+========================================================== */
 
 .vehicle-link::after {
     content: "Copy link";
@@ -236,19 +246,20 @@ body.loading-rotation .vehicle .details::before {
     position: absolute;
 
     left: 50%;
-    bottom: calc(100% + 7px);
+    bottom: calc(100% + 8px);
 
-    transform: translate(-50%, 4px);
+    transform: translate(-50%, 5px);
 
-    padding: 5px 8px;
+    padding: 5px 9px;
 
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.88);
     color: #fff;
 
     font-family: Montserrat, sans-serif;
     font-size: 11px;
     font-weight: 500;
 
+    line-height: 1;
     white-space: nowrap;
 
     border-radius: 5px;
@@ -263,24 +274,14 @@ body.loading-rotation .vehicle .details::before {
         visibility 0.15s ease,
         transform 0.15s ease;
 
-    z-index: 50;
+    z-index: 100;
 }
 
 .vehicle-link:hover::after {
+    content: "Copy link";
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
-}
-
-/* --------------------------------------------------
-   COPIED STATE
--------------------------------------------------- */
-
-.vehicle-link.copied {
-    opacity: 1 !important;
-    visibility: visible;
-    pointer-events: auto;
-    background: rgba(255, 255, 255, 0.75);
 }
 
 .vehicle-link.copied::after {
@@ -290,9 +291,9 @@ body.loading-rotation .vehicle .details::before {
     transform: translate(-50%, 0);
 }
 
-/* --------------------------------------------------
+/* ==========================================================
    PRICE / MODEL
--------------------------------------------------- */
+========================================================== */
 
 .vehicle .details small {
     display: block;
@@ -313,9 +314,9 @@ body.loading-rotation .vehicle .details::before {
     text-align: left;
 }
 
-/* --------------------------------------------------
+/* ==========================================================
    COLORS
--------------------------------------------------- */
+========================================================== */
 
 .vehicle .details .colors {
     position: absolute;
@@ -386,9 +387,9 @@ body.loading-rotation .vehicle .details::before {
     right: unset;
 }
 
-/* --------------------------------------------------
-   IMAGE
--------------------------------------------------- */
+/* ==========================================================
+   VEHICLE IMAGE
+========================================================== */
 
 .vehicle .image {
     width: calc(50% + 37px);
@@ -409,9 +410,9 @@ body.loading-rotation .vehicle .details::before {
     object-fit: cover;
 }
 
-/* --------------------------------------------------
+/* ==========================================================
    HASH TARGET
--------------------------------------------------- */
+========================================================== */
 
 .vehicle.hash-target {
     z-index: 20;
@@ -420,7 +421,7 @@ body.loading-rotation .vehicle .details::before {
 .vehicle.hash-target .details {
     box-shadow:
         0 0 0 3px rgba(0, 0, 0, 0.25),
-        0 10px 35px rgba(0, 0, 0, 0.2);
+        0 15px 40px rgba(0, 0, 0, 0.22);
 }
 
 .vehicle.hash-target .vehicle-name > span {
@@ -429,9 +430,9 @@ body.loading-rotation .vehicle .details::before {
     text-underline-offset: 4px;
 }
 
-/* --------------------------------------------------
+/* ==========================================================
    FOOTER
--------------------------------------------------- */
+========================================================== */
 
 #footer {
     background: rgba(255, 255, 255, 0.5);
@@ -449,7 +450,7 @@ body.loading-rotation .vehicle .details::before {
     font-size: 15px;
     font-style: italic;
 
-    z-index: 100;
+    z-index: 1000;
 
     clip-path: polygon(
         0 0,
@@ -460,9 +461,9 @@ body.loading-rotation .vehicle .details::before {
     );
 }
 
-/* --------------------------------------------------
+/* ==========================================================
    MOBILE
--------------------------------------------------- */
+========================================================== */
 
 @media (max-width: 700px) {
     #page {
@@ -499,8 +500,23 @@ body.loading-rotation .vehicle .details::before {
         padding: 12px;
     }
 
-    .vehicle .details span {
+    .vehicle-name {
+        gap: 5px;
+    }
+
+    .vehicle-name > span {
         font-size: 16px;
+    }
+
+    .vehicle-link {
+        width: 22px;
+        height: 22px;
+        flex-basis: 22px;
+    }
+
+    .vehicle-link svg {
+        width: 15px;
+        height: 15px;
     }
 
     .vehicle .details small {
@@ -509,17 +525,6 @@ body.loading-rotation .vehicle .details::before {
 
     .vehicle .details pre {
         font-size: 11px;
-    }
-
-    .vehicle-link {
-        width: 21px;
-        height: 21px;
-        flex-basis: 21px;
-    }
-
-    .vehicle-link svg {
-        width: 15px;
-        height: 15px;
     }
 
     .vehicle .details .colors {
