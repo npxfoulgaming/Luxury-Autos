@@ -3,166 +3,185 @@
 
     /*
      * ============================================================
-     * Luxury Autos vehicle deep-link system
+     * LUXURY AUTOS
+     * Advanced vehicle deep-link / navigation system
      *
      * Example:
-     * https://luxury-autos.vercel.app/view/heroic.html/#xkgt
      *
-     * No changes to view/*.html are required.
+     * /view/heroic.html/#xkgt
+     *
+     * NO view/*.html modification required.
      * ============================================================
      */
 
-    const pageTitle = typeof title !== "undefined" ? title : "";
+    const pageTitle =
+        typeof title !== "undefined"
+            ? title
+            : "";
+
     const vehicleCategory =
-        typeof category !== "undefined" ? category : "";
+        typeof category !== "undefined"
+            ? category
+            : "";
+
     const serverName =
-        typeof server !== "undefined" ? server : "";
+        typeof server !== "undefined"
+            ? server
+            : "";
 
-    const key = pageTitle + " Imports";
+    const jsonKey =
+        pageTitle + " Imports";
 
-    const formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
+    const formatter =
+        new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
 
-    /*
-     * ------------------------------------------------------------
-     * Background
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       BACKGROUND
+       ============================================================ */
+
     if (vehicleCategory) {
-        $("head").append(
-            `<style>
+        $("head").append(`
+            <style>
                 body::before {
-                    background-image: url("/images/main/${vehicleCategory}_floor.png");
+                    background-image:
+                        url("/images/main/${vehicleCategory}_floor.png");
                 }
-            </style>`
-        );
+            </style>
+        `);
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Find the actual vehicle container.
-     *
-     * Some older generated pages can contain duplicate #vehicles.
-     * We choose the container which already contains vehicles.
-     * Otherwise use the first one.
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       VEHICLE CONTAINER
+       ============================================================ */
+
     function getVehiclesContainer() {
-        const containers = Array.from(
-            document.querySelectorAll("#vehicles")
-        );
+        const containers =
+            Array.from(
+                document.querySelectorAll(
+                    "#vehicles"
+                )
+            );
 
         if (!containers.length) {
             return null;
         }
 
-        const existing = containers.find(
-            (container) =>
-                container.querySelector(".vehicle")
-        );
+        /*
+         * Some old pages may contain duplicate
+         * #vehicles elements.
+         *
+         * Prefer the one which already has vehicles.
+         */
+        const populated =
+            containers.find(
+                (container) =>
+                    container.querySelector(
+                        ".vehicle"
+                    )
+            );
 
-        return existing || containers[0];
+        return (
+            populated ||
+            containers[0]
+        );
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Get vehicle model
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       MODEL
+       ============================================================ */
+
     function getVehicleModel(vehicle) {
         if (!vehicle) {
             return "";
         }
 
         return (
-            vehicle.getAttribute("data-model") ||
             vehicle.dataset.model ||
+            vehicle.getAttribute(
+                "data-model"
+            ) ||
             ""
         ).trim();
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Get the model from the browser URL.
-     *
-     * Supports:
-     * #xkgt
-     * #rmodsuprapandem
-     * #some%20model
-     * ------------------------------------------------------------
-     */
-    function getHashModel() {
-        const rawHash = window.location.hash;
+    /* ============================================================
+       CURRENT HASH
+       ============================================================ */
 
-        if (!rawHash || rawHash.length <= 1) {
+    function getHashModel() {
+        const hash =
+            window.location.hash;
+
+        if (
+            !hash ||
+            hash.length <= 1
+        ) {
             return "";
         }
 
         try {
             return decodeURIComponent(
-                rawHash.substring(1)
+                hash.substring(1)
             ).trim();
         } catch {
-            return rawHash.substring(1).trim();
+            return hash
+                .substring(1)
+                .trim();
         }
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Build the exact shareable URL.
-     *
-     * Example:
-     * https://luxury-autos.vercel.app/view/heroic.html/#xkgt
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       SHARE URL
+       ============================================================ */
+
     function buildVehicleUrl(model) {
-        const url = new URL(
-            window.location.href
-        );
+        const url =
+            new URL(
+                window.location.href
+            );
 
         url.hash = model;
 
         return url.href;
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Find a vehicle safely.
-     *
-     * Do NOT use:
-     *
-     * document.querySelector(`[data-model="${model}"]`)
-     *
-     * because a model can contain characters which break a CSS
-     * selector.
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       FIND VEHICLE
+       ============================================================ */
+
     function findVehicle(model) {
-        if (!model) {
+        const container =
+            getVehiclesContainer();
+
+        if (!container || !model) {
             return null;
         }
 
-        const container = getVehiclesContainer();
+        const wanted =
+            model.toLowerCase();
 
-        if (!container) {
-            return null;
-        }
+        const vehicles =
+            container.querySelectorAll(
+                ".vehicle"
+            );
 
-        const wanted = model.toLowerCase();
-
-        const vehicles = container.querySelectorAll(
-            ".vehicle"
-        );
-
-        for (const vehicle of vehicles) {
+        for (
+            const vehicle
+            of vehicles
+        ) {
             const current =
-                getVehicleModel(vehicle).toLowerCase();
+                getVehicleModel(
+                    vehicle
+                ).toLowerCase();
 
-            if (current === wanted) {
+            if (
+                current === wanted
+            ) {
                 return vehicle;
             }
         }
@@ -170,49 +189,62 @@
         return null;
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Copy text.
-     *
-     * Clipboard API first.
-     * execCommand fallback for embedded browsers / older browsers.
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       CLIPBOARD
+       ============================================================ */
+
     async function copyToClipboard(text) {
         try {
             if (
                 navigator.clipboard &&
-                typeof navigator.clipboard.writeText === "function"
+                typeof navigator
+                    .clipboard
+                    .writeText ===
+                    "function"
             ) {
-                await navigator.clipboard.writeText(text);
+                await navigator
+                    .clipboard
+                    .writeText(text);
+
                 return true;
             }
         } catch (error) {
             console.warn(
-                "Clipboard API failed, using fallback.",
+                "Clipboard API failed.",
                 error
             );
         }
 
+        /*
+         * Fallback for older / embedded browsers.
+         */
         try {
             const textarea =
-                document.createElement("textarea");
+                document.createElement(
+                    "textarea"
+                );
 
             textarea.value = text;
 
-            textarea.setAttribute(
-                "readonly",
-                ""
+            textarea.readOnly = true;
+
+            textarea.style.position =
+                "fixed";
+
+            textarea.style.left =
+                "-9999px";
+
+            textarea.style.top = "0";
+
+            textarea.style.opacity =
+                "0";
+
+            document.body.appendChild(
+                textarea
             );
 
-            textarea.style.position = "fixed";
-            textarea.style.top = "0";
-            textarea.style.left = "-9999px";
-            textarea.style.opacity = "0";
-
-            document.body.appendChild(textarea);
-
             textarea.focus();
+
             textarea.select();
 
             textarea.setSelectionRange(
@@ -220,15 +252,17 @@
                 textarea.value.length
             );
 
-            const successful =
-                document.execCommand("copy");
+            const success =
+                document.execCommand(
+                    "copy"
+                );
 
             textarea.remove();
 
-            return successful;
+            return success;
         } catch (error) {
             console.error(
-                "Unable to copy vehicle link:",
+                "Copy failed:",
                 error
             );
 
@@ -236,19 +270,26 @@
         }
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Link icon
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       LINK ICON
+       ============================================================ */
+
     function createLinkIcon(model) {
         const link =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
 
-        link.className = "vehicle-link";
+        link.className =
+            "vehicle-link";
 
         link.href =
-            buildVehicleUrl(model);
+            buildVehicleUrl(
+                model
+            );
+
+        link.dataset.model =
+            model;
 
         link.setAttribute(
             "aria-label",
@@ -257,10 +298,8 @@
 
         link.setAttribute(
             "title",
-            "Copy link"
+            "Copy vehicle link"
         );
-
-        link.dataset.model = model;
 
         link.innerHTML = `
             <svg
@@ -272,111 +311,132 @@
                 stroke-linejoin="round"
                 aria-hidden="true"
             >
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.71 1.71"></path>
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
             </svg>
-            <span class="link-tooltip">Copy link</span>
+
+            <span class="link-tooltip">
+                Copy vehicle link
+            </span>
         `;
 
         return link;
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Add / repair link icon on ONE vehicle.
-     *
-     * Works with:
-     * - existing static HTML
-     * - dynamically created vehicles
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       DECORATE ONE VEHICLE
+       ============================================================ */
+
     function decorateVehicle(vehicle) {
         if (!vehicle) {
             return;
         }
 
         const model =
-            getVehicleModel(vehicle);
+            getVehicleModel(
+                vehicle
+            );
 
         if (!model) {
             return;
         }
 
         /*
-         * Give the vehicle its actual HTML id.
-         *
-         * This is also useful as a native browser fragment target.
+         * Give the actual vehicle a real HTML ID.
          */
         vehicle.id = model;
 
-        const inner =
+        const details =
             vehicle.querySelector(
-                ".details .inner"
+                ".details"
+            );
+
+        if (!details) {
+            return;
+        }
+
+        const inner =
+            details.querySelector(
+                ".inner"
             );
 
         if (!inner) {
             return;
         }
 
-        const nameSpan =
-            inner.querySelector(":scope > span");
-
-        if (!nameSpan) {
-            return;
-        }
-
         /*
-         * If already decorated, only make sure the URL is correct.
+         * ========================================================
+         * NAME
+         * ========================================================
          */
-        let wrapper =
+
+        const originalName =
             inner.querySelector(
-                ":scope > .vehicle-name"
+                ":scope > span"
             );
 
-        if (!wrapper) {
-            wrapper =
-                document.createElement("div");
+        if (
+            originalName &&
+            !inner.querySelector(
+                ".vehicle-name"
+            )
+        ) {
+            const nameWrapper =
+                document.createElement(
+                    "div"
+                );
 
-            wrapper.className =
+            nameWrapper.className =
                 "vehicle-name";
 
             inner.insertBefore(
-                wrapper,
-                nameSpan
+                nameWrapper,
+                originalName
             );
 
-            wrapper.appendChild(
-                nameSpan
+            nameWrapper.appendChild(
+                originalName
             );
         }
 
         /*
-         * Don't create duplicate icons.
+         * ========================================================
+         * LINK BUTTON
+         *
+         * It lives inside .details,
+         * positioned on the same side as .colors.
+         * ========================================================
          */
+
         let link =
-            wrapper.querySelector(
+            details.querySelector(
                 ".vehicle-link"
             );
 
         if (!link) {
             link =
-                createLinkIcon(model);
+                createLinkIcon(
+                    model
+                );
 
-            wrapper.appendChild(link);
+            details.appendChild(
+                link
+            );
         } else {
             link.href =
-                buildVehicleUrl(model);
+                buildVehicleUrl(
+                    model
+                );
 
             link.dataset.model =
                 model;
         }
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Decorate every currently existing vehicle.
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       DECORATE ALL VEHICLES
+       ============================================================ */
+
     function decorateAllVehicles() {
         const container =
             getVehiclesContainer();
@@ -395,18 +455,108 @@
         );
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Scroll directly to vehicle.
-     *
-     * We calculate the scroll position manually instead of relying
-     * only on scrollIntoView because the original design uses
-     * negative margins between vehicle sections.
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       ADVANCED SMOOTH SCROLL
+       ============================================================ */
+
+    function easeInOutCubic(t) {
+        return t < 0.5
+            ? 4 * t * t * t
+            : 1 -
+                Math.pow(
+                    -2 * t + 2,
+                    3
+                ) /
+                    2;
+    }
+
+    function smoothScrollTo(
+        targetY,
+        duration = 1250
+    ) {
+        const startY =
+            window.scrollY;
+
+        const distance =
+            targetY - startY;
+
+        /*
+         * Don't animate tiny movements.
+         */
+        if (
+            Math.abs(distance) <
+            5
+        ) {
+            window.scrollTo(
+                0,
+                targetY
+            );
+
+            return;
+        }
+
+        let startTime =
+            null;
+
+        function animation(
+            currentTime
+        ) {
+            if (
+                startTime === null
+            ) {
+                startTime =
+                    currentTime;
+            }
+
+            const elapsed =
+                currentTime -
+                startTime;
+
+            const progress =
+                Math.min(
+                    elapsed /
+                        duration,
+                    1
+                );
+
+            const eased =
+                easeInOutCubic(
+                    progress
+                );
+
+            window.scrollTo(
+                0,
+                startY +
+                    distance *
+                        eased
+            );
+
+            if (
+                progress < 1
+            ) {
+                requestAnimationFrame(
+                    animation
+                );
+            } else {
+                window.scrollTo(
+                    0,
+                    targetY
+                );
+            }
+        }
+
+        requestAnimationFrame(
+            animation
+        );
+    }
+
+    /* ============================================================
+       SCROLL TO VEHICLE
+       ============================================================ */
+
     function scrollToVehicle(
         model,
-        smooth = true
+        animated = true
     ) {
         const vehicle =
             findVehicle(model);
@@ -416,80 +566,102 @@
         }
 
         /*
-         * Remove previous highlight.
+         * Remove old target.
          */
         document
             .querySelectorAll(
                 ".vehicle.hash-target"
             )
-            .forEach((element) => {
-                element.classList.remove(
-                    "hash-target"
-                );
-            });
+            .forEach(
+                (element) => {
+                    element.classList.remove(
+                        "hash-target"
+                    );
+                }
+            );
 
+        /*
+         * Target selected vehicle.
+         */
         vehicle.classList.add(
             "hash-target"
         );
 
-        const rect =
-            vehicle.getBoundingClientRect();
-
         /*
-         * Keep the fixed title/header away from
-         * the top of the vehicle.
+         * Wait one frame so the browser
+         * has applied the target styling.
          */
-        const headerOffset =
-            window.innerWidth <= 700
-                ? 75
-                : 100;
+        requestAnimationFrame(
+            () => {
+                const rect =
+                    vehicle.getBoundingClientRect();
 
-        const targetTop =
-            window.scrollY +
-            rect.top -
-            headerOffset;
+                const viewportHeight =
+                    window.innerHeight;
 
-        window.scrollTo({
-            top: Math.max(
-                0,
-                targetTop
-            ),
-            behavior:
-                smooth
-                    ? "smooth"
-                    : "auto"
-        });
+                /*
+                 * Center the vehicle in the
+                 * viewport rather than simply
+                 * placing it at the top.
+                 */
+                const vehicleCenter =
+                    rect.top +
+                    rect.height / 2;
 
-        /*
-         * Remove highlight later.
-         */
-        window.setTimeout(() => {
-            vehicle.classList.remove(
-                "hash-target"
-            );
-        }, 2500);
+                const viewportCenter =
+                    viewportHeight / 2;
+
+                const difference =
+                    vehicleCenter -
+                    viewportCenter;
+
+                const targetY =
+                    window.scrollY +
+                    difference;
+
+                if (animated) {
+                    smoothScrollTo(
+                        Math.max(
+                            0,
+                            targetY
+                        ),
+                        1350
+                    );
+                } else {
+                    window.scrollTo(
+                        0,
+                        Math.max(
+                            0,
+                            targetY
+                        )
+                    );
+                }
+
+                /*
+                 * Extra visual pulse.
+                 */
+                window.setTimeout(
+                    () => {
+                        vehicle.classList.remove(
+                            "hash-target"
+                        );
+                    },
+                    2800
+                );
+            }
+        );
 
         return true;
     }
 
-    /*
-     * ------------------------------------------------------------
-     * IMPORTANT:
-     *
-     * When opening:
-     *
-     * /view/heroic.html/#xkgt
-     *
-     * the browser may process #xkgt before AJAX has created
-     * the vehicles.
-     *
-     * Therefore keep checking until the target exists.
-     * ------------------------------------------------------------
-     */
-    let hashScrollTimer = null;
+    /* ============================================================
+       WAIT FOR HASH TARGET
+       ============================================================ */
+
+    let hashTimer = null;
 
     function scrollToHashWhenReady(
-        smooth = false
+        animated = true
     ) {
         const model =
             getHashModel();
@@ -498,62 +670,68 @@
             return;
         }
 
-        if (hashScrollTimer) {
+        if (hashTimer) {
             clearTimeout(
-                hashScrollTimer
+                hashTimer
             );
         }
 
         let attempts = 0;
 
-        const tryScroll = () => {
+        function attempt() {
             attempts++;
 
             decorateAllVehicles();
 
-            const found =
+            const success =
                 scrollToVehicle(
                     model,
-                    smooth && attempts > 1
+                    animated
                 );
 
-            if (found) {
+            if (success) {
                 return;
             }
 
             /*
-             * Continue for up to 10 seconds.
+             * Keep waiting while the
+             * vehicle catalog loads.
              */
-            if (attempts < 100) {
-                hashScrollTimer =
-                    window.setTimeout(
-                        tryScroll,
+            if (
+                attempts < 120
+            ) {
+                hashTimer =
+                    setTimeout(
+                        attempt,
                         100
                     );
             }
-        };
+        }
 
-        tryScroll();
+        attempt();
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Render dynamic vehicle.
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       RENDER VEHICLE
+       ============================================================ */
+
     function renderVehicle(
         index,
         count,
         vehicle
     ) {
         const model =
-            vehicle.modelName || "";
+            vehicle.modelName ||
+            "";
 
         const label =
-            vehicle.label || model;
+            vehicle.label ||
+            model;
 
         const price =
-            Number(vehicle.price) || 0;
+            Number(
+                vehicle.price
+            ) || 0;
 
         const invert =
             index % 2 === 0;
@@ -566,84 +744,133 @@
         if (index === 0) {
             mask =
                 "0 0, 100% 0, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%";
-        } else if (index === count - 1) {
+        }
+
+        if (
+            index === count - 1
+        ) {
             mask =
                 invert
                     ? "0 0, calc(100% - 80px) 0, 100% 80px, 100% 100%, 0 100%"
                     : "0 80px, 80px 0, 100% 0, 100% 100%, 0 100%";
         }
 
-        const el =
-            document.createElement("div");
+        const element =
+            document.createElement(
+                "div"
+            );
 
-        el.className =
-            `vehicle${invert ? " invert" : ""}`;
+        element.className =
+            "vehicle" +
+            (
+                invert
+                    ? " invert"
+                    : ""
+            );
 
-        el.setAttribute(
-            "data-model",
-            model
-        );
+        element.dataset.model =
+            model;
 
-        el.id = model;
+        element.id =
+            model;
 
         /*
-         * Details
+         * DETAILS
          */
         const details =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         details.className =
             "details";
 
         const inner =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         inner.className =
             "inner";
 
         const name =
-            document.createElement("span");
+            document.createElement(
+                "span"
+            );
 
         name.textContent =
             label;
 
         const priceElement =
-            document.createElement("small");
+            document.createElement(
+                "small"
+            );
 
         priceElement.textContent =
-            formatter.format(price);
+            formatter.format(
+                price
+            );
 
         const modelElement =
-            document.createElement("pre");
+            document.createElement(
+                "pre"
+            );
 
         modelElement.textContent =
             model;
 
-        inner.appendChild(name);
-        inner.appendChild(priceElement);
-        inner.appendChild(modelElement);
+        inner.appendChild(
+            name
+        );
 
-        details.appendChild(inner);
+        inner.appendChild(
+            priceElement
+        );
+
+        inner.appendChild(
+            modelElement
+        );
+
+        details.appendChild(
+            inner
+        );
 
         /*
-         * Colors
+         * COLORS
          */
         const colors =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         colors.className =
             "colors";
 
-        const colorData = [
-            ["mb", "Matte Black"],
-            ["mw", "Matte White"],
-            ["r", "Red"],
-            ["g", "Green"],
-            ["b", "Blue"]
+        const colorList = [
+            [
+                "mb",
+                "Matte Black"
+            ],
+            [
+                "mw",
+                "Matte White"
+            ],
+            [
+                "r",
+                "Red"
+            ],
+            [
+                "g",
+                "Green"
+            ],
+            [
+                "b",
+                "Blue"
+            ]
         ];
 
-        colorData.forEach(
-            ([color, colorTitle]) => {
+        colorList.forEach(
+            ([color, name]) => {
                 const colorElement =
                     document.createElement(
                         "div"
@@ -656,7 +883,7 @@
                     color;
 
                 colorElement.title =
-                    colorTitle;
+                    name;
 
                 colors.appendChild(
                     colorElement
@@ -664,13 +891,17 @@
             }
         );
 
-        details.appendChild(colors);
+        details.appendChild(
+            colors
+        );
 
         /*
-         * Image
+         * IMAGE
          */
         const imageContainer =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         imageContainer.className =
             "image";
@@ -679,7 +910,9 @@
             `polygon(${mask})`;
 
         const image =
-            document.createElement("img");
+            document.createElement(
+                "img"
+            );
 
         image.alt =
             `${label} vehicle`;
@@ -694,143 +927,147 @@
             image
         );
 
-        el.appendChild(details);
-        el.appendChild(
+        element.appendChild(
+            details
+        );
+
+        element.appendChild(
             imageContainer
         );
 
-        return el;
+        return element;
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Load vehicles from JSON only if the page does not already
-     * contain static vehicle sections.
-     *
-     * This is important for old/generated view/*.html pages.
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       LOAD VEHICLES
+       ============================================================ */
+
     function loadVehicles() {
         const container =
             getVehiclesContainer();
 
         if (!container) {
-            console.warn(
-                "Luxury Autos: #vehicles not found."
+            scrollToHashWhenReady(
+                false
             );
-
-            scrollToHashWhenReady(false);
 
             return;
         }
 
         /*
-         * FIRST:
-         * Handle existing static HTML immediately.
+         * STATIC VEHICLES
          */
-        const existingVehicles =
+        const staticVehicles =
             container.querySelectorAll(
                 ".vehicle"
             );
 
-        if (existingVehicles.length > 0) {
+        if (
+            staticVehicles.length
+        ) {
             decorateAllVehicles();
 
             loadServerRotation();
 
             /*
-             * This handles:
-             * /view/heroic.html/#xkgt
+             * Give direct hash navigation
+             * priority after static DOM exists.
              */
-            scrollToHashWhenReady(false);
+            scrollToHashWhenReady(
+                true
+            );
 
             return;
         }
 
         /*
-         * No static vehicles.
-         * Load the normal JSON catalog.
+         * DYNAMIC VEHICLES
          */
         $.get(
             "/json?_=" +
                 Date.now()
         )
-            .done((data) => {
-                const vehicles =
-                    Array.isArray(data?.[key])
-                        ? data[key]
-                        : [];
-
-                vehicles.sort(
-                    (a, b) =>
-                        String(
-                            a?.label || ""
-                        ).localeCompare(
-                            String(
-                                b?.label || ""
-                            )
+            .done(
+                (data) => {
+                    const vehicles =
+                        Array.isArray(
+                            data?.[
+                                jsonKey
+                            ]
                         )
-                );
+                            ? data[
+                                jsonKey
+                            ]
+                            : [];
 
-                /*
-                 * Clear the correct container.
-                 */
-                container.innerHTML =
-                    "";
+                    vehicles.sort(
+                        (a, b) =>
+                            String(
+                                a?.label ||
+                                    ""
+                            ).localeCompare(
+                                String(
+                                    b?.label ||
+                                        ""
+                                )
+                            )
+                    );
 
-                vehicles.forEach(
-                    (vehicle, index) => {
-                        const element =
-                            renderVehicle(
-                                index,
-                                vehicles.length,
-                                vehicle
+                    container.innerHTML =
+                        "";
+
+                    vehicles.forEach(
+                        (
+                            vehicle,
+                            index
+                        ) => {
+                            container.appendChild(
+                                renderVehicle(
+                                    index,
+                                    vehicles.length,
+                                    vehicle
+                                )
                             );
+                        }
+                    );
 
-                        container.appendChild(
-                            element
-                        );
-                    }
-                );
+                    decorateAllVehicles();
 
-                decorateAllVehicles();
+                    addFooter();
 
-                addFooter();
+                    loadServerRotation();
 
-                loadServerRotation();
+                    /*
+                     * Important:
+                     * after rendering, scroll again.
+                     */
+                    scrollToHashWhenReady(
+                        true
+                    );
+                }
+            )
+            .fail(
+                (error) => {
+                    console.error(
+                        "Luxury Autos JSON error:",
+                        error
+                    );
 
-                /*
-                 * THIS is the important part:
-                 * after JSON rendering, check #hash again.
-                 */
-                scrollToHashWhenReady(
-                    true
-                );
-            })
-            .fail((error) => {
-                console.error(
-                    "Luxury Autos: failed to load /json",
-                    error
-                );
+                    decorateAllVehicles();
 
-                /*
-                 * Still attempt hash navigation.
-                 */
-                decorateAllVehicles();
+                    loadServerRotation();
 
-                loadServerRotation();
-
-                scrollToHashWhenReady(
-                    false
-                );
-            });
+                    scrollToHashWhenReady(
+                        true
+                    );
+                }
+            );
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Footer
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+
     function addFooter() {
         if (
             document.querySelector(
@@ -850,7 +1087,9 @@
         }
 
         const footer =
-            document.createElement("p");
+            document.createElement(
+                "p"
+            );
 
         footer.id =
             "footer";
@@ -863,17 +1102,16 @@
         );
     }
 
-    /*
-     * ------------------------------------------------------------
-     * Color selector
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       COLOR SWITCHING
+       ============================================================ */
+
     $(document).on(
         "click",
         ".color",
-        function (e) {
+        function (event) {
             const target =
-                $(e.currentTarget);
+                $(event.currentTarget);
 
             const vehicle =
                 target.closest(
@@ -914,7 +1152,9 @@
 
             let src =
                 original ||
-                image.attr("src");
+                image.attr(
+                    "src"
+                );
 
             if (!original) {
                 image.data(
@@ -945,29 +1185,19 @@
         }
     );
 
-    /*
-     * ------------------------------------------------------------
-     * Link icon click
-     *
-     * 1. Creates:
-     *    https://luxury-autos.vercel.app/view/heroic.html/#xkgt
-     *
-     * 2. Updates browser address bar.
-     *
-     * 3. Copies the COMPLETE URL.
-     *
-     * 4. Scrolls to the vehicle.
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       LINK BUTTON
+       ============================================================ */
+
     $(document).on(
         "click",
         ".vehicle-link",
-        async function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+        async function (event) {
+            event.preventDefault();
+            event.stopPropagation();
 
             const link =
-                e.currentTarget;
+                event.currentTarget;
 
             const model =
                 link.dataset.model;
@@ -982,9 +1212,7 @@
                 );
 
             /*
-             * Update browser URL immediately.
-             *
-             * This does NOT reload the page.
+             * Update browser URL without reload.
              */
             window.history.pushState(
                 {
@@ -995,7 +1223,7 @@
             );
 
             /*
-             * Scroll to selected vehicle.
+             * Smoothly move to the vehicle.
              */
             scrollToVehicle(
                 model,
@@ -1003,16 +1231,13 @@
             );
 
             /*
-             * Copy complete URL.
+             * Copy COMPLETE URL.
              */
             const copied =
                 await copyToClipboard(
                     fullUrl
                 );
 
-            /*
-             * Update icon tooltip.
-             */
             const tooltip =
                 link.querySelector(
                     ".link-tooltip"
@@ -1023,85 +1248,67 @@
                     "copied"
                 );
 
-                if (tooltip) {
-                    tooltip.textContent =
-                        "Link copied!";
-                }
-
                 link.setAttribute(
                     "title",
                     "Link copied!"
                 );
 
-                window.setTimeout(
+                if (tooltip) {
+                    tooltip.textContent =
+                        "Link copied!";
+                }
+
+                setTimeout(
                     () => {
                         link.classList.remove(
                             "copied"
                         );
 
-                        if (tooltip) {
-                            tooltip.textContent =
-                                "Copy link";
-                        }
-
                         link.setAttribute(
                             "title",
-                            "Copy link"
+                            "Copy vehicle link"
                         );
+
+                        if (tooltip) {
+                            tooltip.textContent =
+                                "Copy vehicle link";
+                        }
                     },
-                    1600
+                    1700
                 );
             } else {
-                if (tooltip) {
-                    tooltip.textContent =
-                        "Copy failed";
-                }
-
                 link.setAttribute(
                     "title",
                     "Copy failed"
                 );
 
-                window.setTimeout(
-                    () => {
-                        if (tooltip) {
-                            tooltip.textContent =
-                                "Copy link";
-                        }
+                if (tooltip) {
+                    tooltip.textContent =
+                        "Copy failed";
+                }
 
+                setTimeout(
+                    () => {
                         link.setAttribute(
                             "title",
-                            "Copy link"
+                            "Copy vehicle link"
                         );
+
+                        if (tooltip) {
+                            tooltip.textContent =
+                                "Copy vehicle link";
+                        }
                     },
-                    1600
+                    1700
                 );
             }
         }
     );
 
-    /*
-     * ------------------------------------------------------------
-     * Browser Back / Forward
-     * ------------------------------------------------------------
-     */
-    window.addEventListener(
-        "popstate",
-        () => {
-            scrollToHashWhenReady(
-                true
-            );
-        }
-    );
+    /* ============================================================
+       HASH CHANGE
+       ============================================================ */
 
-    /*
-     * ------------------------------------------------------------
-     * Hash changes
-     *
-     * Handles:
-     * location.hash = "#xkgt"
-     * ------------------------------------------------------------
-     */
     window.addEventListener(
         "hashchange",
         () => {
@@ -1111,16 +1318,28 @@
         }
     );
 
-    /*
-     * ------------------------------------------------------------
-     * Escape closes embedded catalog
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       BACK / FORWARD
+       ============================================================ */
+
+    window.addEventListener(
+        "popstate",
+        () => {
+            scrollToHashWhenReady(
+                true
+            );
+        }
+    );
+
+    /* ============================================================
+       ESCAPE
+       ============================================================ */
+
     $(document).on(
         "keyup",
-        (e) => {
+        (event) => {
             if (
-                e.key === "Escape"
+                event.key === "Escape"
             ) {
                 try {
                     window.parent.postMessage(
@@ -1128,67 +1347,65 @@
                         "*"
                     );
                 } catch {
-                    // Ignore if not embedded.
+                    // Not embedded.
                 }
             }
         }
     );
 
-    /*
-     * ------------------------------------------------------------
-     * INITIAL START
-     * ------------------------------------------------------------
-     */
+    /* ============================================================
+       INITIALIZE
+       ============================================================ */
 
-    /*
-     * Decorate existing static vehicles BEFORE doing anything else.
-     */
     decorateAllVehicles();
 
-    /*
-     * Start loading/rendering.
-     */
     loadVehicles();
 
     /*
-     * Also retry after DOM/images finish loading.
+     * Extra attempts after images/layout have settled.
      */
     window.addEventListener(
         "load",
         () => {
             decorateAllVehicles();
 
-            /*
-             * Multiple attempts are intentional because the
-             * original catalog can have lazy-loaded images.
-             */
             scrollToHashWhenReady(
-                false
+                true
             );
 
             setTimeout(
-                () =>
+                () => {
+                    decorateAllVehicles();
+
                     scrollToHashWhenReady(
-                        false
-                    ),
-                250
+                        true
+                    );
+                },
+                300
             );
 
             setTimeout(
-                () =>
+                () => {
+                    decorateAllVehicles();
+
                     scrollToHashWhenReady(
-                        false
-                    ),
-                750
+                        true
+                    );
+                },
+                900
             );
 
             setTimeout(
-                () =>
+                () => {
+                    decorateAllVehicles();
+
                     scrollToHashWhenReady(
-                        false
-                    ),
-                1500
+                        true
+                    );
+                },
+                1800
             );
         }
     );
+
 })(jQuery);
