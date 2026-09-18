@@ -253,26 +253,3 @@ body.loading-rotation .vehicle .details::before {
     font-style: italic;
     clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%)
 }
-
-.vehicle-link {
-    width: calc(50% + 37px);
-    height: 100%;
-    flex-shrink: 0;
-    display: block;
-    color: inherit;
-    text-decoration: none;
-}
-
-.vehicle-link .image {
-    width: 100%;
-    height: 100%;
-}
-
-.vehicle-link img {
-    display: block;
-}
-
-.vehicle-link:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: -2px;
-}
