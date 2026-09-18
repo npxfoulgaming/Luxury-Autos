@@ -4,13 +4,7 @@
     /*
      * ============================================================
      * LUXURY AUTOS
-     * Advanced vehicle deep-link / navigation system
-     *
-     * Example:
-     *
-     * /view/heroic.html/#xkgt
-     *
-     * NO view/*.html modification required.
+     * Advanced deep-link navigation
      * ============================================================
      */
 
@@ -33,12 +27,15 @@
         pageTitle + " Imports";
 
     const formatter =
-        new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        });
+        new Intl.NumberFormat(
+            "en-US",
+            {
+                style: "currency",
+                currency: "USD",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }
+        );
 
     /* ============================================================
        BACKGROUND
@@ -49,7 +46,9 @@
             <style>
                 body::before {
                     background-image:
-                        url("/images/main/${vehicleCategory}_floor.png");
+                        url(
+                            "/images/main/${vehicleCategory}_floor.png"
+                        );
                 }
             </style>
         `);
@@ -71,12 +70,6 @@
             return null;
         }
 
-        /*
-         * Some old pages may contain duplicate
-         * #vehicles elements.
-         *
-         * Prefer the one which already has vehicles.
-         */
         const populated =
             containers.find(
                 (container) =>
@@ -110,7 +103,7 @@
     }
 
     /* ============================================================
-       CURRENT HASH
+       HASH
        ============================================================ */
 
     function getHashModel() {
@@ -136,7 +129,7 @@
     }
 
     /* ============================================================
-       SHARE URL
+       URL
        ============================================================ */
 
     function buildVehicleUrl(model) {
@@ -158,7 +151,10 @@
         const container =
             getVehiclesContainer();
 
-        if (!container || !model) {
+        if (
+            !container ||
+            !model
+        ) {
             return null;
         }
 
@@ -174,13 +170,11 @@
             const vehicle
             of vehicles
         ) {
-            const current =
+            if (
                 getVehicleModel(
                     vehicle
-                ).toLowerCase();
-
-            if (
-                current === wanted
+                ).toLowerCase() ===
+                wanted
             ) {
                 return vehicle;
             }
@@ -190,7 +184,7 @@
     }
 
     /* ============================================================
-       CLIPBOARD
+       COPY
        ============================================================ */
 
     async function copyToClipboard(text) {
@@ -210,13 +204,13 @@
             }
         } catch (error) {
             console.warn(
-                "Clipboard API failed.",
+                "Clipboard API unavailable.",
                 error
             );
         }
 
         /*
-         * Fallback for older / embedded browsers.
+         * Legacy fallback.
          */
         try {
             const textarea =
@@ -234,7 +228,8 @@
             textarea.style.left =
                 "-9999px";
 
-            textarea.style.top = "0";
+            textarea.style.top =
+                "0";
 
             textarea.style.opacity =
                 "0";
@@ -249,7 +244,7 @@
 
             textarea.setSelectionRange(
                 0,
-                textarea.value.length
+                text.length
             );
 
             const success =
@@ -296,11 +291,10 @@
             `Copy link to ${model}`
         );
 
-        link.setAttribute(
-            "title",
-            "Copy vehicle link"
-        );
-
+        /*
+         * No visible text.
+         * No tooltip.
+         */
         link.innerHTML = `
             <svg
                 viewBox="0 0 24 24"
@@ -311,20 +305,21 @@
                 stroke-linejoin="round"
                 aria-hidden="true"
             >
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.71 1.71"></path>
-                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-            </svg>
+                <path
+                    d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.71 1.71"
+                ></path>
 
-            <span class="link-tooltip">
-                Copy vehicle link
-            </span>
+                <path
+                    d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                ></path>
+            </svg>
         `;
 
         return link;
     }
 
     /* ============================================================
-       DECORATE ONE VEHICLE
+       DECORATE VEHICLE
        ============================================================ */
 
     function decorateVehicle(vehicle) {
@@ -342,9 +337,10 @@
         }
 
         /*
-         * Give the actual vehicle a real HTML ID.
+         * Native fragment target.
          */
-        vehicle.id = model;
+        vehicle.id =
+            model;
 
         const details =
             vehicle.querySelector(
@@ -365,10 +361,15 @@
         }
 
         /*
-         * ========================================================
-         * NAME
-         * ========================================================
+         * --------------------------------------------------------
+         * Vehicle name
+         * --------------------------------------------------------
          */
+
+        let nameWrapper =
+            inner.querySelector(
+                ":scope > .vehicle-name"
+            );
 
         const originalName =
             inner.querySelector(
@@ -376,12 +377,10 @@
             );
 
         if (
-            originalName &&
-            !inner.querySelector(
-                ".vehicle-name"
-            )
+            !nameWrapper &&
+            originalName
         ) {
-            const nameWrapper =
+            nameWrapper =
                 document.createElement(
                     "div"
                 );
@@ -400,12 +399,14 @@
         }
 
         /*
-         * ========================================================
-         * LINK BUTTON
+         * --------------------------------------------------------
+         * Link icon
          *
-         * It lives inside .details,
-         * positioned on the same side as .colors.
-         * ========================================================
+         * IMPORTANT:
+         * It is inserted DIRECTLY into .details.
+         *
+         * CSS places it in the same bottom row as .colors.
+         * --------------------------------------------------------
          */
 
         let link =
@@ -434,7 +435,7 @@
     }
 
     /* ============================================================
-       DECORATE ALL VEHICLES
+       DECORATE ALL
        ============================================================ */
 
     function decorateAllVehicles() {
@@ -445,47 +446,48 @@
             return;
         }
 
-        const vehicles =
-            container.querySelectorAll(
+        container
+            .querySelectorAll(
                 ".vehicle"
+            )
+            .forEach(
+                decorateVehicle
             );
-
-        vehicles.forEach(
-            decorateVehicle
-        );
     }
 
     /* ============================================================
-       ADVANCED SMOOTH SCROLL
+       ADVANCED EASING
        ============================================================ */
 
-    function easeInOutCubic(t) {
+    function easeInOutQuart(t) {
         return t < 0.5
-            ? 4 * t * t * t
+            ? 8 * t * t * t * t
             : 1 -
                 Math.pow(
                     -2 * t + 2,
-                    3
+                    4
                 ) /
                     2;
     }
 
-    function smoothScrollTo(
+    /* ============================================================
+       PREMIUM SMOOTH SCROLL
+       ============================================================ */
+
+    function premiumScrollTo(
         targetY,
-        duration = 1250
+        duration = 1450
     ) {
         const startY =
             window.scrollY;
 
         const distance =
-            targetY - startY;
+            targetY -
+            startY;
 
-        /*
-         * Don't animate tiny movements.
-         */
         if (
             Math.abs(distance) <
-            5
+            3
         ) {
             window.scrollTo(
                 0,
@@ -498,7 +500,7 @@
         let startTime =
             null;
 
-        function animation(
+        function animate(
             currentTime
         ) {
             if (
@@ -520,7 +522,7 @@
                 );
 
             const eased =
-                easeInOutCubic(
+                easeInOutQuart(
                     progress
                 );
 
@@ -535,18 +537,13 @@
                 progress < 1
             ) {
                 requestAnimationFrame(
-                    animation
-                );
-            } else {
-                window.scrollTo(
-                    0,
-                    targetY
+                    animate
                 );
             }
         }
 
         requestAnimationFrame(
-            animation
+            animate
         );
     }
 
@@ -566,7 +563,7 @@
         }
 
         /*
-         * Remove old target.
+         * Remove previous focus.
          */
         document
             .querySelectorAll(
@@ -581,15 +578,14 @@
             );
 
         /*
-         * Target selected vehicle.
+         * Activate selected section.
          */
         vehicle.classList.add(
             "hash-target"
         );
 
         /*
-         * Wait one frame so the browser
-         * has applied the target styling.
+         * Wait for CSS transition/layout.
          */
         requestAnimationFrame(
             () => {
@@ -600,9 +596,8 @@
                     window.innerHeight;
 
                 /*
-                 * Center the vehicle in the
-                 * viewport rather than simply
-                 * placing it at the top.
+                 * Center the entire vehicle
+                 * elegantly in the viewport.
                  */
                 const vehicleCenter =
                     rect.top +
@@ -611,42 +606,56 @@
                 const viewportCenter =
                     viewportHeight / 2;
 
-                const difference =
+                const delta =
                     vehicleCenter -
                     viewportCenter;
 
-                const targetY =
+                let targetY =
                     window.scrollY +
-                    difference;
+                    delta;
+
+                /*
+                 * Slightly account for
+                 * the fixed heading.
+                 */
+                const headerOffset =
+                    window.innerWidth <=
+                    700
+                        ? 25
+                        : 35;
+
+                targetY -=
+                    headerOffset;
+
+                targetY =
+                    Math.max(
+                        0,
+                        targetY
+                    );
 
                 if (animated) {
-                    smoothScrollTo(
-                        Math.max(
-                            0,
-                            targetY
-                        ),
-                        1350
+                    premiumScrollTo(
+                        targetY,
+                        1500
                     );
                 } else {
                     window.scrollTo(
                         0,
-                        Math.max(
-                            0,
-                            targetY
-                        )
+                        targetY
                     );
                 }
 
                 /*
-                 * Extra visual pulse.
+                 * Keep focus effect for
+                 * a polished finish.
                  */
-                window.setTimeout(
+                setTimeout(
                     () => {
                         vehicle.classList.remove(
                             "hash-target"
                         );
                     },
-                    2800
+                    3200
                 );
             }
         );
@@ -658,7 +667,8 @@
        WAIT FOR HASH TARGET
        ============================================================ */
 
-    let hashTimer = null;
+    let hashTimer =
+        null;
 
     function scrollToHashWhenReady(
         animated = true
@@ -683,19 +693,19 @@
 
             decorateAllVehicles();
 
-            const success =
+            const found =
                 scrollToVehicle(
                     model,
                     animated
                 );
 
-            if (success) {
+            if (found) {
                 return;
             }
 
             /*
-             * Keep waiting while the
-             * vehicle catalog loads.
+             * Wait up to 12 seconds for
+             * dynamically loaded vehicles.
              */
             if (
                 attempts < 120
@@ -741,7 +751,9 @@
                 ? "0 0, calc(100% - 80px) 0, 100% 80px, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%"
                 : "0 80px, 80px 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 80px)";
 
-        if (index === 0) {
+        if (
+            index === 0
+        ) {
             mask =
                 "0 0, 100% 0, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%";
         }
@@ -774,9 +786,10 @@
         element.id =
             model;
 
-        /*
-         * DETAILS
-         */
+        /* ========================================================
+           DETAILS
+           ======================================================== */
+
         const details =
             document.createElement(
                 "div"
@@ -835,9 +848,10 @@
             inner
         );
 
-        /*
-         * COLORS
-         */
+        /* ========================================================
+           COLORS
+           ======================================================== */
+
         const colors =
             document.createElement(
                 "div"
@@ -846,31 +860,14 @@
         colors.className =
             "colors";
 
-        const colorList = [
-            [
-                "mb",
-                "Matte Black"
-            ],
-            [
-                "mw",
-                "Matte White"
-            ],
-            [
-                "r",
-                "Red"
-            ],
-            [
-                "g",
-                "Green"
-            ],
-            [
-                "b",
-                "Blue"
-            ]
-        ];
-
-        colorList.forEach(
-            ([color, name]) => {
+        [
+            ["mb", "Matte Black"],
+            ["mw", "Matte White"],
+            ["r", "Red"],
+            ["g", "Green"],
+            ["b", "Blue"]
+        ].forEach(
+            ([color, label]) => {
                 const colorElement =
                     document.createElement(
                         "div"
@@ -883,7 +880,7 @@
                     color;
 
                 colorElement.title =
-                    name;
+                    label;
 
                 colors.appendChild(
                     colorElement
@@ -895,9 +892,10 @@
             colors
         );
 
-        /*
-         * IMAGE
-         */
+        /* ========================================================
+           IMAGE
+           ======================================================== */
+
         const imageContainer =
             document.createElement(
                 "div"
@@ -955,7 +953,7 @@
         }
 
         /*
-         * STATIC VEHICLES
+         * STATIC HTML VEHICLES
          */
         const staticVehicles =
             container.querySelectorAll(
@@ -970,8 +968,7 @@
             loadServerRotation();
 
             /*
-             * Give direct hash navigation
-             * priority after static DOM exists.
+             * Deep-link after static DOM exists.
              */
             scrollToHashWhenReady(
                 true
@@ -981,7 +978,7 @@
         }
 
         /*
-         * DYNAMIC VEHICLES
+         * DYNAMIC JSON
          */
         $.get(
             "/json?_=" +
@@ -1038,8 +1035,8 @@
                     loadServerRotation();
 
                     /*
-                     * Important:
-                     * after rendering, scroll again.
+                     * Deep-link AFTER
+                     * vehicles are rendered.
                      */
                     scrollToHashWhenReady(
                         true
@@ -1049,7 +1046,7 @@
             .fail(
                 (error) => {
                     console.error(
-                        "Luxury Autos JSON error:",
+                        "Luxury Autos /json error:",
                         error
                     );
 
@@ -1103,7 +1100,7 @@
     }
 
     /* ============================================================
-       COLOR SWITCHING
+       COLORS
        ============================================================ */
 
     $(document).on(
@@ -1186,7 +1183,7 @@
     );
 
     /* ============================================================
-       LINK BUTTON
+       LINK CLICK
        ============================================================ */
 
     $(document).on(
@@ -1194,6 +1191,7 @@
         ".vehicle-link",
         async function (event) {
             event.preventDefault();
+
             event.stopPropagation();
 
             const link =
@@ -1212,7 +1210,7 @@
                 );
 
             /*
-             * Update browser URL without reload.
+             * Update browser URL.
              */
             window.history.pushState(
                 {
@@ -1223,7 +1221,7 @@
             );
 
             /*
-             * Smoothly move to the vehicle.
+             * Smooth navigation.
              */
             scrollToVehicle(
                 model,
@@ -1231,75 +1229,31 @@
             );
 
             /*
-             * Copy COMPLETE URL.
+             * Copy full URL.
              */
             const copied =
                 await copyToClipboard(
                     fullUrl
                 );
 
-            const tooltip =
-                link.querySelector(
-                    ".link-tooltip"
-                );
-
             if (copied) {
+                /*
+                 * GREEN STATE
+                 */
                 link.classList.add(
                     "copied"
                 );
 
-                link.setAttribute(
-                    "title",
-                    "Link copied!"
-                );
-
-                if (tooltip) {
-                    tooltip.textContent =
-                        "Link copied!";
-                }
-
+                /*
+                 * Exactly 3 seconds.
+                 */
                 setTimeout(
                     () => {
                         link.classList.remove(
                             "copied"
                         );
-
-                        link.setAttribute(
-                            "title",
-                            "Copy vehicle link"
-                        );
-
-                        if (tooltip) {
-                            tooltip.textContent =
-                                "Copy vehicle link";
-                        }
                     },
-                    1700
-                );
-            } else {
-                link.setAttribute(
-                    "title",
-                    "Copy failed"
-                );
-
-                if (tooltip) {
-                    tooltip.textContent =
-                        "Copy failed";
-                }
-
-                setTimeout(
-                    () => {
-                        link.setAttribute(
-                            "title",
-                            "Copy vehicle link"
-                        );
-
-                        if (tooltip) {
-                            tooltip.textContent =
-                                "Copy vehicle link";
-                        }
-                    },
-                    1700
+                    3000
                 );
             }
         }
@@ -1347,22 +1301,30 @@
                         "*"
                     );
                 } catch {
-                    // Not embedded.
+                    // Normal browser.
                 }
             }
         }
     );
 
     /* ============================================================
-       INITIALIZE
+       INITIALIZATION
        ============================================================ */
 
+    /*
+     * Immediately decorate any
+     * server-rendered vehicle sections.
+     */
     decorateAllVehicles();
 
+    /*
+     * Load/render catalog.
+     */
     loadVehicles();
 
     /*
-     * Extra attempts after images/layout have settled.
+     * Extra deep-link checks after
+     * browser layout settles.
      */
     window.addEventListener(
         "load",
@@ -1381,7 +1343,7 @@
                         true
                     );
                 },
-                300
+                350
             );
 
             setTimeout(
@@ -1392,7 +1354,7 @@
                         true
                     );
                 },
-                900
+                1000
             );
 
             setTimeout(
@@ -1403,7 +1365,7 @@
                         true
                     );
                 },
-                1800
+                2000
             );
         }
     );
