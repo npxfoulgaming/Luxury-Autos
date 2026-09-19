@@ -11,11 +11,6 @@
      *
      * /view/legendary.html#mst
      *
-     * NOT:
-     *
-     * /view/legendary.html/#mst
-     *
-     *
      * Normal details:
      *
      * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
@@ -44,6 +39,34 @@
         typeof server !== "undefined"
             ? server
             : "";
+
+
+    /* ============================================================
+       PAGE BACKGROUND
+       ============================================================ */
+
+    /*
+     * Same background behavior as the original vehicle page.
+     *
+     * Example:
+     *
+     * category = "legendary"
+     *
+     * becomes:
+     *
+     * /images/main/legendary_floor.png
+     */
+
+    if (vehicleCategory) {
+        $("head").append(`
+            <style>
+                body::before {
+                    background-image:
+                        url(/images/main/${vehicleCategory}_floor.png);
+                }
+            </style>
+        `);
+    }
 
 
     /* ============================================================
@@ -92,22 +115,6 @@
        URL HELPERS
        ============================================================ */
 
-    /*
-     * Keep exactly ONE clean .html path.
-     *
-     * Example:
-     *
-     * /view/legendary.html
-     *
-     * stays:
-     *
-     * /view/legendary.html
-     *
-     * Vehicle link:
-     *
-     * /view/legendary.html#rmodescort
-     */
-
     function getCanonicalVehiclePath(pathname) {
         let path =
             pathname ||
@@ -115,7 +122,7 @@
             "/";
 
         /*
-         * Remove all trailing slashes.
+         * Remove trailing slashes.
          */
         path =
             path.replace(
@@ -124,7 +131,7 @@
             );
 
         /*
-         * Root path remains "/".
+         * Root remains "/".
          */
         if (!path) {
             return "/";
@@ -135,7 +142,11 @@
 
 
     /*
-     * Build the exact vehicle URL.
+     * Build vehicle URL.
+     *
+     * Example:
+     *
+     * https://luxury-autos.vercel.app/view/legendary.html#rmodescort
      */
     function buildVehicleUrl(model) {
         if (!model) {
@@ -162,9 +173,7 @@
 
 
     /*
-     * Build clean canonical page URL.
-     *
-     * Hash is removed.
+     * Build clean canonical URL.
      */
     function buildCleanCanonicalUrl() {
         const url =
@@ -243,10 +252,8 @@
         } catch {}
 
         /*
-         * Force initial position to the top.
-         *
-         * The premium scroll engine will then
-         * animate from top -> vehicle.
+         * Always begin deep-link navigation
+         * from the top.
          */
         window.scrollTo(
             0,
@@ -394,9 +401,6 @@
                     ".vehicle-name"
                 );
 
-            /*
-             * Existing .vehicle-name structure.
-             */
             if (vehicleName) {
                 let nameSpan =
                     vehicleName.querySelector(
@@ -589,10 +593,7 @@
 
 
     /*
-     * Cinematic acceleration/deceleration.
-     *
-     * This makes the scroll feel continuous
-     * instead of teleporting.
+     * Cinematic easing.
      */
     function easeInOutQuint(t) {
         return t < 0.5
@@ -613,13 +614,6 @@
 
     /*
      * Distance-based duration.
-     *
-     * Short distance:
-     * still has a smooth minimum duration.
-     *
-     * Long distance:
-     * becomes progressively slower,
-     * but never excessively long.
      */
     function getScrollDuration(
         distance
@@ -642,17 +636,19 @@
 
 
     /*
-     * Smooth continuous scrolling.
+     * Continuous smooth scrolling.
      *
-     * IMPORTANT:
-     * This always starts from the user's
-     * CURRENT scroll position.
+     * Starts from the CURRENT position.
      *
-     * So:
+     * Therefore:
      *
-     * bottom -> top = smoothly upward
+     * bottom -> top
      *
-     * top -> bottom = smoothly downward
+     * smoothly travels upward.
+     *
+     * top -> bottom
+     *
+     * smoothly travels downward.
      */
     function premiumScrollTo(
         targetY,
@@ -781,7 +777,7 @@
                 : 35;
 
         /*
-         * Center the vehicle in the viewport.
+         * Center vehicle in viewport.
          */
         const vehicleCenter =
             rect.top +
@@ -828,17 +824,22 @@
                     vehicle.classList.remove(
                         "hash-target"
                     );
+
+                    const link =
+                        vehicle.querySelector(
+                            ".vehicle-link"
+                        );
+
+                    if (link) {
+                        link.classList.remove(
+                            "active-link"
+                        );
+                    }
                 }
             );
     }
 
 
-    /*
-     * Keep active link state synchronized.
-     *
-     * CSS can use .hash-target to show only
-     * the active link icon when not hovered.
-     */
     function setActiveVehicle(
         model
     ) {
@@ -897,20 +898,20 @@
         cancelPremiumScroll();
 
         /*
-         * Active target is applied immediately.
+         * Make the target active immediately.
          */
         setActiveVehicle(
             model
         );
 
         /*
-         * Initial deep-link navigation:
+         * Initial deep-link:
          *
-         * current browser position
-         *        ↓
-         * force top
-         *        ↓
-         * cinematic top -> vehicle
+         * TOP
+         *  ↓
+         * smooth cinematic movement
+         *  ↓
+         * TARGET VEHICLE
          */
         if (fromTop) {
             window.scrollTo(
@@ -920,8 +921,7 @@
         }
 
         /*
-         * Two RAF frames allow layout/image rendering
-         * to settle before target position is calculated.
+         * Wait for layout/image rendering.
          */
         requestAnimationFrame(
             () => {
@@ -941,9 +941,6 @@
                             targetY -
                             currentY;
 
-                        /*
-                         * Instant mode.
-                         */
                         if (
                             !animated ||
                             Math.abs(
@@ -958,11 +955,6 @@
                             return;
                         }
 
-                        /*
-                         * Current-position smooth scroll.
-                         *
-                         * This is NOT a teleport.
-                         */
                         premiumScrollTo(
                             targetY,
                             getScrollDuration(
@@ -1174,7 +1166,7 @@
 
 
             /* ----------------------------------------------------
-               SORT VEHICLES
+               SORT
                ---------------------------------------------------- */
 
             vehicles.sort(
@@ -1250,7 +1242,7 @@
 
 
             /* ----------------------------------------------------
-               INITIAL DEEP LINK
+               INITIAL HASH
                ---------------------------------------------------- */
 
             if (initialHashModel) {
@@ -1341,8 +1333,6 @@
 
         /*
          * Alternate direction.
-         *
-         * Even vehicles = inverted.
          */
         const invert =
             index % 2 === 0;
@@ -1360,10 +1350,6 @@
         vehicle.dataset.model =
             model;
 
-
-        /*
-         * Matches your vehicle structure.
-         */
 
         vehicle.innerHTML = `
             <div class="details">
@@ -1442,9 +1428,8 @@
 
 
         /*
-         * Remember the original image.
+         * Store original image.
          */
-
         const imageElement =
             vehicle.querySelector(
                 ".image img"
@@ -1514,8 +1499,8 @@
 
 
             /*
-             * Clicking the currently active
-             * color restores the original image.
+             * Clicking active color
+             * restores original.
              */
             const alreadyActive =
                 this.classList.contains(
@@ -1540,7 +1525,8 @@
 
 
             /*
-             * Remove active from every color.
+             * Remove active from
+             * other colors.
              */
             vehicle
                 .querySelectorAll(
@@ -1556,7 +1542,7 @@
 
 
             /*
-             * Activate selected color.
+             * Select color.
              */
             this.classList.add(
                 "active"
@@ -1564,7 +1550,7 @@
 
 
             /*
-             * Color suffix map.
+             * Color suffixes.
              */
             const suffixMap = {
                 mb: "_mb",
@@ -1591,7 +1577,7 @@
 
             /*
              * Remove an existing
-             * color suffix first.
+             * color suffix.
              */
             const source =
                 image.getAttribute(
@@ -1606,7 +1592,7 @@
 
 
             /*
-             * Detect extension.
+             * Find extension.
              */
             const extensionMatch =
                 cleanSource.match(
@@ -1632,7 +1618,7 @@
              *
              * pulse.png
              *
-             * =>
+             * ->
              *
              * pulse_r.png
              */
@@ -1646,6 +1632,69 @@
                 newSource;
         }
     );
+
+
+    /* ============================================================
+       SERVER ROTATION
+       ============================================================ */
+
+    function loadServerRotation() {
+        if (!serverName) {
+            return;
+        }
+
+        $("body").addClass(
+            "loading-rotation"
+        );
+
+        $.get(
+            `/rotation/${serverName}`,
+            (data) => {
+                $("body").removeClass(
+                    "loading-rotation"
+                );
+
+                if (
+                    !data ||
+                    !data.rotation
+                ) {
+                    return;
+                }
+
+                $(".vehicle").addClass(
+                    "not-in-rotation"
+                );
+
+                const rotation =
+                    data.rotation;
+
+                for (
+                    const modelName
+                    of rotation
+                ) {
+                    const vehicle =
+                        $(
+                            `.vehicle[data-model="${modelName}"]`
+                        );
+
+                    if (
+                        vehicle.length ===
+                        0
+                    ) {
+                        continue;
+                    }
+
+                    vehicle.addClass(
+                        "in-rotation"
+                    );
+
+                    vehicle.removeClass(
+                        "not-in-rotation"
+                    );
+                }
+            }
+        );
+    }
 
 
     /* ============================================================
@@ -1672,9 +1721,7 @@
 
 
             /*
-             * Canonical URL:
-             *
-             * /view/legendary.html#mst
+             * Build exact URL.
              */
             const fullUrl =
                 buildVehicleUrl(
@@ -1683,7 +1730,7 @@
 
 
             /*
-             * Update URL without reloading.
+             * Update URL without reload.
              */
             try {
                 window.history.pushState(
@@ -1698,7 +1745,7 @@
 
 
             /*
-             * Mark active vehicle first.
+             * Activate target.
              */
             setActiveVehicle(
                 model
@@ -1706,13 +1753,7 @@
 
 
             /*
-             * Scroll from the CURRENT position.
-             *
-             * Bottom -> top:
-             * smoothly travels upward.
-             *
-             * Top -> bottom:
-             * smoothly travels downward.
+             * Scroll from CURRENT position.
              */
             scrollToVehicle(
                 model,
@@ -1722,7 +1763,7 @@
 
 
             /*
-             * Copy canonical URL.
+             * Copy exact URL.
              */
             try {
                 await navigator.clipboard.writeText(
@@ -1732,7 +1773,7 @@
 
 
             /*
-             * Copied visual state.
+             * Copied state.
              */
             this.classList.add(
                 "copied"
@@ -1804,8 +1845,8 @@
 
 
             /*
-             * Hash changes from an already loaded page
-             * scroll from the CURRENT position.
+             * Existing page:
+             * scroll from current position.
              */
             scrollToHashWhenReady(
                 true,
@@ -1849,10 +1890,9 @@
                 return;
             }
 
-
             /*
-             * Back / forward navigation:
-             * smooth from current position.
+             * Back/forward also scrolls
+             * smoothly from current position.
              */
             scrollToHashWhenReady(
                 true,
@@ -1868,7 +1908,7 @@
        ============================================================ */
 
     $(document).on(
-        "keydown",
+        "keyup",
         function (event) {
             if (
                 event.key ===
@@ -1904,6 +1944,21 @@
             decorateAllVehicles();
 
             canonicalizeCurrentUrl();
+
+            /*
+             * Apply background again after
+             * page resources have loaded.
+             */
+            if (vehicleCategory) {
+                $("head").append(`
+                    <style>
+                        body::before {
+                            background-image:
+                                url(/images/main/${vehicleCategory}_floor.png);
+                        }
+                    </style>
+                `);
+            }
 
             if (
                 window.location.hash
