@@ -4,26 +4,7 @@
     /*
      * ============================================================
      * LUXURY AUTOS
-     * ============================================================
-     *
-     * Deep-link behavior:
-     *
-     * /view/special.html/#c10
-     *
-     * Current scroll position
-     *        ↓
-     *        ↓ smooth continuous animation
-     *        ↓
-     *        ↓
-     *        ↓
-     *   ┌───────────────┐
-     *   │      #c10     │
-     *   └───────────────┘
-     *
-     * The target is NOT centered.
-     * The target is NOT instantly jumped to.
-     *
-     * JavaScript completely controls the movement.
+     * Advanced deep-link navigation
      * ============================================================
      */
 
@@ -55,22 +36,6 @@
                 maximumFractionDigits: 0
             }
         );
-
-    /* ============================================================
-       DEEP LINK STATE
-       ============================================================ */
-
-    let deepLinkAnimationId =
-        null;
-
-    let deepLinkTimer =
-        null;
-
-    let deepLinkRunning =
-        false;
-
-    let ignoreNextHashChange =
-        false;
 
     /* ============================================================
        BACKGROUND
@@ -244,17 +209,18 @@
             );
         }
 
+        /*
+         * Legacy fallback.
+         */
         try {
             const textarea =
                 document.createElement(
                     "textarea"
                 );
 
-            textarea.value =
-                text;
+            textarea.value = text;
 
-            textarea.readOnly =
-                true;
+            textarea.readOnly = true;
 
             textarea.style.position =
                 "fixed";
@@ -325,6 +291,10 @@
             `Copy link to ${model}`
         );
 
+        /*
+         * No visible text.
+         * No tooltip.
+         */
         link.innerHTML = `
             <svg
                 viewBox="0 0 24 24"
@@ -366,6 +336,9 @@
             return;
         }
 
+        /*
+         * Native fragment target.
+         */
         vehicle.id =
             model;
 
@@ -387,9 +360,11 @@
             return;
         }
 
-        /* --------------------------------------------------------
-           Vehicle name
-           -------------------------------------------------------- */
+        /*
+         * --------------------------------------------------------
+         * Vehicle name
+         * --------------------------------------------------------
+         */
 
         let nameWrapper =
             inner.querySelector(
@@ -423,9 +398,16 @@
             );
         }
 
-        /* --------------------------------------------------------
-           Link
-           -------------------------------------------------------- */
+        /*
+         * --------------------------------------------------------
+         * Link icon
+         *
+         * IMPORTANT:
+         * It is inserted DIRECTLY into .details.
+         *
+         * CSS places it in the same bottom row as .colors.
+         * --------------------------------------------------------
+         */
 
         let link =
             details.querySelector(
@@ -474,107 +456,12 @@
     }
 
     /* ============================================================
-       HEADER HEIGHT
-       ============================================================ */
-
-    function getHeaderOffset() {
-        const header =
-            document.querySelector(
-                "h1"
-            );
-
-        if (!header) {
-            return window.innerWidth <= 700
-                ? 75
-                : 100;
-        }
-
-        const rect =
-            header.getBoundingClientRect();
-
-        return (
-            Math.ceil(
-                rect.height
-            ) +
-            (
-                window.innerWidth <= 700
-                    ? 12
-                    : 15
-            )
-        );
-    }
-
-    /* ============================================================
-       MAX SCROLL
-       ============================================================ */
-
-    function getMaxScrollY() {
-        return Math.max(
-            0,
-            document.documentElement
-                .scrollHeight -
-                window.innerHeight
-        );
-    }
-
-    /* ============================================================
-       TARGET POSITION
-       ============================================================ */
-
-    function getTargetScrollY(
-        vehicle
-    ) {
-        if (!vehicle) {
-            return 0;
-        }
-
-        const rect =
-            vehicle.getBoundingClientRect();
-
-        /*
-         * Convert viewport position to
-         * document position.
-         */
-        const absoluteTop =
-            window.scrollY +
-            rect.top;
-
-        /*
-         * Requested section goes directly
-         * beneath the fixed page heading.
-         */
-        const target =
-            absoluteTop -
-            getHeaderOffset();
-
-        /*
-         * IMPORTANT:
-         *
-         * If this is the last section and its
-         * top is too far down to physically put
-         * it at the top of the viewport,
-         * the browser must stop at max scroll.
-         */
-        return Math.max(
-            0,
-            Math.min(
-                target,
-                getMaxScrollY()
-            )
-        );
-    }
-
-    /* ============================================================
-       EASING
+       ADVANCED EASING
        ============================================================ */
 
     function easeInOutQuart(t) {
         return t < 0.5
-            ? 8 *
-                t *
-                t *
-                t *
-                t
+            ? 8 * t * t * t * t
             : 1 -
                 Math.pow(
                     -2 * t + 2,
@@ -584,70 +471,23 @@
     }
 
     /* ============================================================
-       STOP DEEP LINK ANIMATION
+       PREMIUM SMOOTH SCROLL
        ============================================================ */
 
-    function stopDeepLinkAnimation() {
-        if (
-            deepLinkAnimationId !==
-            null
-        ) {
-            cancelAnimationFrame(
-                deepLinkAnimationId
-            );
-
-            deepLinkAnimationId =
-                null;
-        }
-
-        if (
-            deepLinkTimer !==
-            null
-        ) {
-            clearTimeout(
-                deepLinkTimer
-            );
-
-            deepLinkTimer =
-                null;
-        }
-
-        deepLinkRunning =
-            false;
-    }
-
-    /* ============================================================
-       SMOOTH SCROLL
-       ============================================================ */
-
-    function smoothScrollToVehicle(
-        vehicle,
-        duration = 1400
+    function premiumScrollTo(
+        targetY,
+        duration = 1450
     ) {
-        stopDeepLinkAnimation();
-
-        if (!vehicle) {
-            return;
-        }
-
         const startY =
             window.scrollY;
-
-        const targetY =
-            getTargetScrollY(
-                vehicle
-            );
 
         const distance =
             targetY -
             startY;
 
-        /*
-         * Already at target.
-         */
         if (
             Math.abs(distance) <
-            2
+            3
         ) {
             window.scrollTo(
                 0,
@@ -657,30 +497,21 @@
             return;
         }
 
-        deepLinkRunning =
-            true;
-
         let startTime =
             null;
 
         function animate(
-            timestamp
+            currentTime
         ) {
-            if (
-                !deepLinkRunning
-            ) {
-                return;
-            }
-
             if (
                 startTime === null
             ) {
                 startTime =
-                    timestamp;
+                    currentTime;
             }
 
             const elapsed =
-                timestamp -
+                currentTime -
                 startTime;
 
             const progress =
@@ -695,85 +526,24 @@
                     progress
                 );
 
-            const position =
-                startY +
-                (
-                    targetY -
-                    startY
-                ) *
-                    eased;
-
             window.scrollTo(
                 0,
-                position
+                startY +
+                    distance *
+                        eased
             );
 
             if (
-                progress <
-                1
+                progress < 1
             ) {
-                deepLinkAnimationId =
-                    requestAnimationFrame(
-                        animate
-                    );
-            } else {
-                deepLinkAnimationId =
-                    null;
-
-                deepLinkRunning =
-                    false;
-
-                /*
-                 * Final exact position.
-                 */
-                window.scrollTo(
-                    0,
-                    getTargetScrollY(
-                        vehicle
-                    )
+                requestAnimationFrame(
+                    animate
                 );
             }
         }
 
-        deepLinkAnimationId =
-            requestAnimationFrame(
-                animate
-            );
-    }
-
-    /* ============================================================
-       ACTIVATE TARGET
-       ============================================================ */
-
-    function activateVehicle(
-        vehicle
-    ) {
-        document
-            .querySelectorAll(
-                ".vehicle.hash-target"
-            )
-            .forEach(
-                (element) => {
-                    element.classList.remove(
-                        "hash-target"
-                    );
-                }
-            );
-
-        vehicle.classList.add(
-            "hash-target"
-        );
-
-        /*
-         * Keep the highlight temporarily.
-         */
-        setTimeout(
-            () => {
-                vehicle.classList.remove(
-                    "hash-target"
-                );
-            },
-            3200
+        requestAnimationFrame(
+            animate
         );
     }
 
@@ -792,34 +562,100 @@
             return false;
         }
 
-        activateVehicle(
-            vehicle
+        /*
+         * Remove previous focus.
+         */
+        document
+            .querySelectorAll(
+                ".vehicle.hash-target"
+            )
+            .forEach(
+                (element) => {
+                    element.classList.remove(
+                        "hash-target"
+                    );
+                }
+            );
+
+        /*
+         * Activate selected section.
+         */
+        vehicle.classList.add(
+            "hash-target"
         );
 
         /*
-         * Let the browser finish the DOM/layout
-         * update before measuring the target.
+         * Wait for CSS transition/layout.
          */
         requestAnimationFrame(
             () => {
-                requestAnimationFrame(
-                    () => {
-                        if (animated) {
-                            smoothScrollToVehicle(
-                                vehicle,
-                                1400
-                            );
-                        } else {
-                            stopDeepLinkAnimation();
+                const rect =
+                    vehicle.getBoundingClientRect();
 
-                            window.scrollTo(
-                                0,
-                                getTargetScrollY(
-                                    vehicle
-                                )
-                            );
-                        }
-                    }
+                const viewportHeight =
+                    window.innerHeight;
+
+                /*
+                 * Center the entire vehicle
+                 * elegantly in the viewport.
+                 */
+                const vehicleCenter =
+                    rect.top +
+                    rect.height / 2;
+
+                const viewportCenter =
+                    viewportHeight / 2;
+
+                const delta =
+                    vehicleCenter -
+                    viewportCenter;
+
+                let targetY =
+                    window.scrollY +
+                    delta;
+
+                /*
+                 * Slightly account for
+                 * the fixed heading.
+                 */
+                const headerOffset =
+                    window.innerWidth <=
+                    700
+                        ? 25
+                        : 35;
+
+                targetY -=
+                    headerOffset;
+
+                targetY =
+                    Math.max(
+                        0,
+                        targetY
+                    );
+
+                if (animated) {
+                    premiumScrollTo(
+                        targetY,
+                        1500
+                    );
+                } else {
+                    window.scrollTo(
+                        0,
+                        targetY
+                    );
+                }
+
+                /*
+                 * Keep focus effect for
+                 * a polished finish.
+                 */
+                setTimeout(
+                    () => {
+                        vehicle.classList.remove(
+                            "hash-target"
+                        );
+                    },
+                    3200
                 );
             }
         );
@@ -828,8 +664,11 @@
     }
 
     /* ============================================================
-       WAIT FOR TARGET
+       WAIT FOR HASH TARGET
        ============================================================ */
+
+    let hashTimer =
+        null;
 
     function scrollToHashWhenReady(
         animated = true
@@ -841,16 +680,10 @@
             return;
         }
 
-        if (
-            deepLinkTimer !==
-            null
-        ) {
+        if (hashTimer) {
             clearTimeout(
-                deepLinkTimer
+                hashTimer
             );
-
-            deepLinkTimer =
-                null;
         }
 
         let attempts = 0;
@@ -860,33 +693,24 @@
 
             decorateAllVehicles();
 
-            const vehicle =
-                findVehicle(
-                    model
+            const found =
+                scrollToVehicle(
+                    model,
+                    animated
                 );
 
-            if (vehicle) {
-                /*
-                 * Wait until the current browser
-                 * frame is finished.
-                 */
-                requestAnimationFrame(
-                    () => {
-                        scrollToVehicle(
-                            model,
-                            animated
-                        );
-                    }
-                );
-
+            if (found) {
                 return;
             }
 
+            /*
+             * Wait up to 12 seconds for
+             * dynamically loaded vehicles.
+             */
             if (
-                attempts <
-                120
+                attempts < 120
             ) {
-                deepLinkTimer =
+                hashTimer =
                     setTimeout(
                         attempt,
                         100
@@ -1128,6 +952,9 @@
             return;
         }
 
+        /*
+         * STATIC HTML VEHICLES
+         */
         const staticVehicles =
             container.querySelectorAll(
                 ".vehicle"
@@ -1141,27 +968,18 @@
             loadServerRotation();
 
             /*
-             * IMPORTANT:
-             * Do not allow the browser's native
-             * hash behavior to control positioning.
+             * Deep-link after static DOM exists.
              */
-            if (getHashModel()) {
-                requestAnimationFrame(
-                    () => {
-                        scrollToHashWhenReady(
-                            true
-                        );
-                    }
-                );
-            }
+            scrollToHashWhenReady(
+                true
+            );
 
             return;
         }
 
-        /* ========================================================
-           DYNAMIC JSON
-           ======================================================== */
-
+        /*
+         * DYNAMIC JSON
+         */
         $.get(
             "/json?_=" +
                 Date.now()
@@ -1216,17 +1034,13 @@
 
                     loadServerRotation();
 
-                    if (
-                        getHashModel()
-                    ) {
-                        requestAnimationFrame(
-                            () => {
-                                scrollToHashWhenReady(
-                                    true
-                                );
-                            }
-                        );
-                    }
+                    /*
+                     * Deep-link AFTER
+                     * vehicles are rendered.
+                     */
+                    scrollToHashWhenReady(
+                        true
+                    );
                 }
             )
             .fail(
@@ -1377,6 +1191,7 @@
         ".vehicle-link",
         async function (event) {
             event.preventDefault();
+
             event.stopPropagation();
 
             const link =
@@ -1395,15 +1210,9 @@
                 );
 
             /*
-             * Stop any current animation.
+             * Update browser URL.
              */
-            stopDeepLinkAnimation();
-
-            /*
-             * Change URL without allowing
-             * native hash scrolling.
-             */
-            history.pushState(
+            window.history.pushState(
                 {
                     vehicle: model
                 },
@@ -1412,8 +1221,7 @@
             );
 
             /*
-             * Smoothly scroll from the CURRENT
-             * location to the requested vehicle.
+             * Smooth navigation.
              */
             scrollToVehicle(
                 model,
@@ -1421,7 +1229,7 @@
             );
 
             /*
-             * Copy URL.
+             * Copy full URL.
              */
             const copied =
                 await copyToClipboard(
@@ -1429,10 +1237,16 @@
                 );
 
             if (copied) {
+                /*
+                 * GREEN STATE
+                 */
                 link.classList.add(
                     "copied"
                 );
 
+                /*
+                 * Exactly 3 seconds.
+                 */
                 setTimeout(
                     () => {
                         link.classList.remove(
@@ -1452,19 +1266,8 @@
     window.addEventListener(
         "hashchange",
         () => {
-            /*
-             * Native browser fragment scrolling may have
-             * already happened before this event fires.
-             *
-             * Immediately take control and animate from
-             * the CURRENT position to the target.
-             */
-            requestAnimationFrame(
-                () => {
-                    scrollToHashWhenReady(
-                        true
-                    );
-                }
+            scrollToHashWhenReady(
+                true
             );
         }
     );
@@ -1476,12 +1279,8 @@
     window.addEventListener(
         "popstate",
         () => {
-            requestAnimationFrame(
-                () => {
-                    scrollToHashWhenReady(
-                        true
-                    );
-                }
+            scrollToHashWhenReady(
+                true
             );
         }
     );
@@ -1513,110 +1312,62 @@
        ============================================================ */
 
     /*
-     * Prevent the browser from restoring an old
-     * scroll position before our deep-link code
-     * has finished.
+     * Immediately decorate any
+     * server-rendered vehicle sections.
      */
-    if (
-        "scrollRestoration" in
-        history
-    ) {
-        history.scrollRestoration =
-            "manual";
-    }
-
-    /*
-     * If there is a hash when the page starts,
-     * immediately take control of the page.
-     */
-    const initialHash =
-        getHashModel();
-
-    if (initialHash) {
-        /*
-         * Force initial position to the top.
-         *
-         * This prevents:
-         *
-         * TOP
-         *   ↓
-         * browser instantly jumps to #xyz
-         *   ↓
-         * JavaScript tries to animate
-         *
-         * Instead:
-         *
-         * TOP
-         *   ↓
-         * JavaScript animation
-         *   ↓
-         * #xyz
-         */
-        window.scrollTo(
-            0,
-            0
-        );
-    }
-
     decorateAllVehicles();
 
+    /*
+     * Load/render catalog.
+     */
     loadVehicles();
 
-    /* ============================================================
-       FINAL LAYOUT CHECKS
-       ============================================================ */
-
+    /*
+     * Extra deep-link checks after
+     * browser layout settles.
+     */
     window.addEventListener(
         "load",
         () => {
             decorateAllVehicles();
 
-            if (
-                getHashModel()
-            ) {
-                /*
-                 * Always restart from the CURRENT position.
-                 */
-                scrollToHashWhenReady(
-                    true
-                );
-            }
+            scrollToHashWhenReady(
+                true
+            );
+
+            setTimeout(
+                () => {
+                    decorateAllVehicles();
+
+                    scrollToHashWhenReady(
+                        true
+                    );
+                },
+                350
+            );
+
+            setTimeout(
+                () => {
+                    decorateAllVehicles();
+
+                    scrollToHashWhenReady(
+                        true
+                    );
+                },
+                1000
+            );
+
+            setTimeout(
+                () => {
+                    decorateAllVehicles();
+
+                    scrollToHashWhenReady(
+                        true
+                    );
+                },
+                2000
+            );
         }
-    );
-
-    /*
-     * Images and dynamically generated content can
-     * change document height.
-     */
-    setTimeout(
-        () => {
-            decorateAllVehicles();
-
-            if (
-                getHashModel()
-            ) {
-                scrollToHashWhenReady(
-                    true
-                );
-            }
-        },
-        500
-    );
-
-    setTimeout(
-        () => {
-            decorateAllVehicles();
-
-            if (
-                getHashModel() &&
-                !deepLinkRunning
-            ) {
-                scrollToHashWhenReady(
-                    true
-                );
-            }
-        },
-        1500
     );
 
 })(jQuery);
