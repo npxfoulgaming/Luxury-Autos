@@ -4,7 +4,14 @@
     /*
      * ============================================================
      * LUXURY AUTOS
-     * Advanced deep-link navigation
+     * Deep-link navigation
+     *
+     * IMPORTANT:
+     * /#vehicle now scrolls the requested vehicle to the TOP
+     * of the viewport instead of trying to center it.
+     *
+     * This also works when the requested vehicle is near the
+     * bottom of the page.
      * ============================================================
      */
 
@@ -218,9 +225,11 @@
                     "textarea"
                 );
 
-            textarea.value = text;
+            textarea.value =
+                text;
 
-            textarea.readOnly = true;
+            textarea.readOnly =
+                true;
 
             textarea.style.position =
                 "fixed";
@@ -291,10 +300,6 @@
             `Copy link to ${model}`
         );
 
-        /*
-         * No visible text.
-         * No tooltip.
-         */
         link.innerHTML = `
             <svg
                 viewBox="0 0 24 24"
@@ -360,11 +365,9 @@
             return;
         }
 
-        /*
-         * --------------------------------------------------------
-         * Vehicle name
-         * --------------------------------------------------------
-         */
+        /* --------------------------------------------------------
+           Vehicle name
+           -------------------------------------------------------- */
 
         let nameWrapper =
             inner.querySelector(
@@ -398,16 +401,9 @@
             );
         }
 
-        /*
-         * --------------------------------------------------------
-         * Link icon
-         *
-         * IMPORTANT:
-         * It is inserted DIRECTLY into .details.
-         *
-         * CSS places it in the same bottom row as .colors.
-         * --------------------------------------------------------
-         */
+        /* --------------------------------------------------------
+           Link icon
+           -------------------------------------------------------- */
 
         let link =
             details.querySelector(
@@ -456,12 +452,16 @@
     }
 
     /* ============================================================
-       ADVANCED EASING
+       EASING
        ============================================================ */
 
     function easeInOutQuart(t) {
         return t < 0.5
-            ? 8 * t * t * t * t
+            ? 8 *
+                t *
+                t *
+                t *
+                t
             : 1 -
                 Math.pow(
                     -2 * t + 2,
@@ -471,15 +471,81 @@
     }
 
     /* ============================================================
+       GET HEADER OFFSET
+       ============================================================ */
+
+    function getHeaderOffset() {
+        const header =
+            document.querySelector(
+                "h1"
+            );
+
+        if (!header) {
+            return window.innerWidth <= 700
+                ? 70
+                : 95;
+        }
+
+        const headerRect =
+            header.getBoundingClientRect();
+
+        /*
+         * Add a little breathing room below
+         * the fixed heading.
+         */
+        const extraSpace =
+            window.innerWidth <= 700
+                ? 12
+                : 15;
+
+        return (
+            Math.max(
+                0,
+                headerRect.height
+            ) +
+            extraSpace
+        );
+    }
+
+    /* ============================================================
+       GET MAX SCROLL
+       ============================================================ */
+
+    function getMaxScrollY() {
+        return Math.max(
+            0,
+            document.documentElement
+                .scrollHeight -
+                window.innerHeight
+        );
+    }
+
+    /* ============================================================
        PREMIUM SMOOTH SCROLL
        ============================================================ */
 
     function premiumScrollTo(
         targetY,
-        duration = 1450
+        duration = 1250
     ) {
         const startY =
             window.scrollY;
+
+        /*
+         * Never request a scroll position
+         * beyond the actual document.
+         */
+        const maxScroll =
+            getMaxScrollY();
+
+        targetY =
+            Math.max(
+                0,
+                Math.min(
+                    targetY,
+                    maxScroll
+                )
+            );
 
         const distance =
             targetY -
@@ -487,7 +553,7 @@
 
         if (
             Math.abs(distance) <
-            3
+            2
         ) {
             window.scrollTo(
                 0,
@@ -548,6 +614,33 @@
     }
 
     /* ============================================================
+       GET VEHICLE TOP
+       ============================================================ */
+
+    function getVehicleDocumentTop(
+        vehicle
+    ) {
+        if (!vehicle) {
+            return 0;
+        }
+
+        const rect =
+            vehicle.getBoundingClientRect();
+
+        /*
+         * getBoundingClientRect() gives the
+         * current viewport position.
+         *
+         * Adding scrollY converts it to
+         * document coordinates.
+         */
+        return (
+            rect.top +
+            window.scrollY
+        );
+    }
+
+    /* ============================================================
        SCROLL TO VEHICLE
        ============================================================ */
 
@@ -563,7 +656,7 @@
         }
 
         /*
-         * Remove previous focus.
+         * Remove previous target.
          */
         document
             .querySelectorAll(
@@ -578,76 +671,98 @@
             );
 
         /*
-         * Activate selected section.
+         * Activate selected vehicle.
          */
         vehicle.classList.add(
             "hash-target"
         );
 
         /*
-         * Wait for CSS transition/layout.
+         * Wait for the browser to apply
+         * the target class before measuring.
          */
         requestAnimationFrame(
             () => {
-                const rect =
-                    vehicle.getBoundingClientRect();
-
-                const viewportHeight =
-                    window.innerHeight;
-
                 /*
-                 * Center the entire vehicle
-                 * elegantly in the viewport.
+                 * =================================================
+                 * IMPORTANT FIX
+                 *
+                 * OLD:
+                 * Centered the entire vehicle.
+                 *
+                 * NEW:
+                 * Put the TOP of the requested vehicle at the top
+                 * of the viewport, below the fixed heading.
+                 *
+                 * This means:
+                 *
+                 * /view/special.html/#c10
+                 *
+                 * will always navigate directly to c10 rather
+                 * than attempting to center c10.
+                 * =================================================
                  */
-                const vehicleCenter =
-                    rect.top +
-                    rect.height / 2;
 
-                const viewportCenter =
-                    viewportHeight / 2;
+                const vehicleTop =
+                    getVehicleDocumentTop(
+                        vehicle
+                    );
 
-                const delta =
-                    vehicleCenter -
-                    viewportCenter;
+                const headerOffset =
+                    getHeaderOffset();
 
                 let targetY =
-                    window.scrollY +
-                    delta;
-
-                /*
-                 * Slightly account for
-                 * the fixed heading.
-                 */
-                const headerOffset =
-                    window.innerWidth <=
-                    700
-                        ? 25
-                        : 35;
-
-                targetY -=
+                    vehicleTop -
                     headerOffset;
 
+                /*
+                 * Never scroll above page start.
+                 */
                 targetY =
                     Math.max(
                         0,
                         targetY
                     );
 
-                if (animated) {
-                    premiumScrollTo(
-                        targetY,
-                        1500
-                    );
-                } else {
-                    window.scrollTo(
-                        0,
-                        targetY
-                    );
-                }
+                /*
+                 * Recalculate after layout has
+                 * completely settled. This is
+                 * particularly important for
+                 * images and lazy-loaded content.
+                 */
+                requestAnimationFrame(
+                    () => {
+                        const latestTop =
+                            getVehicleDocumentTop(
+                                vehicle
+                            );
+
+                        targetY =
+                            latestTop -
+                            getHeaderOffset();
+
+                        targetY =
+                            Math.max(
+                                0,
+                                targetY
+                            );
+
+                        if (animated) {
+                            premiumScrollTo(
+                                targetY,
+                                1250
+                            );
+                        } else {
+                            window.scrollTo(
+                                0,
+                                targetY
+                            );
+                        }
+                    }
+                );
 
                 /*
-                 * Keep focus effect for
-                 * a polished finish.
+                 * Keep target highlight visible.
                  */
                 setTimeout(
                     () => {
@@ -684,6 +799,9 @@
             clearTimeout(
                 hashTimer
             );
+
+            hashTimer =
+                null;
         }
 
         let attempts = 0;
@@ -1210,7 +1328,8 @@
                 );
 
             /*
-             * Update browser URL.
+             * Update URL without causing
+             * native browser hash jumping.
              */
             window.history.pushState(
                 {
@@ -1221,7 +1340,8 @@
             );
 
             /*
-             * Smooth navigation.
+             * Smooth navigation to the TOP
+             * of the selected vehicle.
              */
             scrollToVehicle(
                 model,
@@ -1237,16 +1357,10 @@
                 );
 
             if (copied) {
-                /*
-                 * GREEN STATE
-                 */
                 link.classList.add(
                     "copied"
                 );
 
-                /*
-                 * Exactly 3 seconds.
-                 */
                 setTimeout(
                     () => {
                         link.classList.remove(
@@ -1335,6 +1449,10 @@
                 true
             );
 
+            /*
+             * Images/layout may still change
+             * the document height.
+             */
             setTimeout(
                 () => {
                     decorateAllVehicles();

@@ -26,7 +26,9 @@ body {
 
 body::before {
     content: "";
+
     position: fixed;
+
     top: -15px;
     right: -15px;
     bottom: -15px;
@@ -66,6 +68,7 @@ h1 {
     position: fixed;
 
     top: 15px;
+
     left:
         calc(
             (max(100%, 1550px) - 1550px) / 2
@@ -97,7 +100,8 @@ h1 {
         );
 
     box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.08);
+        0 10px 35px
+        rgba(0, 0, 0, 0.08);
 }
 
 h1 a {
@@ -121,7 +125,13 @@ h1 a {
 
     position: relative;
 
-    scroll-margin-top: 100px;
+    /*
+     * Important:
+     *
+     * This makes the native browser hash position
+     * respect the fixed heading.
+     */
+    scroll-margin-top: 95px;
 
     transition:
         filter 500ms ease,
@@ -259,7 +269,8 @@ body.loading-rotation
         translateY(-1px);
 
     text-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.13);
+        0 5px 20px
+        rgba(0, 0, 0, 0.13);
 }
 
 /* =========================================================
@@ -307,14 +318,6 @@ body.loading-rotation
    BOTTOM ACTION AREA
    ========================================================= */
 
-/*
-   This is a dedicated bottom action layer.
-
-   Link + colors are on the SAME horizontal line.
-
-   Nothing is positioned above the colors.
-*/
-
 .vehicle .details .colors {
     position: absolute;
 
@@ -348,9 +351,6 @@ body.loading-rotation
     right: auto;
 }
 
-/*
-   Only show colors when this vehicle is hovered.
-*/
 .vehicle:hover
 .details .colors {
     opacity: 1;
@@ -362,20 +362,6 @@ body.loading-rotation
 /* =========================================================
    LINK ICON
    ========================================================= */
-
-/*
-   IMPORTANT:
-
-   The icon is NOT above the colors.
-
-   It occupies the SAME bottom action row.
-
-   Normal:
-   [colors] [link]
-
-   Inverted:
-   [link] [colors]
-*/
 
 .vehicle .details .vehicle-link {
     position: absolute;
@@ -396,7 +382,8 @@ body.loading-rotation
 
     background: transparent;
 
-    color: rgba(0, 0, 0, 0.55);
+    color:
+        rgba(0, 0, 0, 0.55);
 
     text-decoration: none;
 
@@ -422,31 +409,16 @@ body.loading-rotation
         color 220ms ease;
 }
 
-/*
-   NORMAL VEHICLE
-
-   Colors are on right.
-   Link sits immediately beside them.
-*/
 .vehicle:not(.invert)
 .details .vehicle-link {
     right: 135px;
 }
 
-/*
-   INVERT VEHICLE
-
-   Colors are on left.
-   Link sits immediately beside them.
-*/
 .vehicle.invert
 .details .vehicle-link {
     left: 135px;
 }
 
-/*
-   Only the hovered vehicle gets its icon.
-*/
 .vehicle:hover
 .details .vehicle-link,
 .vehicle:focus-within
@@ -493,10 +465,6 @@ body.loading-rotation
 /* =========================================================
    COPIED STATE
    ========================================================= */
-
-/*
-   Green for exactly 3 seconds.
-*/
 
 .vehicle .details
 .vehicle-link.copied {
@@ -801,7 +769,10 @@ body.loading-rotation
     .vehicle {
         height: 300px;
 
-        scroll-margin-top: 80px;
+        /*
+         * Fixed mobile header offset.
+         */
+        scroll-margin-top: 70px;
     }
 
     .vehicle .details
@@ -824,10 +795,6 @@ body.loading-rotation
     .vehicle .details pre {
         font-size: 12px;
     }
-
-    /*
-       Keep icon beside the color row on mobile.
-    */
 
     .vehicle:not(.invert)
     .details .vehicle-link {
