@@ -7,242 +7,32 @@
      * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
      *
-     * SUPPORTED DEEP LINKS:
-     *
-     * https://luxury-autos.vercel.app/view/special.html/#pulse
-     *
-     * IMPORTANT:
-     *
-     * The pathname is kept as:
-     *
-     * /view/special.html
-     *
-     * NEVER:
-     *
-     * /view/special.html/
-     *
-     * The hash is handled entirely by JavaScript.
-     *
-     * ============================================================
-     */
-
-
-    /*
-     * ============================================================
-     * URL CANONICALIZATION
-     * ============================================================
-     *
-     * Vercel/static hosting can sometimes serve:
-     *
-     * /special.html/
-     *
-     * even when the real file is:
-     *
-     * /special.html
-     *
-     * If that happens, repair it immediately.
-     *
-     * IMPORTANT:
-     *
-     * The hash is NOT removed here.
-     *
-     * Example:
+     * Canonical vehicle URL:
      *
      * /view/special.html/#pulse
      *
-     * becomes:
+     * NOT:
      *
-     * /view/special.html/#pulse
+     * /view/special.html#pulse
      *
-     * without triggering a reload.
-     */
-
-    function getCanonicalPathname() {
-        let pathname =
-            window.location.pathname;
-
-        /*
-         * Only remove the trailing slash when
-         * it comes AFTER an HTML filename.
-         *
-         * Example:
-         *
-         * /view/special.html/
-         *
-         * -> /view/special.html
-         *
-         * But:
-         *
-         * /view/
-         *
-         * stays /view/
-         */
-
-        if (
-            /\.html\/$/i.test(
-                pathname
-            )
-        ) {
-            pathname =
-                pathname.replace(
-                    /\/$/u,
-                    ""
-                );
-        }
-
-        return pathname;
-    }
-
-
-    function canonicalizeCurrentUrl() {
-        const pathname =
-            getCanonicalPathname();
-
-        const currentPath =
-            window.location.pathname;
-
-        if (
-            pathname ===
-            currentPath
-        ) {
-            return;
-        }
-
-        const canonicalUrl =
-            pathname +
-            window.location.search +
-            window.location.hash;
-
-        try {
-            window.history.replaceState(
-                {
-                    luxuryAutosCanonical:
-                        true
-                },
-                "",
-                canonicalUrl
-            );
-        } catch {
-            /*
-             * Fallback.
-             */
-
-            window.location.replace(
-                canonicalUrl
-            );
-        }
-    }
-
-
-    /*
-     * IMPORTANT:
+     * Features:
      *
-     * Run this BEFORE reading/removing the
-     * initial hash.
-     */
-
-    canonicalizeCurrentUrl();
-
-
-    /*
-     * ============================================================
-     * INITIAL HASH
-     * ============================================================
-     */
-
-    let initialHash =
-        window.location.hash || "";
-
-    let initialHashModel =
-        "";
-
-    if (
-        initialHash &&
-        initialHash.length > 1
-    ) {
-        try {
-            initialHashModel =
-                decodeURIComponent(
-                    initialHash.substring(1)
-                ).trim();
-        } catch {
-            initialHashModel =
-                initialHash
-                    .substring(1)
-                    .trim();
-        }
-    }
-
-
-    /*
-     * ============================================================
-     * HISTORY SCROLL RESTORATION
-     * ============================================================
-     */
-
-    try {
-        if (
-            "scrollRestoration" in
-            window.history
-        ) {
-            window.history.scrollRestoration =
-                "manual";
-        }
-    } catch {
-        // Ignore unsupported browsers.
-    }
-
-
-    /*
-     * ============================================================
-     * PREVENT NATIVE HASH JUMP
-     * ============================================================
+     * 1. Deep links work from Discord / browser / new tab.
+     * 2. Vehicle URLs always use .html/#model.
+     * 3. Initial deep links start from the top.
+     * 4. Smooth cinematic scrolling to the vehicle.
+     * 5. Scrolling works naturally both upward and downward.
+     * 6. Vehicle link icons are placed:
      *
-     * We now remove ONLY the hash.
+     *    Normal:
+     *    [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
      *
-     * The pathname is already canonical:
+     *    Inverted:
+     *    [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
      *
-     * /view/special.html
-     *
-     * and NOT:
-     *
-     * /view/special.html/
-     */
-
-    if (initialHashModel) {
-        const cleanInitialUrl =
-            getCanonicalPathname() +
-            window.location.search;
-
-        try {
-            window.history.replaceState(
-                {
-                    luxuryAutosInitialHash:
-                        initialHashModel
-                },
-                "",
-                cleanInitialUrl
-            );
-        } catch {
-            // Ignore history API errors.
-        }
-
-        /*
-         * Always start direct deep-links
-         * from the very top.
-         */
-
-        window.scrollTo(
-            0,
-            0
-        );
-    }
-
-
-    /*
-     * ============================================================
-     * PAGE DATA
-     * ============================================================
+     * 7. Active hash vehicle receives a highlighted link icon.
+     * 8. Dynamic vehicle loading is supported.
+     * 9. Hash survives page navigation and sharing.
      */
 
     const pageTitle =
@@ -260,230 +50,206 @@
             ? server
             : "";
 
-    const jsonKey =
-        pageTitle + " Imports";
-
-
     /*
      * ============================================================
-     * PRICE FORMATTER
+     * INITIAL HASH
      * ============================================================
      */
 
-    const formatter =
-        new Intl.NumberFormat(
-            "en-US",
-            {
-                style: "currency",
-                currency: "USD",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }
-        );
+    let initialHash = window.location.hash || "";
+    let initialHashModel = "";
 
-
-    /*
-     * ============================================================
-     * BACKGROUND
-     * ============================================================
-     */
-
-    if (vehicleCategory) {
-        $("head").append(`
-            <style>
-                body::before {
-                    background-image:
-                        url(
-                            "/images/main/${vehicleCategory}_floor.png"
-                        );
-                }
-            </style>
-        `);
-    }
-
-
-    /*
-     * ============================================================
-     * VEHICLE CONTAINER
-     * ============================================================
-     */
-
-    function getVehiclesContainer() {
-        const containers =
-            Array.from(
-                document.querySelectorAll(
-                    "#vehicles"
-                )
-            );
-
-        if (!containers.length) {
-            return null;
-        }
-
-        const populated =
-            containers.find(
-                (container) =>
-                    container.querySelector(
-                        ".vehicle"
-                    )
-            );
-
-        return (
-            populated ||
-            containers[0]
-        );
-    }
-
-
-    /*
-     * ============================================================
-     * VEHICLE MODEL
-     * ============================================================
-     */
-
-    function getVehicleModel(vehicle) {
-        if (!vehicle) {
-            return "";
-        }
-
-        return (
-            vehicle.dataset.model ||
-            vehicle.getAttribute(
-                "data-model"
-            ) ||
-            ""
-        ).trim();
-    }
-
-
-    /*
-     * ============================================================
-     * HASH
-     * ============================================================
-     */
-
-    function decodeHash(hash) {
-        if (
-            !hash ||
-            hash.length <= 1
-        ) {
-            return "";
-        }
-
+    if (initialHash && initialHash.length > 1) {
         try {
-            return decodeURIComponent(
-                hash.substring(1)
+            initialHashModel = decodeURIComponent(
+                initialHash.substring(1)
             ).trim();
         } catch {
-            return hash
-                .substring(1)
-                .trim();
+            initialHashModel =
+                initialHash.substring(1).trim();
         }
     }
 
+    /*
+     * ============================================================
+     * HISTORY / SCROLL RESTORATION
+     * ============================================================
+     */
 
-    function getHashModel() {
-        return decodeHash(
-            window.location.hash
-        );
-    }
-
+    try {
+        if ("scrollRestoration" in window.history) {
+            window.history.scrollRestoration = "manual";
+        }
+    } catch {}
 
     /*
      * ============================================================
-     * BUILD VEHICLE URL
+     * URL HELPERS
      * ============================================================
      *
-     * THIS IS THE IMPORTANT URL FUNCTION.
-     *
-     * It does NOT:
-     *
-     * url.pathname += "/";
-     *
-     * It uses the canonical pathname.
-     *
-     * Result:
+     * ALWAYS produce:
      *
      * /view/special.html/#pulse
      *
-     * NEVER:
-     *
-     * /view/special.html//
-     * /view/special.html/#pulse
-     * after pathname corruption.
+     * The slash BEFORE the hash is intentional.
      */
+
+    function getCanonicalVehiclePath(pathname) {
+        let path = pathname || window.location.pathname;
+
+        /*
+         * Remove any accidental trailing slashes first.
+         *
+         * Example:
+         *
+         * /view/special.html/
+         *        ↓
+         * /view/special.html
+         */
+
+        path = path.replace(/\/+$/, "");
+
+        /*
+         * Now add exactly ONE slash.
+         *
+         * /view/special.html
+         *        ↓
+         * /view/special.html/
+         */
+
+        if (!path.endsWith("/")) {
+            path += "/";
+        }
+
+        return path;
+    }
 
     function buildVehicleUrl(model) {
-        const pathname =
-            getCanonicalPathname();
+        if (!model) {
+            return window.location.href;
+        }
 
-        const search =
-            window.location.search;
+        const url = new URL(window.location.href);
 
-        const encodedModel =
-            encodeURIComponent(
-                String(
-                    model || ""
-                ).trim()
-            );
+        /*
+         * Force canonical .html/ path.
+         */
 
-        return (
-            window.location.origin +
-            pathname +
-            search +
-            "#" +
-            encodedModel
+        url.pathname = getCanonicalVehiclePath(
+            url.pathname
         );
+
+        /*
+         * Set hash through URL API so special characters
+         * are handled safely.
+         */
+
+        url.hash = String(model).trim();
+
+        return url.href;
     }
 
+    function buildCleanCanonicalUrl() {
+        const url = new URL(window.location.href);
+
+        url.pathname = getCanonicalVehiclePath(
+            url.pathname
+        );
+
+        url.hash = "";
+
+        return url.href;
+    }
 
     /*
      * ============================================================
-     * RESTORE INITIAL HASH
+     * CANONICALIZE CURRENT PAGE
      * ============================================================
+     *
+     * If the browser/Vercel currently gives us:
+     *
+     * /view/special.html#pulse
+     *
+     * convert it to:
+     *
+     * /view/special.html/#pulse
+     *
+     * without reloading the page.
      */
 
-    function restoreInitialHash() {
-        if (
-            !initialHashModel
-        ) {
+    function canonicalizeCurrentUrl() {
+        const currentPath =
+            window.location.pathname;
+
+        const canonicalPath =
+            getCanonicalVehiclePath(currentPath);
+
+        if (currentPath === canonicalPath) {
             return;
         }
 
-        const targetUrl =
-            buildVehicleUrl(
-                initialHashModel
+        const url = new URL(window.location.href);
+
+        url.pathname = canonicalPath;
+
+        try {
+            window.history.replaceState(
+                window.history.state,
+                "",
+                url.href
             );
+        } catch {}
+    }
+
+    /*
+     * IMPORTANT:
+     *
+     * Do this BEFORE temporarily removing the hash.
+     * This guarantees that a deep link such as:
+     *
+     * /special.html/#pulse
+     *
+     * is always converted back to the same canonical format.
+     */
+
+    canonicalizeCurrentUrl();
+
+    /*
+     * ============================================================
+     * PREVENT NATIVE HASH JUMP DURING INITIAL LOAD
+     * ============================================================
+     */
+
+    if (initialHashModel) {
+        const cleanUrl =
+            buildCleanCanonicalUrl();
 
         try {
             window.history.replaceState(
                 {
-                    vehicle:
+                    luxuryAutosInitialHash:
                         initialHashModel
                 },
                 "",
-                targetUrl
+                cleanUrl
             );
-        } catch {
-            // Ignore history API errors.
-        }
-    }
+        } catch {}
 
+        /*
+         * Always begin deep-link animation from the top.
+         */
+
+        window.scrollTo(0, 0);
+    }
 
     /*
      * ============================================================
-     * FIND VEHICLE
+     * VEHICLE LOOKUP
      * ============================================================
      */
 
     function findVehicle(model) {
-        const container =
-            getVehiclesContainer();
-
-        if (
-            !container ||
-            !model
-        ) {
+        if (!model) {
             return null;
         }
 
@@ -493,113 +259,27 @@
                 .toLowerCase();
 
         const vehicles =
-            container.querySelectorAll(
+            document.querySelectorAll(
                 ".vehicle"
             );
 
-        for (
-            const vehicle
-            of vehicles
-        ) {
-            if (
-                getVehicleModel(
-                    vehicle
+        for (const vehicle of vehicles) {
+            const dataModel =
+                String(
+                    vehicle.dataset.model ||
+                    vehicle.id ||
+                    ""
                 )
                     .trim()
-                    .toLowerCase() ===
-                wanted
-            ) {
+                    .toLowerCase();
+
+            if (dataModel === wanted) {
                 return vehicle;
             }
         }
 
         return null;
     }
-
-
-    /*
-     * ============================================================
-     * COPY TO CLIPBOARD
-     * ============================================================
-     */
-
-    async function copyToClipboard(text) {
-        try {
-            if (
-                navigator.clipboard &&
-                typeof navigator
-                    .clipboard
-                    .writeText ===
-                    "function"
-            ) {
-                await navigator
-                    .clipboard
-                    .writeText(text);
-
-                return true;
-            }
-        } catch (error) {
-            console.warn(
-                "Clipboard API unavailable.",
-                error
-            );
-        }
-
-        try {
-            const textarea =
-                document.createElement(
-                    "textarea"
-                );
-
-            textarea.value =
-                text;
-
-            textarea.readOnly =
-                true;
-
-            textarea.style.position =
-                "fixed";
-
-            textarea.style.left =
-                "-9999px";
-
-            textarea.style.top =
-                "0";
-
-            textarea.style.opacity =
-                "0";
-
-            document.body.appendChild(
-                textarea
-            );
-
-            textarea.focus();
-
-            textarea.select();
-
-            textarea.setSelectionRange(
-                0,
-                text.length
-            );
-
-            const success =
-                document.execCommand(
-                    "copy"
-                );
-
-            textarea.remove();
-
-            return success;
-        } catch (error) {
-            console.error(
-                "Copy failed:",
-                error
-            );
-
-            return false;
-        }
-    }
-
 
     /*
      * ============================================================
@@ -609,17 +289,13 @@
 
     function createLinkIcon(model) {
         const link =
-            document.createElement(
-                "a"
-            );
+            document.createElement("a");
 
         link.className =
             "vehicle-link";
 
         link.href =
-            buildVehicleUrl(
-                model
-            );
+            buildVehicleUrl(model);
 
         link.dataset.model =
             model;
@@ -629,34 +305,26 @@
             `Copy link to ${model}`
         );
 
-        link.setAttribute(
-            "title",
-            `Copy link to ${model}`
-        );
+        link.title =
+            `Copy link to ${model}`;
 
         link.innerHTML = `
             <svg
                 viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
                 aria-hidden="true"
+                focusable="false"
             >
                 <path
-                    d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.71 1.71"
-                ></path>
-
+                    d="M10.59 13.41a1.99 1.99 0 0 0 2.82 0l3.59-3.59a2 2 0 0 0-2.83-2.83l-2.12 2.12"
+                />
                 <path
-                    d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07-7.07l1.71-1.71"
-                ></path>
+                    d="M13.41 10.59a1.99 1.99 0 0 0-2.82 0L7 14.18a2 2 0 0 0 2.83 2.83l2.12-2.12"
+                />
             </svg>
         `;
 
         return link;
     }
-
 
     /*
      * ============================================================
@@ -669,151 +337,136 @@
             return;
         }
 
-        const model =
-            getVehicleModel(
-                vehicle
-            );
+        let model =
+            vehicle.dataset.model ||
+            vehicle.id ||
+            "";
+
+        model =
+            String(model).trim();
 
         if (!model) {
             return;
         }
 
-        vehicle.id =
-            model;
-
-        const details =
-            vehicle.querySelector(
-                ".details"
-            );
-
-        if (!details) {
-            return;
-        }
-
-        const inner =
-            details.querySelector(
-                ".inner"
-            );
-
-        if (!inner) {
-            return;
-        }
-
-
         /*
-         * VEHICLE NAME
+         * Canonical ID.
          */
 
-        let nameWrapper =
-            inner.querySelector(
-                ":scope > .vehicle-name"
-            );
+        vehicle.id = model;
 
-        const originalName =
-            inner.querySelector(
-                ":scope > span"
-            );
-
-        if (
-            !nameWrapper &&
-            originalName
-        ) {
-            nameWrapper =
-                document.createElement(
-                    "div"
-                );
-
-            nameWrapper.className =
-                "vehicle-name";
-
-            inner.insertBefore(
-                nameWrapper,
-                originalName
-            );
-
-            nameWrapper.appendChild(
-                originalName
-            );
-        }
-
+        vehicle.dataset.model =
+            model;
 
         /*
-         * COLOR ROW
+         * --------------------------------------------------------
+         * VEHICLE NAME
+         * --------------------------------------------------------
+         */
+
+        let name =
+            vehicle.querySelector(
+                ".vehicle-name"
+            );
+
+        if (!name) {
+            name =
+                document.createElement("div");
+
+            name.className =
+                "vehicle-name";
+
+            const inner =
+                vehicle.querySelector(
+                    ".inner"
+                );
+
+            if (inner) {
+                inner.prepend(name);
+            }
+        }
+
+        /*
+         * --------------------------------------------------------
+         * COLORS
+         * --------------------------------------------------------
          */
 
         let colors =
-            details.querySelector(
-                ":scope > .colors"
+            vehicle.querySelector(
+                ".colors"
             );
 
         if (!colors) {
             colors =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             colors.className =
                 "colors";
 
-            details.appendChild(
-                colors
-            );
+            vehicle.appendChild(colors);
         }
 
-
         /*
-         * LINK
+         * --------------------------------------------------------
+         * LINK ICON
+         * --------------------------------------------------------
          */
 
         let link =
             colors.querySelector(
-                ":scope > .vehicle-link"
+                ".vehicle-link"
             );
 
-        if (!link) {
-            link =
-                createLinkIcon(
-                    model
-                );
-        } else {
-            link.href =
-                buildVehicleUrl(
-                    model
-                );
-
-            link.dataset.model =
-                model;
-        }
-
-
         /*
-         * Remove duplicates.
+         * Remove duplicate link icons.
          */
 
-        colors
-            .querySelectorAll(
-                ":scope > .vehicle-link"
-            )
-            .forEach(
-                (duplicate) => {
-                    if (
-                        duplicate !==
-                        link
-                    ) {
+        const duplicateLinks =
+            colors.querySelectorAll(
+                ".vehicle-link"
+            );
+
+        if (duplicateLinks.length > 1) {
+            duplicateLinks.forEach(
+                (duplicate, index) => {
+                    if (index > 0) {
                         duplicate.remove();
                     }
                 }
             );
+        }
 
+        if (!link) {
+            link =
+                createLinkIcon(model);
+
+            colors.appendChild(link);
+        }
 
         /*
+         * Always update the href because the page may have
+         * been loaded from a different URL.
+         */
+
+        link.href =
+            buildVehicleUrl(model);
+
+        link.dataset.model =
+            model;
+
+        /*
+         * --------------------------------------------------------
+         * LINK POSITION
+         * --------------------------------------------------------
+         *
          * NORMAL:
          *
-         * LINK | BLACK | WHITE | RED | GREEN | BLUE
+         * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
          *
          * INVERT:
          *
-         * BLACK | WHITE | RED | GREEN | BLUE | LINK
+         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
          */
 
         if (
@@ -821,9 +474,7 @@
                 "invert"
             )
         ) {
-            colors.appendChild(
-                link
-            );
+            colors.appendChild(link);
         } else {
             colors.insertBefore(
                 link,
@@ -832,57 +483,23 @@
         }
     }
 
-
     /*
      * ============================================================
-     * DECORATE ALL
+     * DECORATE ALL VEHICLES
      * ============================================================
      */
 
     function decorateAllVehicles() {
-        const container =
-            getVehiclesContainer();
-
-        if (!container) {
-            return;
-        }
-
-        container
-            .querySelectorAll(
-                ".vehicle"
-            )
+        document
+            .querySelectorAll(".vehicle")
             .forEach(
                 decorateVehicle
             );
     }
 
-
     /*
      * ============================================================
-     * EASING
-     * ============================================================
-     */
-
-    function easeInOutQuint(t) {
-        return t < 0.5
-            ? 16 *
-                t *
-                t *
-                t *
-                t *
-                t
-            : 1 -
-                Math.pow(
-                    -2 * t + 2,
-                    5
-                ) /
-                    2;
-    }
-
-
-    /*
-     * ============================================================
-     * SCROLL STATE
+     * PREMIUM SCROLL ENGINE
      * ============================================================
      */
 
@@ -892,14 +509,10 @@
     let scrollAnimationToken =
         0;
 
-
     function cancelPremiumScroll() {
         scrollAnimationToken++;
 
-        if (
-            activeScrollFrame !==
-            null
-        ) {
+        if (activeScrollFrame !== null) {
             cancelAnimationFrame(
                 activeScrollFrame
             );
@@ -909,75 +522,60 @@
         }
     }
 
-
     /*
-     * ============================================================
-     * DURATION
-     * ============================================================
+     * Smooth cinematic easing.
      */
+
+    function easeInOutQuint(t) {
+        return t < 0.5
+            ? 16 * t * t * t * t * t
+            : 1 -
+                  Math.pow(
+                      -2 * t + 2,
+                      5
+                  ) /
+                      2;
+    }
 
     function getScrollDuration(
         distance
     ) {
-        const d =
-            Math.abs(
-                distance
-            );
+        const absolute =
+            Math.abs(distance);
 
-        if (d < 80) {
-            return 450;
-        }
+        /*
+         * Short movement:
+         * ~750ms
+         *
+         * Long movement:
+         * ~2400ms
+         */
 
-        if (d < 250) {
-            return 650;
-        }
-
-        if (d < 500) {
-            return 850;
-        }
-
-        if (d < 900) {
-            return 1100;
-        }
-
-        if (d < 1500) {
-            return 1400;
-        }
-
-        if (d < 2300) {
-            return 1650;
-        }
-
-        if (d < 3500) {
-            return 1950;
-        }
-
-        if (d < 5000) {
-            return 2250;
-        }
-
-        return 2550;
+        return Math.min(
+            2400,
+            Math.max(
+                750,
+                650 +
+                    absolute *
+                        1.05
+            )
+        );
     }
-
-
-    /*
-     * ============================================================
-     * PREMIUM SCROLL
-     * ============================================================
-     */
 
     function premiumScrollTo(
         targetY,
-        duration = null
+        duration
     ) {
         cancelPremiumScroll();
+
+        const token =
+            scrollAnimationToken;
 
         const startY =
             window.scrollY;
 
         const distance =
-            targetY -
-            startY;
+            targetY - startY;
 
         if (
             Math.abs(distance) < 2
@@ -990,35 +588,10 @@
             return;
         }
 
-        if (
-            window.matchMedia &&
-            window.matchMedia(
-                "(prefers-reduced-motion: reduce)"
-            ).matches
-        ) {
-            window.scrollTo(
-                0,
-                targetY
-            );
+        const startTime =
+            performance.now();
 
-            return;
-        }
-
-        const animationDuration =
-            duration ||
-            getScrollDuration(
-                distance
-            );
-
-        const token =
-            scrollAnimationToken;
-
-        let startTime =
-            null;
-
-        function animate(
-            currentTime
-        ) {
+        function frame(now) {
             if (
                 token !==
                 scrollAnimationToken
@@ -1026,22 +599,14 @@
                 return;
             }
 
-            if (
-                startTime === null
-            ) {
-                startTime =
-                    currentTime;
-            }
-
             const elapsed =
-                currentTime -
-                startTime;
+                now - startTime;
 
             const progress =
                 Math.min(
+                    1,
                     elapsed /
-                        animationDuration,
-                    1
+                        duration
                 );
 
             const eased =
@@ -1051,8 +616,7 @@
 
             const currentY =
                 startY +
-                distance *
-                    eased;
+                distance * eased;
 
             window.scrollTo(
                 0,
@@ -1064,7 +628,7 @@
             ) {
                 activeScrollFrame =
                     requestAnimationFrame(
-                        animate
+                        frame
                     );
             } else {
                 activeScrollFrame =
@@ -1079,10 +643,9 @@
 
         activeScrollFrame =
             requestAnimationFrame(
-                animate
+                frame
             );
     }
-
 
     /*
      * ============================================================
@@ -1093,65 +656,69 @@
     function calculateVehicleTarget(
         vehicle
     ) {
+        if (!vehicle) {
+            return 0;
+        }
+
         const rect =
             vehicle.getBoundingClientRect();
 
-        const viewportHeight =
-            window.innerHeight;
+        const currentScroll =
+            window.scrollY ||
+            window.pageYOffset ||
+            0;
 
-        const headerOffset =
-            window.innerWidth <= 700
-                ? 30
-                : 45;
+        const viewportHeight =
+            window.innerHeight ||
+            document.documentElement
+                .clientHeight;
+
+        /*
+         * Put the vehicle slightly above center.
+         */
+
+        const mobile =
+            window.innerWidth <= 700;
+
+        const offset =
+            mobile
+                ? 25
+                : 35;
 
         const vehicleCenter =
             rect.top +
             rect.height / 2;
 
-        const desiredCenter =
-            viewportHeight / 2 +
-            headerOffset / 2;
-
-        const delta =
+        const target =
+            currentScroll +
             vehicleCenter -
-            desiredCenter;
-
-        let targetY =
-            window.scrollY +
-            delta;
-
-        targetY =
-            Math.max(
-                0,
-                targetY
-            );
+            viewportHeight / 2 -
+            offset;
 
         const maxScroll =
             Math.max(
                 0,
                 document.documentElement
                     .scrollHeight -
-                    window.innerHeight
+                    viewportHeight
             );
 
-        return Math.min(
-            targetY,
-            maxScroll
+        return Math.max(
+            0,
+            Math.min(
+                target,
+                maxScroll
+            )
         );
     }
 
-
     /*
      * ============================================================
-     * HIGHLIGHT
+     * ACTIVE TARGET
      * ============================================================
      */
 
-    let highlightTimer =
-        null;
-
-
-    function clearVehicleHighlights() {
+    function clearHashTarget() {
         document
             .querySelectorAll(
                 ".vehicle.hash-target"
@@ -1164,7 +731,6 @@
                 }
             );
     }
-
 
     /*
      * ============================================================
@@ -1186,26 +752,14 @@
 
         cancelPremiumScroll();
 
-        clearVehicleHighlights();
-
-        if (highlightTimer) {
-            clearTimeout(
-                highlightTimer
-            );
-
-            highlightTimer =
-                null;
-        }
+        clearHashTarget();
 
         vehicle.classList.add(
             "hash-target"
         );
 
-
         /*
-         * DIRECT DEEP LINK:
-         *
-         * Start from absolute top.
+         * Deep links ALWAYS start from top.
          */
 
         if (fromTop) {
@@ -1215,78 +769,56 @@
             );
         }
 
-
         /*
-         * Wait for layout/images.
+         * Wait one frame so the browser has
+         * finished layout/rendering.
          */
 
-        requestAnimationFrame(
-            () => {
-                requestAnimationFrame(
-                    () => {
-                        const targetY =
-                            calculateVehicleTarget(
-                                vehicle
-                            );
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                const targetY =
+                    calculateVehicleTarget(
+                        vehicle
+                    );
 
-                        const distance =
-                            targetY -
-                            window.scrollY;
+                const currentY =
+                    window.scrollY;
 
-                        const duration =
-                            getScrollDuration(
-                                distance
-                            );
+                const distance =
+                    targetY -
+                    currentY;
 
-                        if (animated) {
-                            premiumScrollTo(
-                                targetY,
-                                duration
-                            );
-                        } else {
-                            window.scrollTo(
-                                0,
-                                targetY
-                            );
-                        }
+                if (
+                    !animated ||
+                    Math.abs(
+                        distance
+                    ) < 2
+                ) {
+                    window.scrollTo(
+                        0,
+                        targetY
+                    );
 
-                        highlightTimer =
-                            setTimeout(
-                                () => {
-                                    vehicle.classList.remove(
-                                        "hash-target"
-                                    );
+                    return;
+                }
 
-                                    highlightTimer =
-                                        null;
-                                },
-                                Math.max(
-                                    3200,
-                                    duration +
-                                        1500
-                                )
-                            );
-                    }
+                premiumScrollTo(
+                    targetY,
+                    getScrollDuration(
+                        distance
+                    )
                 );
-            }
-        );
+            });
+        });
 
         return true;
     }
 
-
     /*
      * ============================================================
-     * HASH NAVIGATION
+     * WAIT FOR DYNAMIC VEHICLES
      * ============================================================
      */
-
-    let hashTimer =
-        null;
-
-    let lastNavigationModel =
-        "";
-
 
     function scrollToHashWhenReady(
         animated = true,
@@ -1295,303 +827,86 @@
     ) {
         const model =
             forcedModel ||
-            getHashModel();
+            initialHashModel;
 
         if (!model) {
             return;
         }
 
-        if (
-            lastNavigationModel ===
-                model &&
-            !fromTop &&
-            findVehicle(model)
-        ) {
-            return;
-        }
-
-        if (hashTimer) {
-            clearTimeout(
-                hashTimer
-            );
-
-            hashTimer =
-                null;
-        }
-
         let attempts = 0;
 
+        const maxAttempts =
+            120;
+
         function attempt() {
-            attempts++;
+            const vehicle =
+                findVehicle(model);
 
-            decorateAllVehicles();
+            if (vehicle) {
+                decorateVehicle(
+                    vehicle
+                );
 
-            const found =
                 scrollToVehicle(
                     model,
                     animated,
                     fromTop
                 );
 
-            if (found) {
-                lastNavigationModel =
-                    model;
-
-                hashTimer =
-                    null;
-
                 return;
             }
 
+            attempts++;
+
             if (
-                attempts < 150
+                attempts <
+                maxAttempts
             ) {
-                hashTimer =
-                    setTimeout(
-                        attempt,
-                        100
-                    );
-            } else {
-                hashTimer =
-                    null;
+                setTimeout(
+                    attempt,
+                    100
+                );
             }
         }
 
         attempt();
     }
 
-
     /*
      * ============================================================
-     * RENDER VEHICLE
+     * RESTORE INITIAL HASH
      * ============================================================
      */
 
-    function renderVehicle(
-        index,
-        count,
-        vehicle
-    ) {
-        const model =
-            vehicle.modelName ||
-            "";
-
-        const label =
-            vehicle.label ||
-            model;
-
-        const price =
-            Number(
-                vehicle.price
-            ) || 0;
-
-        const invert =
-            index % 2 === 0;
-
-        let mask =
-            invert
-                ? "0 0, calc(100% - 80px) 0, 100% 80px, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%"
-                : "0 80px, 80px 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 80px)";
-
-        if (
-            index === 0
-        ) {
-            mask =
-                "0 0, 100% 0, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%";
+    function restoreInitialHash() {
+        if (!initialHashModel) {
+            return;
         }
 
-        if (
-            index === count - 1
-        ) {
-            mask =
-                invert
-                    ? "0 0, calc(100% - 80px) 0, 100% 80px, 100% 100%, 0 100%"
-                    : "0 80px, 80px 0, 100% 0, 100% 100%, 0 100%";
-        }
-
-
-        const element =
-            document.createElement(
-                "div"
+        const fullUrl =
+            buildVehicleUrl(
+                initialHashModel
             );
 
-        element.className =
-            "vehicle" +
-            (
-                invert
-                    ? " invert"
-                    : ""
+        try {
+            window.history.replaceState(
+                {
+                    luxuryAutosInitialHash:
+                        initialHashModel
+                },
+                "",
+                fullUrl
             );
-
-        element.dataset.model =
-            model;
-
-        element.id =
-            model;
-
-
-        const details =
-            document.createElement(
-                "div"
-            );
-
-        details.className =
-            "details";
-
-
-        const inner =
-            document.createElement(
-                "div"
-            );
-
-        inner.className =
-            "inner";
-
-
-        const name =
-            document.createElement(
-                "span"
-            );
-
-        name.textContent =
-            label;
-
-
-        const priceElement =
-            document.createElement(
-                "small"
-            );
-
-        priceElement.textContent =
-            formatter.format(
-                price
-            );
-
-
-        const modelElement =
-            document.createElement(
-                "pre"
-            );
-
-        modelElement.textContent =
-            model;
-
-
-        inner.appendChild(
-            name
-        );
-
-        inner.appendChild(
-            priceElement
-        );
-
-        inner.appendChild(
-            modelElement
-        );
-
-        details.appendChild(
-            inner
-        );
-
+        } catch {}
 
         /*
-         * COLORS
+         * Make absolutely sure the URL is:
+         *
+         * /special.html/#pulse
          */
 
-        const colors =
-            document.createElement(
-                "div"
-            );
-
-        colors.className =
-            "colors";
-
-
-        [
-            ["mb", "Matte Black"],
-            ["mw", "Matte White"],
-            ["r", "Red"],
-            ["g", "Green"],
-            ["b", "Blue"]
-        ].forEach(
-            ([color, colorLabel]) => {
-                const colorElement =
-                    document.createElement(
-                        "div"
-                    );
-
-                colorElement.className =
-                    "color";
-
-                colorElement.dataset.color =
-                    color;
-
-                colorElement.title =
-                    colorLabel;
-
-                colorElement.setAttribute(
-                    "aria-label",
-                    colorLabel
-                );
-
-                colors.appendChild(
-                    colorElement
-                );
-            }
-        );
-
-        details.appendChild(
-            colors
-        );
-
-
-        /*
-         * IMAGE
-         */
-
-        const imageContainer =
-            document.createElement(
-                "div"
-            );
-
-        imageContainer.className =
-            "image";
-
-        imageContainer.style.clipPath =
-            `polygon(${mask})`;
-
-
-        const image =
-            document.createElement(
-                "img"
-            );
-
-        image.alt =
-            `${label} vehicle`;
-
-        image.src =
-            `/images/${vehicleCategory}/${model}.png`;
-
-        image.loading =
-            "lazy";
-
-
-        imageContainer.appendChild(
-            image
-        );
-
-
-        element.appendChild(
-            details
-        );
-
-        element.appendChild(
-            imageContainer
-        );
-
-        return element;
+        canonicalizeCurrentUrl();
     }
-
 
     /*
      * ============================================================
@@ -1599,25 +914,41 @@
      * ============================================================
      */
 
-    function loadVehicles() {
+    async function loadVehicles() {
         const container =
-            getVehiclesContainer();
+            document.querySelector(
+                "#page"
+            );
+
+        /*
+         * No dynamic container.
+         */
 
         if (!container) {
-            scrollToHashWhenReady(
-                false,
-                initialHashModel,
-                Boolean(
-                    initialHashModel
-                )
-            );
+            decorateAllVehicles();
+
+            if (
+                initialHashModel
+            ) {
+                restoreInitialHash();
+
+                scrollToHashWhenReady(
+                    true,
+                    initialHashModel,
+                    true
+                );
+
+                initialHashModel =
+                    "";
+            }
 
             return;
         }
 
-
         /*
+         * --------------------------------------------------------
          * STATIC VEHICLES
+         * --------------------------------------------------------
          */
 
         const staticVehicles =
@@ -1631,10 +962,13 @@
             decorateAllVehicles();
 
             if (
-                typeof loadServerRotation ===
-                "function"
+                typeof window
+                    .loadVehicleRotation ===
+                    "function"
             ) {
-                loadServerRotation();
+                try {
+                    window.loadVehicleRotation();
+                } catch {}
             }
 
             if (
@@ -1647,491 +981,122 @@
                     initialHashModel,
                     true
                 );
-            }
 
-            initialHashModel =
-                "";
+                initialHashModel =
+                    "";
+            }
 
             return;
         }
-
 
         /*
+         * --------------------------------------------------------
          * DYNAMIC JSON
+         * --------------------------------------------------------
          */
 
-        $.get(
-            "/json?_=" +
-                Date.now()
-        )
-            .done(
-                (data) => {
-                    const vehicles =
-                        Array.isArray(
-                            data?.[
-                                jsonKey
-                            ]
-                        )
-                            ? data[
-                                jsonKey
-                            ]
-                            : [];
+        try {
+            const response =
+                await fetch(
+                    `/json?_=${Date.now()}`,
+                    {
+                        cache: "no-store"
+                    }
+                );
 
+            if (!response.ok) {
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+            }
 
-                    vehicles.sort(
-                        (a, b) =>
-                            String(
-                                a?.label ||
-                                    ""
-                            ).localeCompare(
-                                String(
-                                    b?.label ||
-                                        ""
-                                )
-                            )
-                    );
+            const data =
+                await response.json();
 
+            /*
+             * Support both:
+             *
+             * []
+             *
+             * and:
+             *
+             * { vehicles: [] }
+             */
 
-                    container.innerHTML =
-                        "";
+            let vehicles =
+                Array.isArray(data)
+                    ? data
+                    : Array.isArray(
+                          data.vehicles
+                      )
+                    ? data.vehicles
+                    : [];
 
+            /*
+             * Sort alphabetically when possible.
+             */
 
-                    vehicles.forEach(
-                        (
-                            vehicle,
-                            index
-                        ) => {
-                            container.appendChild(
-                                renderVehicle(
-                                    index,
-                                    vehicles.length,
-                                    vehicle
-                                )
-                            );
+            vehicles.sort(
+                (a, b) => {
+                    const aName =
+                        String(
+                            a.label ||
+                            a.name ||
+                            a.model ||
+                            ""
+                        );
+
+                    const bName =
+                        String(
+                            b.label ||
+                            b.name ||
+                            b.model ||
+                            ""
+                        );
+
+                    return aName.localeCompare(
+                        bName,
+                        undefined,
+                        {
+                            numeric: true,
+                            sensitivity:
+                                "base"
                         }
                     );
-
-
-                    decorateAllVehicles();
-
-                    addFooter();
-
-                    if (
-                        typeof loadServerRotation ===
-                        "function"
-                    ) {
-                        loadServerRotation();
-                    }
-
-
-                    if (
-                        initialHashModel
-                    ) {
-                        restoreInitialHash();
-
-                        scrollToHashWhenReady(
-                            true,
-                            initialHashModel,
-                            true
-                        );
-                    }
-
-                    initialHashModel =
-                        "";
-                }
-            )
-            .fail(
-                (error) => {
-                    console.error(
-                        "Luxury Autos /json error:",
-                        error
-                    );
-
-                    decorateAllVehicles();
-
-                    if (
-                        typeof loadServerRotation ===
-                        "function"
-                    ) {
-                        loadServerRotation();
-                    }
-
-
-                    if (
-                        initialHashModel
-                    ) {
-                        restoreInitialHash();
-
-                        scrollToHashWhenReady(
-                            true,
-                            initialHashModel,
-                            true
-                        );
-                    }
-
-                    initialHashModel =
-                        "";
                 }
             );
-    }
 
-
-    /*
-     * ============================================================
-     * FOOTER
-     * ============================================================
-     */
-
-    function addFooter() {
-        if (
-            document.querySelector(
-                "#footer"
-            )
-        ) {
-            return;
-        }
-
-        const page =
-            document.querySelector(
-                "#page"
-            );
-
-        if (!page) {
-            return;
-        }
-
-        const footer =
-            document.createElement(
-                "p"
-            );
-
-        footer.id =
-            "footer";
-
-        footer.innerHTML =
-            "&copy; 2022-2024 coalaura";
-
-        page.appendChild(
-            footer
-        );
-    }
-
-
-    /*
-     * ============================================================
-     * COLORS
-     * ============================================================
-     */
-
-    $(document).on(
-        "click",
-        ".color",
-        function (event) {
-            const target =
-                $(event.currentTarget);
-
-            const vehicle =
-                target.closest(
-                    ".vehicle"
-                );
-
-            const image =
-                $(".image img", vehicle);
-
-            const color =
-                target.data(
-                    "color"
-                );
-
-            const original =
-                image.data(
-                    "original"
-                );
-
-
-            if (
-                target.hasClass(
-                    "active"
-                )
-            ) {
-                target.removeClass(
-                    "active"
-                );
-
-                if (original) {
-                    image.attr(
-                        "src",
-                        original
-                    );
-                }
-
-                return;
-            }
-
-
-            let src =
-                original ||
-                image.attr(
-                    "src"
-                );
-
-
-            if (!original) {
-                image.data(
-                    "original",
-                    src
-                );
-            }
-
-
-            src =
-                src.replace(
-                    /\.png$/i,
-                    `_${color}.png`
-                );
-
-
-            image.attr(
-                "src",
-                src
-            );
-
-
-            $(".color.active", vehicle)
-                .removeClass(
-                    "active"
-                );
-
-
-            target.addClass(
-                "active"
-            );
-        }
-    );
-
-
-    /*
-     * ============================================================
-     * VEHICLE LINK CLICK
-     * ============================================================
-     */
-
-    $(document).on(
-        "click",
-        ".vehicle-link",
-        async function (event) {
-            event.preventDefault();
-
-            event.stopPropagation();
-
-            const link =
-                event.currentTarget;
-
-            const model =
-                String(
-                    link.dataset.model ||
-                        ""
-                ).trim();
-
-            if (!model) {
-                return;
-            }
-
-
-            /*
-             * ALWAYS generate:
-             *
-             * /view/special.html/#pulse
-             */
-
-            const fullUrl =
-                buildVehicleUrl(
-                    model
-                );
-
-
-            /*
-             * Change only browser history.
-             *
-             * No native fragment jump.
-             */
-
-            try {
-                window.history.pushState(
-                    {
-                        vehicle:
-                            model
-                    },
-                    "",
-                    fullUrl
-                );
-            } catch {
-                return;
-            }
-
-
-            lastNavigationModel =
+            container.innerHTML =
                 "";
 
-
-            /*
-             * Start from CURRENT position.
-             */
-
-            scrollToVehicle(
-                model,
-                true,
-                false
-            );
-
-
-            /*
-             * Copy exact deep-link.
-             */
-
-            const copied =
-                await copyToClipboard(
-                    fullUrl
-                );
-
-
-            if (copied) {
-                link.classList.add(
-                    "copied"
-                );
-
-                setTimeout(
-                    () => {
-                        link.classList.remove(
-                            "copied"
-                        );
-                    },
-                    3000
-                );
-            }
-        }
-    );
-
-
-    /*
-     * ============================================================
-     * HASH CHANGE
-     * ============================================================
-     */
-
-    window.addEventListener(
-        "hashchange",
-        () => {
-            const model =
-                getHashModel();
-
-            if (!model) {
-                return;
-            }
-
-            lastNavigationModel =
-                "";
-
-            scrollToHashWhenReady(
-                true,
-                model,
-                false
-            );
-        }
-    );
-
-
-    /*
-     * ============================================================
-     * BACK / FORWARD
-     * ============================================================
-     */
-
-    window.addEventListener(
-        "popstate",
-        () => {
-            /*
-             * Canonicalize again in case the
-             * browser restored an old URL.
-             */
-
-            canonicalizeCurrentUrl();
-
-            const model =
-                getHashModel();
-
-            if (!model) {
-                return;
-            }
-
-            lastNavigationModel =
-                "";
-
-            scrollToHashWhenReady(
-                true,
-                model,
-                false
-            );
-        }
-    );
-
-
-    /*
-     * ============================================================
-     * ESCAPE
-     * ============================================================
-     */
-
-    $(document).on(
-        "keyup",
-        (event) => {
-            if (
-                event.key === "Escape"
-            ) {
-                try {
-                    window.parent.postMessage(
-                        "close",
-                        "*"
+            vehicles.forEach(
+                (
+                    vehicleData,
+                    index
+                ) => {
+                    renderVehicle(
+                        container,
+                        vehicleData,
+                        index
                     );
-                } catch {
-                    // Normal browser.
                 }
-            }
-        }
-    );
-
-
-    /*
-     * ============================================================
-     * INITIALIZATION
-     * ============================================================
-     */
-
-    decorateAllVehicles();
-
-    loadVehicles();
-
-
-    /*
-     * ============================================================
-     * PAGE LOAD
-     * ============================================================
-     */
-
-    window.addEventListener(
-        "load",
-        () => {
-            /*
-             * Repair any trailing .html/
-             * pathname again after page load.
-             */
-
-            canonicalizeCurrentUrl();
+            );
 
             decorateAllVehicles();
 
+            if (
+                typeof window
+                    .loadVehicleRotation ===
+                    "function"
+            ) {
+                try {
+                    window.loadVehicleRotation();
+                } catch {}
+            }
+
             /*
-             * Initial direct deep-link.
+             * Restore deep-link URL only after
+             * vehicles actually exist.
              */
 
             if (
@@ -2148,8 +1113,573 @@
                 initialHashModel =
                     "";
             }
+        } catch (error) {
+            console.error(
+                "Luxury Autos: failed to load vehicles",
+                error
+            );
+
+            decorateAllVehicles();
+
+            if (
+                initialHashModel
+            ) {
+                restoreInitialHash();
+
+                scrollToHashWhenReady(
+                    true,
+                    initialHashModel,
+                    true
+                );
+
+                initialHashModel =
+                    "";
+            }
+        }
+    }
+
+    /*
+     * ============================================================
+     * RENDER VEHICLE
+     * ============================================================
+     */
+
+    function renderVehicle(
+        container,
+        data,
+        index
+    ) {
+        if (!data) {
+            return;
+        }
+
+        const model =
+            String(
+                data.model ||
+                data.hash ||
+                data.id ||
+                ""
+            ).trim();
+
+        if (!model) {
+            return;
+        }
+
+        const label =
+            data.label ||
+            data.name ||
+            model;
+
+        const price =
+            data.price ||
+            "";
+
+        const image =
+            data.image ||
+            data.img ||
+            `/images/${model}.png`;
+
+        const vehicle =
+            document.createElement(
+                "div"
+            );
+
+        vehicle.className =
+            "vehicle";
+
+        /*
+         * Preserve the existing alternating layout.
+         */
+
+        const invert =
+            index % 2 === 0;
+
+        if (invert) {
+            vehicle.classList.add(
+                "invert"
+            );
+        }
+
+        vehicle.id =
+            model;
+
+        vehicle.dataset.model =
+            model;
+
+        vehicle.innerHTML = `
+            <div class="details">
+                <div class="inner">
+
+                    <div class="vehicle-name">
+                        ${label}
+                    </div>
+
+                    ${
+                        price
+                            ? `
+                                <div class="price">
+                                    ${price}
+                                </div>
+                              `
+                            : ""
+                    }
+
+                    <div class="model">
+                        ${model}
+                    </div>
+
+                    <div class="colors">
+
+                        <div
+                            class="color black"
+                            data-color="b"
+                            title="Black"
+                        ></div>
+
+                        <div
+                            class="color white"
+                            data-color="w"
+                            title="White"
+                        ></div>
+
+                        <div
+                            class="color red"
+                            data-color="r"
+                            title="Red"
+                        ></div>
+
+                        <div
+                            class="color green"
+                            data-color="g"
+                            title="Green"
+                        ></div>
+
+                        <div
+                            class="color blue"
+                            data-color="blue"
+                            title="Blue"
+                        ></div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="image">
+                <img
+                    src="${image}"
+                    alt="${label}"
+                    loading="lazy"
+                >
+            </div>
+        `;
+
+        container.appendChild(
+            vehicle
+        );
+    }
+
+    /*
+     * ============================================================
+     * COLOR SWITCHING
+     * ============================================================
+     */
+
+    $(document).on(
+        "click",
+        ".vehicle .color",
+        function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const color =
+                this.dataset.color ||
+                "";
+
+            const vehicle =
+                this.closest(
+                    ".vehicle"
+                );
+
+            if (!vehicle) {
+                return;
+            }
+
+            const model =
+                vehicle.dataset.model ||
+                vehicle.id;
+
+            if (!model) {
+                return;
+            }
+
+            const image =
+                vehicle.querySelector(
+                    ".image img"
+                );
+
+            if (!image) {
+                return;
+            }
+
+            /*
+             * Keep original extension.
+             */
+
+            const source =
+                image.getAttribute(
+                    "src"
+                ) || "";
+
+            const extensionMatch =
+                source.match(
+                    /(\.[a-z0-9]+)(?:[?#].*)?$/i
+                );
+
+            const extension =
+                extensionMatch
+                    ? extensionMatch[1]
+                    : ".png";
+
+            let suffix =
+                "";
+
+            switch (
+                color.toLowerCase()
+            ) {
+                case "b":
+                    suffix = "_mb";
+                    break;
+
+                case "w":
+                    suffix = "_mw";
+                    break;
+
+                case "r":
+                    suffix = "_r";
+                    break;
+
+                case "g":
+                    suffix = "_g";
+                    break;
+
+                case "blue":
+                    suffix = "_b";
+                    break;
+
+                default:
+                    suffix = "";
+            }
+
+            /*
+             * Remove old color suffix if present.
+             */
+
+            const cleanBase =
+                source
+                    .replace(
+                        /_(?:mb|mw|r|g|b)(?=\.[a-z0-9]+(?:[?#]|$))/i,
+                        ""
+                    );
+
+            const newSource =
+                cleanBase.replace(
+                    extension,
+                    `${suffix}${extension}`
+                );
+
+            image.src =
+                newSource;
+
+            /*
+             * Active color state.
+             */
+
+            vehicle
+                .querySelectorAll(
+                    ".color"
+                )
+                .forEach(
+                    (item) => {
+                        item.classList.toggle(
+                            "active",
+                            item === this
+                        );
+                    }
+                );
         }
     );
 
+    /*
+     * ============================================================
+     * VEHICLE LINK CLICK
+     * ============================================================
+     */
 
+    $(document).on(
+        "click",
+        ".vehicle-link",
+        async function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const model =
+                this.dataset.model ||
+                this.closest(
+                    ".vehicle"
+                )?.dataset.model ||
+                "";
+
+            if (!model) {
+                return;
+            }
+
+            /*
+             * Always use:
+             *
+             * /special.html/#model
+             */
+
+            const fullUrl =
+                buildVehicleUrl(
+                    model
+                );
+
+            /*
+             * Update browser URL without
+             * causing native hash jump.
+             */
+
+            try {
+                window.history.pushState(
+                    {
+                        vehicle: model
+                    },
+                    "",
+                    fullUrl
+                );
+            } catch {}
+
+            /*
+             * Clear previous navigation state.
+             */
+
+            cancelPremiumScroll();
+
+            /*
+             * Scroll from CURRENT position.
+             */
+
+            scrollToVehicle(
+                model,
+                true,
+                false
+            );
+
+            /*
+             * Copy exact canonical URL.
+             */
+
+            try {
+                await navigator.clipboard.writeText(
+                    fullUrl
+                );
+            } catch {
+                /*
+                 * Clipboard can fail in
+                 * insecure contexts.
+                 */
+            }
+
+            /*
+             * Visual copied state.
+             */
+
+            this.classList.add(
+                "copied"
+            );
+
+            window.setTimeout(
+                () => {
+                    this.classList.remove(
+                        "copied"
+                    );
+                },
+                3000
+            );
+        }
+    );
+
+    /*
+     * ============================================================
+     * HASH CHANGE
+     * ============================================================
+     */
+
+    window.addEventListener(
+        "hashchange",
+        () => {
+            let model =
+                window.location.hash
+                    .substring(1);
+
+            try {
+                model =
+                    decodeURIComponent(
+                        model
+                    );
+            } catch {}
+
+            model =
+                model.trim();
+
+            if (!model) {
+                return;
+            }
+
+            /*
+             * Make sure hash URL is canonical.
+             */
+
+            const canonicalUrl =
+                buildVehicleUrl(
+                    model
+                );
+
+            if (
+                window.location.href !==
+                canonicalUrl
+            ) {
+                try {
+                    window.history.replaceState(
+                        {
+                            vehicle: model
+                        },
+                        "",
+                        canonicalUrl
+                    );
+                } catch {}
+            }
+
+            scrollToHashWhenReady(
+                true,
+                model,
+                false
+            );
+        }
+    );
+
+    /*
+     * ============================================================
+     * POPSTATE
+     * ============================================================
+     */
+
+    window.addEventListener(
+        "popstate",
+        () => {
+            canonicalizeCurrentUrl();
+
+            let model =
+                window.location.hash
+                    .substring(1);
+
+            if (!model) {
+                return;
+            }
+
+            try {
+                model =
+                    decodeURIComponent(
+                        model
+                    );
+            } catch {}
+
+            scrollToHashWhenReady(
+                true,
+                model,
+                false
+            );
+        }
+    );
+
+    /*
+     * ============================================================
+     * ESCAPE
+     * ============================================================
+     */
+
+    $(document).on(
+        "keydown",
+        function (event) {
+            if (
+                event.key ===
+                "Escape"
+            ) {
+                try {
+                    window.parent.postMessage(
+                        "close",
+                        "*"
+                    );
+                } catch {}
+            }
+        }
+    );
+
+    /*
+     * ============================================================
+     * INITIALIZATION
+     * ============================================================
+     */
+
+    decorateAllVehicles();
+
+    loadVehicles();
+
+    /*
+     * ------------------------------------------------------------
+     * LOAD
+     * ------------------------------------------------------------
+     */
+
+    $(window).on(
+        "load",
+        function () {
+            decorateAllVehicles();
+
+            /*
+             * If browser/Vercel somehow gave us the
+             * non-slash version, repair it.
+             */
+
+            canonicalizeCurrentUrl();
+
+            /*
+             * Extra safety for deep links.
+             */
+
+            if (
+                window.location.hash
+            ) {
+                let model =
+                    window.location.hash
+                        .substring(1);
+
+                try {
+                    model =
+                        decodeURIComponent(
+                            model
+                        );
+                } catch {}
+
+                if (model) {
+                    scrollToHashWhenReady(
+                        true,
+                        model,
+                        false
+                    );
+                }
+            }
+        }
+    );
 })(jQuery);
