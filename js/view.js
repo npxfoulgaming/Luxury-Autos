@@ -7,41 +7,48 @@
      * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
      *
-     * Features:
+     * Navigation behavior:
      *
-     * 1. Direct deep-link:
+     * Direct URL:
      *
-     *    /view/respected.html/#zr3806str
+     *     /view/special.html/#c10
      *
-     *    Starts from the top and smoothly travels to the vehicle.
+     *     TOP
+     *      ↓
+     *      ↓
+     *      ↓  slow cinematic movement
+     *      ↓
+     *     C10
      *
-     * 2. Normal vehicle-link click:
      *
-     *    Starts from the user's CURRENT scroll position.
+     * Normal link click:
      *
-     * 3. Target below current position:
+     *     CURRENT POSITION
+     *          ↓
+     *          ↓
+     *          ↓
+     *        TARGET
      *
-     *    Smooth downward cinematic scroll.
      *
-     * 4. Target above current position:
+     * The animation is deliberately continuous and distance-aware.
      *
-     *    Smooth upward cinematic scroll.
+     * Short distance:
+     *     smooth but not unnecessarily slow
      *
-     * 5. Distance-aware animation:
+     * Medium distance:
+     *     cinematic
      *
-     *    Short distance = shorter animation.
-     *    Long distance  = longer animation.
+     * Long distance:
+     *     considerably slower so the user can actually see
+     *     the page travelling toward the target.
      *
-     * 6. Existing animations are cancelled before
-     *    a new navigation starts.
+     * Link icon:
      *
-     * 7. Link icon belongs to the color row:
+     * Normal:
+     *     LINK | BLACK | WHITE | RED | GREEN | BLUE
      *
-     *    Normal:
-     *    LINK | BLACK | WHITE | RED | GREEN | BLUE
-     *
-     *    Inverted:
-     *    BLACK | WHITE | RED | GREEN | BLUE | LINK
+     * Inverted:
+     *     BLACK | WHITE | RED | GREEN | BLUE | LINK
      *
      * ============================================================
      */
@@ -100,13 +107,10 @@
      * PREVENT NATIVE HASH JUMP
      * ============================================================
      *
-     * The browser may attempt to jump directly to:
+     * Remove the original hash immediately so the browser cannot
+     * perform its instant native fragment jump.
      *
-     * #vehicle
-     *
-     * before our JavaScript is ready.
-     *
-     * Remove the hash immediately and restore it later.
+     * We restore it after the vehicles exist.
      */
 
     if (initialHashModel) {
@@ -126,6 +130,10 @@
         } catch {
             // Ignore history API errors.
         }
+
+        /*
+         * Explicitly begin at the top for a direct deep link.
+         */
 
         window.scrollTo(
             0,
@@ -297,7 +305,7 @@
             );
 
         /*
-         * Always force:
+         * Always use:
          *
          * /page.html/#model
          *
@@ -314,7 +322,9 @@
 
         url.hash = "";
 
-        url.hash = model;
+        url.hash = encodeURIComponent(
+            model
+        );
 
         return url.href;
     }
@@ -631,11 +641,6 @@
                 ":scope > .colors"
             );
 
-        /*
-         * If older/static HTML already has
-         * a colors container, keep it.
-         */
-
         if (!colors) {
             colors =
                 document.createElement(
@@ -677,6 +682,7 @@
                 model;
         }
 
+
         /*
          * Remove duplicate icons.
          */
@@ -699,16 +705,24 @@
 
         /*
          * ========================================================
-         * IMPORTANT ICON POSITION
+         * LINK POSITION
          * ========================================================
          *
-         * Normal vehicle:
+         * Normal:
          *
          * LINK | BLACK | WHITE | RED | GREEN | BLUE
          *
-         * Inverted vehicle:
+         * Inverted:
          *
          * BLACK | WHITE | RED | GREEN | BLUE | LINK
+         *
+         * --------------------------------------------------------
+         * IMPORTANT:
+         *
+         * We explicitly move the icon every time decoration runs.
+         * This prevents old/static HTML from leaving the icon in
+         * the wrong position.
+         * ========================================================
          */
 
         if (
@@ -754,24 +768,43 @@
 
     /*
      * ============================================================
-     * PREMIUM EASING
+     * PREMIUM SCROLL EASING
      * ============================================================
+     *
+     * Quintic easing gives:
+     *
+     *     very gentle start
+     *          ↓
+     *     smooth acceleration
+     *          ↓
+     *     long natural travel
+     *          ↓
+     *     gentle arrival
+     *
+     * Unlike a short CSS smooth-scroll jump, the entire journey
+     * remains visibly animated.
      */
 
     function easeInOutQuint(t) {
-        return t < 0.5
-            ? 16 *
+        if (t < 0.5) {
+            return (
+                16 *
                 t *
                 t *
                 t *
                 t *
                 t
-            : 1 -
-                Math.pow(
-                    -2 * t + 2,
-                    5
-                ) /
-                    2;
+            );
+        }
+
+        return (
+            1 -
+            Math.pow(
+                -2 * t + 2,
+                5
+            ) /
+                2
+        );
     }
 
 
@@ -813,19 +846,26 @@
 
     /*
      * ============================================================
-     * ADAPTIVE SCROLL DURATION
+     * DISTANCE-AWARE CINEMATIC DURATION
      * ============================================================
      *
-     * The farther the destination is,
-     * the longer the animation becomes.
+     * This is intentionally slower than the previous version.
      *
-     * This prevents:
+     * The important difference is that long movements are allowed
+     * to remain on screen long enough to visibly travel through
+     * the page.
      *
-     * 50px  -> 1500ms
+     * Approximate behavior:
      *
-     * while also avoiding:
+     * 100px      -> 900ms
+     * 400px      -> 1300ms
+     * 900px      -> 1900ms
+     * 1600px     -> 2700ms
+     * 2800px     -> 3600ms
+     * 4500px     -> 4600ms
+     * 6000px+    -> 5400ms+
      *
-     * 5000px -> 400ms
+     * Maximum keeps extremely large pages reasonable.
      */
 
     function getScrollDuration(
@@ -835,42 +875,27 @@
             Math.abs(distance);
 
         if (
-            absoluteDistance < 120
+            absoluteDistance < 40
         ) {
-            return 500;
+            return 400;
         }
 
-        if (
-            absoluteDistance < 400
-        ) {
-            return 700;
-        }
+        /*
+         * Roughly 0.85 pixels per millisecond.
+         */
 
-        if (
-            absoluteDistance < 900
-        ) {
-            return 950;
-        }
+        const calculated =
+            850 +
+            absoluteDistance *
+                0.82;
 
-        if (
-            absoluteDistance < 1600
-        ) {
-            return 1200;
-        }
-
-        if (
-            absoluteDistance < 2800
-        ) {
-            return 1500;
-        }
-
-        if (
-            absoluteDistance < 4500
-        ) {
-            return 1800;
-        }
-
-        return 2150;
+        return Math.min(
+            6200,
+            Math.max(
+                900,
+                calculated
+            )
+        );
     }
 
 
@@ -893,6 +918,10 @@
             targetY -
             startY;
 
+        /*
+         * Already there.
+         */
+
         if (
             Math.abs(distance) < 2
         ) {
@@ -904,8 +933,9 @@
             return;
         }
 
+
         /*
-         * Respect reduced-motion accessibility.
+         * Reduced-motion users get native immediate positioning.
          */
 
         if (
@@ -922,6 +952,7 @@
             return;
         }
 
+
         const animationDuration =
             duration ||
             getScrollDuration(
@@ -934,11 +965,12 @@
         let startTime =
             null;
 
+
         function animate(
             currentTime
         ) {
             /*
-             * A new scroll has started.
+             * Another navigation has started.
              */
 
             if (
@@ -948,6 +980,7 @@
                 return;
             }
 
+
             if (
                 startTime === null
             ) {
@@ -955,9 +988,11 @@
                     currentTime;
             }
 
+
             const elapsed =
                 currentTime -
                 startTime;
+
 
             const progress =
                 Math.min(
@@ -966,9 +1001,9 @@
                     1
                 );
 
+
             /*
-             * Strong acceleration at the beginning,
-             * long deceleration at the end.
+             * Smooth cinematic easing.
              */
 
             const eased =
@@ -976,15 +1011,24 @@
                     progress
                 );
 
+
             const currentY =
                 startY +
                 distance *
                     eased;
 
+
+            /*
+             * This is deliberately executed on every animation
+             * frame so the page continuously travels from the
+             * current position to the target.
+             */
+
             window.scrollTo(
                 0,
                 currentY
             );
+
 
             if (
                 progress < 1
@@ -997,12 +1041,17 @@
                 activeScrollFrame =
                     null;
 
+                /*
+                 * Guarantee exact final position.
+                 */
+
                 window.scrollTo(
                     0,
                     targetY
                 );
             }
         }
+
 
         activeScrollFrame =
             requestAnimationFrame(
@@ -1026,8 +1075,9 @@
         const viewportHeight =
             window.innerHeight;
 
+
         /*
-         * Fixed heading offset.
+         * Small amount of visual breathing room.
          */
 
         const headerOffset =
@@ -1035,13 +1085,14 @@
                 ? 25
                 : 35;
 
+
         /*
-         * Center the vehicle.
+         * Center the vehicle in the viewport.
          *
-         * This works whether the target is:
+         * This works when the vehicle is:
          *
-         * - above
-         * - below
+         * - above the current viewport
+         * - below the current viewport
          * - partially visible
          * - completely visible
          */
@@ -1050,20 +1101,32 @@
             rect.top +
             rect.height / 2;
 
+
         const desiredCenter =
             viewportHeight / 2 +
             headerOffset / 2;
+
 
         const delta =
             vehicleCenter -
             desiredCenter;
 
+
+        /*
+         * IMPORTANT:
+         *
+         * Start from the user's CURRENT scroll position.
+         *
+         * We do not calculate from document top.
+         */
+
         let targetY =
             window.scrollY +
             delta;
 
+
         /*
-         * Keep target inside page.
+         * Page boundaries.
          */
 
         targetY =
@@ -1071,6 +1134,7 @@
                 0,
                 targetY
             );
+
 
         const maxScroll =
             Math.max(
@@ -1080,11 +1144,13 @@
                     window.innerHeight
             );
 
+
         targetY =
             Math.min(
                 targetY,
                 maxScroll
             );
+
 
         return targetY;
     }
@@ -1092,12 +1158,13 @@
 
     /*
      * ============================================================
-     * VEHICLE TARGET STATE
+     * VEHICLE HIGHLIGHT
      * ============================================================
      */
 
     let highlightTimer =
         null;
+
 
     function clearVehicleHighlights() {
         document
@@ -1132,17 +1199,20 @@
             return false;
         }
 
+
         /*
-         * Stop previous animation immediately.
+         * Always stop any previous movement first.
          */
 
         cancelPremiumScroll();
 
+
         /*
-         * Clear previous highlight.
+         * Clear previous target.
          */
 
         clearVehicleHighlights();
+
 
         if (highlightTimer) {
             clearTimeout(
@@ -1153,8 +1223,9 @@
                 null;
         }
 
+
         /*
-         * Highlight current target.
+         * Highlight target immediately.
          */
 
         vehicle.classList.add(
@@ -1163,11 +1234,21 @@
 
 
         /*
-         * --------------------------------------------------------
+         * ========================================================
          * DIRECT DEEP LINK
-         * --------------------------------------------------------
+         * ========================================================
          *
-         * Start from the absolute top.
+         * Direct URL navigation starts from absolute top.
+         *
+         * Example:
+         *
+         * /special.html/#c10
+         *
+         * starts at:
+         *
+         * 0px
+         *
+         * and then travels to C10.
          */
 
         if (fromTop) {
@@ -1179,69 +1260,78 @@
 
 
         /*
-         * Wait one frame so the browser has
-         * a fresh layout before measuring.
+         * Wait one frame so all layout calculations are current.
          */
 
         requestAnimationFrame(
             () => {
-                const targetY =
-                    calculateVehicleTarget(
-                        vehicle
-                    );
-
-                const distance =
-                    targetY -
-                    window.scrollY;
-
                 /*
-                 * Smart duration based on actual distance.
+                 * A second frame gives lazy layout/images a chance
+                 * to settle before calculating the destination.
                  */
 
-                const duration =
-                    getScrollDuration(
-                        distance
-                    );
-
-                if (animated) {
-                    premiumScrollTo(
-                        targetY,
-                        duration
-                    );
-                } else {
-                    window.scrollTo(
-                        0,
-                        targetY
-                    );
-                }
-
-
-                /*
-                 * Keep target highlight long enough
-                 * for the navigation to complete.
-                 */
-
-                const highlightDuration =
-                    Math.max(
-                        2500,
-                        duration +
-                            1200
-                    );
-
-                highlightTimer =
-                    setTimeout(
-                        () => {
-                            vehicle.classList.remove(
-                                "hash-target"
+                requestAnimationFrame(
+                    () => {
+                        const targetY =
+                            calculateVehicleTarget(
+                                vehicle
                             );
 
-                            highlightTimer =
-                                null;
-                        },
-                        highlightDuration
-                    );
+
+                        const distance =
+                            targetY -
+                            window.scrollY;
+
+
+                        const duration =
+                            getScrollDuration(
+                                distance
+                            );
+
+
+                        if (animated) {
+                            premiumScrollTo(
+                                targetY,
+                                duration
+                            );
+                        } else {
+                            window.scrollTo(
+                                0,
+                                targetY
+                            );
+                        }
+
+
+                        /*
+                         * Keep the target active while the cinematic
+                         * animation finishes.
+                         */
+
+                        const highlightDuration =
+                            Math.max(
+                                3000,
+                                duration +
+                                    1400
+                            );
+
+
+                        highlightTimer =
+                            setTimeout(
+                                () => {
+                                    vehicle.classList.remove(
+                                        "hash-target"
+                                    );
+
+                                    highlightTimer =
+                                        null;
+                                },
+                                highlightDuration
+                            );
+                    }
+                );
             }
         );
+
 
         return true;
     }
@@ -1259,6 +1349,7 @@
     let lastNavigationModel =
         "";
 
+
     function scrollToHashWhenReady(
         animated = true,
         forcedModel = "",
@@ -1268,13 +1359,15 @@
             forcedModel ||
             getHashModel();
 
+
         if (!model) {
             return;
         }
 
+
         /*
-         * Avoid duplicate animations caused by
-         * repeated lifecycle events.
+         * Prevent duplicate lifecycle events from restarting the
+         * same animation.
          */
 
         if (
@@ -1286,6 +1379,7 @@
             return;
         }
 
+
         if (hashTimer) {
             clearTimeout(
                 hashTimer
@@ -1295,12 +1389,17 @@
                 null;
         }
 
-        let attempts = 0;
+
+        let attempts =
+            0;
+
 
         function attempt() {
             attempts++;
 
+
             decorateAllVehicles();
+
 
             const found =
                 scrollToVehicle(
@@ -1308,6 +1407,7 @@
                     animated,
                     fromTop
                 );
+
 
             if (found) {
                 lastNavigationModel =
@@ -1319,12 +1419,13 @@
                 return;
             }
 
+
             /*
-             * Wait for dynamically loaded vehicles.
+             * Vehicles may still be loading.
              */
 
             if (
-                attempts < 120
+                attempts < 150
             ) {
                 hashTimer =
                     setTimeout(
@@ -1336,6 +1437,7 @@
                     null;
             }
         }
+
 
         attempt();
     }
@@ -1368,10 +1470,12 @@
         const invert =
             index % 2 === 0;
 
+
         let mask =
             invert
                 ? "0 0, calc(100% - 80px) 0, 100% 80px, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%"
                 : "0 80px, 80px 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 80px)";
+
 
         if (
             index === 0
@@ -1379,6 +1483,7 @@
             mask =
                 "0 0, 100% 0, 100% calc(100% - 80px), calc(100% - 80px) 100%, 0 100%";
         }
+
 
         if (
             index === count - 1
@@ -1495,11 +1600,6 @@
             "colors";
 
 
-        /*
-         * Link will be inserted by
-         * decorateVehicle().
-         */
-
         [
             ["mb", "Matte Black"],
             ["mw", "Matte White"],
@@ -1532,6 +1632,7 @@
                 );
             }
         );
+
 
         details.appendChild(
             colors
@@ -1584,6 +1685,7 @@
             imageContainer
         );
 
+
         return element;
     }
 
@@ -1597,6 +1699,7 @@
     function loadVehicles() {
         const container =
             getVehiclesContainer();
+
 
         if (!container) {
             scrollToHashWhenReady(
@@ -1612,7 +1715,9 @@
 
 
         /*
-         * STATIC HTML VEHICLES
+         * ========================================================
+         * STATIC HTML
+         * ========================================================
          */
 
         const staticVehicles =
@@ -1620,12 +1725,14 @@
                 ".vehicle"
             );
 
+
         if (
             staticVehicles.length
         ) {
             decorateAllVehicles();
 
             loadServerRotation();
+
 
             if (initialHashModel) {
                 restoreInitialHash();
@@ -1637,6 +1744,7 @@
                 );
             }
 
+
             initialHashModel =
                 "";
 
@@ -1645,7 +1753,9 @@
 
 
         /*
+         * ========================================================
          * DYNAMIC JSON
+         * ========================================================
          */
 
         $.get(
@@ -1719,6 +1829,7 @@
                         );
                     }
 
+
                     initialHashModel =
                         "";
                 }
@@ -1730,9 +1841,11 @@
                         error
                     );
 
+
                     decorateAllVehicles();
 
                     loadServerRotation();
+
 
                     if (
                         initialHashModel
@@ -1745,6 +1858,7 @@
                             true
                         );
                     }
+
 
                     initialHashModel =
                         "";
@@ -1768,25 +1882,31 @@
             return;
         }
 
+
         const page =
             document.querySelector(
                 "#page"
             );
 
+
         if (!page) {
             return;
         }
+
 
         const footer =
             document.createElement(
                 "p"
             );
 
+
         footer.id =
             "footer";
 
+
         footer.innerHTML =
             "&copy; 2022-2024 coalaura";
+
 
         page.appendChild(
             footer
@@ -1807,18 +1927,22 @@
             const target =
                 $(event.currentTarget);
 
+
             const vehicle =
                 target.closest(
                     ".vehicle"
                 );
 
+
             const image =
                 $(".image img", vehicle);
+
 
             const color =
                 target.data(
                     "color"
                 );
+
 
             const original =
                 image.data(
@@ -1835,12 +1959,14 @@
                     "active"
                 );
 
+
                 if (original) {
                     image.attr(
                         "src",
                         original
                     );
                 }
+
 
                 return;
             }
@@ -1905,6 +2031,7 @@
             const link =
                 event.currentTarget;
 
+
             const model =
                 link.dataset.model;
 
@@ -1921,8 +2048,8 @@
 
 
             /*
-             * Update URL without triggering
-             * native browser fragment scrolling.
+             * Update URL without triggering the browser's native
+             * fragment jump.
              */
 
             window.history.pushState(
@@ -1936,8 +2063,7 @@
 
 
             /*
-             * Allow another navigation to this
-             * same model later.
+             * Allow this same model to be navigated to again.
              */
 
             lastNavigationModel =
@@ -1945,12 +2071,11 @@
 
 
             /*
-             * IMPORTANT:
+             * FALSE:
              *
-             * false = DON'T start from top.
+             * Do NOT start from top.
              *
-             * The animation begins exactly
-             * from the user's current position.
+             * Start from exactly where the user currently is.
              */
 
             scrollToVehicle(
@@ -1961,7 +2086,7 @@
 
 
             /*
-             * Copy full URL.
+             * Copy URL.
              */
 
             const copied =
@@ -1974,6 +2099,7 @@
                 link.classList.add(
                     "copied"
                 );
+
 
                 setTimeout(
                     () => {
@@ -2000,12 +2126,15 @@
             const model =
                 getHashModel();
 
+
             if (!model) {
                 return;
             }
 
+
             lastNavigationModel =
                 "";
+
 
             scrollToHashWhenReady(
                 true,
@@ -2028,12 +2157,15 @@
             const model =
                 getHashModel();
 
+
             if (!model) {
                 return;
             }
 
+
             lastNavigationModel =
                 "";
+
 
             scrollToHashWhenReady(
                 true,
@@ -2084,18 +2216,6 @@
      * ============================================================
      * PAGE LOAD
      * ============================================================
-     *
-     * IMPORTANT:
-     *
-     * We intentionally do NOT repeatedly call
-     * scrollToHashWhenReady() at:
-     *
-     * 350ms
-     * 1000ms
-     * 2000ms
-     *
-     * Those repeated calls were capable of restarting
-     * the premium animation while it was already running.
      */
 
     window.addEventListener(
