@@ -18,7 +18,7 @@ body {
 
 html {
     /*
-     * JavaScript controls the cinematic scrolling.
+     * JavaScript controls all scrolling.
      */
     scroll-behavior: auto;
 }
@@ -133,7 +133,7 @@ h1 a {
     position: relative;
 
     /*
-     * Fallback if native fragment navigation is ever used.
+     * Fallback for native browser fragment behavior.
      */
     scroll-margin-top: 100px;
 
@@ -389,11 +389,7 @@ body.loading-rotation
 
 
 /*
- * Show action row when:
- *
- * - hovering vehicle
- * - keyboard focus
- * - active hash target
+ * Show the complete action row.
  */
 
 .vehicle:hover
@@ -413,7 +409,20 @@ body.loading-rotation
 
 /* =========================================================
    LINK ICON
-   ========================================================= */
+   =========================================================
+ *
+ * The icon is now a normal flex item.
+ *
+ * NORMAL:
+ *
+ * LINK | BLACK | WHITE | RED | GREEN | BLUE
+ *
+ * INVERT:
+ *
+ * BLACK | WHITE | RED | GREEN | BLUE | LINK
+ *
+ * JavaScript controls which side it is inserted on.
+ */
 
 .vehicle .details .vehicle-link {
     position: relative;
@@ -471,7 +480,7 @@ body.loading-rotation
 
 
 /*
- * Normal hover/focus/target.
+ * Normal hover/focus.
  */
 
 .vehicle:hover
@@ -494,9 +503,10 @@ body.loading-rotation
 }
 
 
-/* =========================================================
-   LINK SVG
-   ========================================================= */
+/*
+ * =========================================================
+ * LINK SVG
+ * ========================================================= */
 
 .vehicle-link svg {
     width: 15px;
@@ -528,9 +538,11 @@ body.loading-rotation
 }
 
 
-/* =========================================================
-   ACTIVE HASH LINK
-   ========================================================= */
+/*
+ * =========================================================
+ * ACTIVE HASH LINK
+ * =========================================================
+ */
 
 .vehicle.hash-target
 .details .vehicle-link {
@@ -929,9 +941,11 @@ body.loading-rotation
     }
 
 
-    /* =====================================================
-       MOBILE ACTION ROW
-       ===================================================== */
+    /*
+     * ---------------------------------------------------------
+     * Mobile action row
+     * ---------------------------------------------------------
+     */
 
     .vehicle .details .colors {
         bottom: 5px;
@@ -942,9 +956,9 @@ body.loading-rotation
     }
 
 
-    /* =====================================================
-       MOBILE LINK
-       ===================================================== */
+    /*
+     * LINK
+     */
 
     .vehicle .details
     .vehicle-link {
@@ -961,9 +975,9 @@ body.loading-rotation
     }
 
 
-    /* =====================================================
-       MOBILE COLORS
-       ===================================================== */
+    /*
+     * COLORS
+     */
 
     .vehicle .details
     .colors .color {
@@ -974,9 +988,9 @@ body.loading-rotation
     }
 
 
-    /* =====================================================
-       FOOTER
-       ===================================================== */
+    /*
+     * Footer
+     */
 
     #footer {
         left: 10px;
@@ -1002,13 +1016,8 @@ body.loading-rotation
     .vehicle img,
     .vehicle-link,
     .vehicle-link svg {
-        transition-duration:
-            0.01ms !important;
-
-        animation-duration:
-            0.01ms !important;
-
-        animation-iteration-count:
-            1 !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }
