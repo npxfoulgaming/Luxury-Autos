@@ -18,7 +18,14 @@ body {
 
 html {
     /*
-     * JavaScript controls all scrolling.
+     * JavaScript owns all scrolling.
+     *
+     * Do NOT use:
+     *
+     * scroll-behavior: smooth;
+     *
+     * because it would fight the custom distance-based
+     * animation in view.js.
      */
     scroll-behavior: auto;
 }
@@ -45,7 +52,6 @@ body::before {
     filter: blur(4px);
 }
 
-
 /* =========================================================
    PAGE
    ========================================================= */
@@ -63,7 +69,6 @@ body::before {
 
     padding: 15px 0;
 }
-
 
 /* =========================================================
    HEADER
@@ -115,7 +120,6 @@ h1 a {
     text-decoration: none;
 }
 
-
 /* =========================================================
    VEHICLES
    ========================================================= */
@@ -133,7 +137,9 @@ h1 a {
     position: relative;
 
     /*
-     * Fallback for native browser fragment behavior.
+     * Fallback/native fragment positioning.
+     *
+     * JavaScript still owns the actual animation.
      */
     scroll-margin-top: 100px;
 
@@ -155,7 +161,6 @@ h1 a {
 .vehicle.invert {
     flex-direction: row-reverse;
 }
-
 
 /* =========================================================
    DETAILS
@@ -195,7 +200,6 @@ h1 a {
     height: calc(100% - 83px);
 }
 
-
 /* =========================================================
    ROTATION
    ========================================================= */
@@ -231,7 +235,6 @@ body.loading-rotation
     content: "Loading...";
 }
 
-
 /* =========================================================
    CENTER CONTENT
    ========================================================= */
@@ -257,7 +260,6 @@ body.loading-rotation
 
     z-index: 10;
 }
-
 
 /* =========================================================
    VEHICLE NAME
@@ -296,7 +298,6 @@ body.loading-rotation
         rgba(0, 0, 0, 0.13);
 }
 
-
 /* =========================================================
    PRICE
    ========================================================= */
@@ -316,7 +317,6 @@ body.loading-rotation
 .details small {
     text-align: left;
 }
-
 
 /* =========================================================
    MODEL
@@ -339,19 +339,32 @@ body.loading-rotation
     text-align: left;
 }
 
-
 /* =========================================================
-   ACTION / COLOR ROW
-   ========================================================= */
+   BOTTOM ACTION AREA
+   =========================================================
+ *
+ * The link and colors now live in ONE flex row.
+ *
+ * NORMAL:
+ *
+ * [ LINK ] [ BLACK ] [ WHITE ] [ RED ] [ GREEN ] [ BLUE ]
+ *
+ * INVERT:
+ *
+ * [ BLACK ] [ WHITE ] [ RED ] [ GREEN ] [ BLUE ] [ LINK ]
+ *
+ * This eliminates the old absolute-position guessing.
+ * ========================================================= */
 
 .vehicle .details .colors {
     position: absolute;
 
     bottom: 5px;
-
     right: 5px;
 
     display: flex;
+
+    flex-direction: row;
 
     align-items: center;
 
@@ -379,6 +392,11 @@ body.loading-rotation
         );
 }
 
+/*
+ * Inverted vehicle:
+ *
+ * Keep the row visually on the LEFT.
+ */
 .vehicle.invert
 .details .colors {
     left: 5px;
@@ -387,18 +405,13 @@ body.loading-rotation
     justify-content: flex-start;
 }
 
-
 /*
- * Show the complete action row.
+ * Show actions when vehicle is hovered.
  */
-
 .vehicle:hover
 .details .colors,
 
 .vehicle:focus-within
-.details .colors,
-
-.vehicle.hash-target
 .details .colors {
     opacity: 1;
 
@@ -406,31 +419,18 @@ body.loading-rotation
         translateY(0);
 }
 
-
 /* =========================================================
    LINK ICON
-   =========================================================
- *
- * The icon is now a normal flex item.
- *
- * NORMAL:
- *
- * LINK | BLACK | WHITE | RED | GREEN | BLUE
- *
- * INVERT:
- *
- * BLACK | WHITE | RED | GREEN | BLUE | LINK
- *
- * JavaScript controls which side it is inserted on.
- */
+   ========================================================= */
 
 .vehicle .details .vehicle-link {
     position: relative;
 
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
 
-    flex: 0 0 20px;
+    flex:
+        0 0 24px;
 
     display: flex;
 
@@ -443,10 +443,11 @@ body.loading-rotation
 
     border: 0;
 
-    background: transparent;
+    background:
+        transparent;
 
     color:
-        rgba(0, 0, 0, 0.58);
+        rgba(0, 0, 0, 0.55);
 
     text-decoration: none;
 
@@ -454,20 +455,17 @@ body.loading-rotation
 
     z-index: 45;
 
-    opacity: 0;
+    opacity: 1;
 
-    visibility: hidden;
+    visibility: visible;
 
-    pointer-events: none;
+    pointer-events: auto;
 
     transform:
-        translateY(5px)
-        scale(0.82);
+        scale(0.9);
 
     transition:
-        opacity 220ms ease,
-        visibility 220ms ease,
-        transform 280ms
+        transform 220ms
         cubic-bezier(
             0.22,
             1,
@@ -478,39 +476,119 @@ body.loading-rotation
         filter 220ms ease;
 }
 
-
 /*
- * Normal hover/focus.
- */
+ * =========================================================
+ * NORMAL
+ * =========================================================
+ *
+ * Because the link is the FIRST child:
+ *
+ * [ LINK ] [ BLACK ] [ WHITE ] [ RED ] [ GREEN ] [ BLUE ]
+ * ========================================================= */
 
-.vehicle:hover
-.details .vehicle-link,
-
-.vehicle:focus-within
-.details .vehicle-link,
-
-.vehicle.hash-target
+.vehicle:not(.invert)
 .details .vehicle-link {
-    opacity: 1;
-
-    visibility: visible;
-
-    pointer-events: auto;
-
-    transform:
-        translateY(0)
-        scale(1);
+    order: 1;
 }
-
 
 /*
  * =========================================================
- * LINK SVG
+ * COLORS
+ * =========================================================
+ */
+
+.vehicle .details
+.colors .color {
+    width: 20px;
+    height: 20px;
+
+    flex:
+        0 0 20px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    cursor: pointer;
+
+    box-shadow:
+        2px 2px 4px
+        rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+/*
+ * All colors come AFTER the link for normal vehicles.
+ */
+.vehicle:not(.invert)
+.details .colors .color {
+    order: 2;
+}
+
+/*
+ * =========================================================
+ * INVERTED VEHICLE
+ * =========================================================
+ *
+ * Desired:
+ *
+ * [ BLACK ] [ WHITE ] [ RED ] [ GREEN ] [ BLUE ] [ LINK ]
+ *
  * ========================================================= */
 
+.vehicle.invert
+.details .colors .color {
+    order: 1;
+}
+
+.vehicle.invert
+.details .vehicle-link {
+    order: 2;
+}
+
+/* =========================================================
+   LINK HOVER
+   ========================================================= */
+
+.vehicle-link:hover {
+    color:
+        rgba(0, 0, 0, 0.95);
+
+    transform:
+        scale(1.12);
+
+    filter:
+        drop-shadow(
+            0 3px 7px
+            rgba(0, 0, 0, 0.2)
+        );
+}
+
+.vehicle-link:focus-visible {
+    outline:
+        2px solid
+        rgba(0, 0, 0, 0.6);
+
+    outline-offset:
+        2px;
+
+    border-radius: 4px;
+}
+
+/* =========================================================
+   LINK SVG
+   ========================================================= */
+
 .vehicle-link svg {
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
 
     display: block;
 
@@ -521,66 +599,10 @@ body.loading-rotation
         filter 250ms ease;
 }
 
-.vehicle-link:hover {
-    color: #000;
-}
-
 .vehicle-link:hover svg {
     transform:
-        scale(1.16)
-        rotate(-4deg);
-
-    filter:
-        drop-shadow(
-            0 2px 4px
-            rgba(0, 0, 0, 0.18)
-        );
+        scale(1.12);
 }
-
-
-/*
- * =========================================================
- * ACTIVE HASH LINK
- * =========================================================
- */
-
-.vehicle.hash-target
-.details .vehicle-link {
-    color: #000;
-
-    opacity: 1;
-
-    visibility: visible;
-
-    pointer-events: auto;
-
-    transform:
-        translateY(0)
-        scale(1);
-}
-
-.vehicle.hash-target
-.details .vehicle-link svg {
-    animation:
-        activeLinkPulse
-        1200ms
-        ease-in-out
-        infinite;
-}
-
-@keyframes activeLinkPulse {
-    0%,
-    100% {
-        transform:
-            scale(1);
-    }
-
-    50% {
-        transform:
-            scale(1.18);
-    }
-}
-
 
 /* =========================================================
    COPIED STATE
@@ -588,7 +610,8 @@ body.loading-rotation
 
 .vehicle .details
 .vehicle-link.copied {
-    color: #16a34a;
+    color:
+        #16a34a;
 
     opacity: 1;
 
@@ -597,8 +620,7 @@ body.loading-rotation
     pointer-events: auto;
 
     transform:
-        translateY(0)
-        scale(1.08);
+        scale(1.12);
 }
 
 .vehicle .details
@@ -627,36 +649,9 @@ body.loading-rotation
     }
 }
 
-
 /* =========================================================
-   COLORS
+   COLOR HOVER
    ========================================================= */
-
-.vehicle .details
-.colors .color {
-    width: 20px;
-    height: 20px;
-
-    flex: 0 0 20px;
-
-    position: relative;
-
-    border-radius: 50%;
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    cursor: pointer;
-
-    box-shadow:
-        2px 2px 4px
-        rgba(0, 0, 0, 0.25);
-
-    transition:
-        transform 180ms ease,
-        box-shadow 180ms ease;
-}
 
 .vehicle .details
 .colors .color:hover {
@@ -695,7 +690,6 @@ body.loading-rotation
     opacity: 1;
 }
 
-
 /* =========================================================
    COLOR IMAGES
    ========================================================= */
@@ -729,7 +723,6 @@ body.loading-rotation
     background-image:
         url(/images/colors/b.png);
 }
-
 
 /* =========================================================
    IMAGE
@@ -779,7 +772,6 @@ body.loading-rotation
         filter 900ms ease;
 }
 
-
 /* =========================================================
    DEEP LINK TARGET
    ========================================================= */
@@ -802,6 +794,7 @@ body.loading-rotation
     box-shadow:
         0 0 0 1px
             rgba(255, 255, 255, 0.85),
+
         0 20px 70px
             rgba(0, 0, 0, 0.18);
 
@@ -838,6 +831,7 @@ body.loading-rotation
         box-shadow:
             0 0 0 4px
                 rgba(255, 255, 255, 0.85),
+
             0 25px 75px
                 rgba(0, 0, 0, 0.22);
     }
@@ -846,11 +840,11 @@ body.loading-rotation
         box-shadow:
             0 0 0 1px
                 rgba(255, 255, 255, 0.85),
+
             0 20px 70px
                 rgba(0, 0, 0, 0.18);
     }
 }
-
 
 /* =========================================================
    FOOTER
@@ -892,13 +886,11 @@ body.loading-rotation
         );
 }
 
-
 /* =========================================================
    MOBILE
    ========================================================= */
 
 @media (max-width: 700px) {
-
     h1 {
         top: 10px;
         left: 10px;
@@ -908,13 +900,11 @@ body.loading-rotation
         font-size: 22px;
     }
 
-
     .vehicle {
         height: 300px;
 
         scroll-margin-top: 80px;
     }
-
 
     .vehicle .details
     .inner {
@@ -924,73 +914,53 @@ body.loading-rotation
         padding: 15px;
     }
 
-
     .vehicle .details
     .vehicle-name > span {
         font-size: 18px;
     }
 
-
     .vehicle .details small {
         font-size: 13px;
     }
-
 
     .vehicle .details pre {
         font-size: 12px;
     }
 
-
-    /*
-     * ---------------------------------------------------------
-     * Mobile action row
-     * ---------------------------------------------------------
-     */
+    /* =====================================================
+       MOBILE ACTION ROW
+       ===================================================== */
 
     .vehicle .details .colors {
         bottom: 5px;
 
-        height: 22px;
+        height: 23px;
 
         gap: 4px;
     }
-
-
-    /*
-     * LINK
-     */
-
-    .vehicle .details
-    .vehicle-link {
-        width: 18px;
-        height: 18px;
-
-        flex-basis: 18px;
-    }
-
-
-    .vehicle-link svg {
-        width: 14px;
-        height: 14px;
-    }
-
-
-    /*
-     * COLORS
-     */
 
     .vehicle .details
     .colors .color {
         width: 18px;
         height: 18px;
 
-        flex-basis: 18px;
+        flex:
+            0 0 18px;
     }
 
+    .vehicle .details
+    .vehicle-link {
+        width: 21px;
+        height: 21px;
 
-    /*
-     * Footer
-     */
+        flex:
+            0 0 21px;
+    }
+
+    .vehicle-link svg {
+        width: 15px;
+        height: 15px;
+    }
 
     #footer {
         left: 10px;
@@ -1002,22 +972,24 @@ body.loading-rotation
     }
 }
 
-
 /* =========================================================
    REDUCED MOTION
-   ========================================================= */
+   =========================================================
+ *
+ * Respect accessibility settings.
+ *
+ * Users who explicitly request reduced motion receive an
+ * immediate scroll instead of the long cinematic animation.
+ * ========================================================= */
 
-@media (
-    prefers-reduced-motion: reduce
-) {
+@media (prefers-reduced-motion: reduce) {
     .vehicle,
     .vehicle .details,
     .vehicle .image,
     .vehicle img,
-    .vehicle-link,
-    .vehicle-link svg {
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
+    .vehicle .details .colors,
+    .vehicle .details .vehicle-link {
+        transition: none !important;
+        animation: none !important;
     }
 }
