@@ -18,14 +18,7 @@ body {
 
 html {
     /*
-     * JavaScript owns all scrolling.
-     *
-     * Do NOT use:
-     *
-     * scroll-behavior: smooth;
-     *
-     * because it would fight the custom distance-based
-     * animation in view.js.
+     * JavaScript owns all smooth scrolling.
      */
     scroll-behavior: auto;
 }
@@ -36,9 +29,7 @@ body {
 
 body::before {
     content: "";
-
     position: fixed;
-
     top: -15px;
     right: -15px;
     bottom: -15px;
@@ -137,9 +128,8 @@ h1 a {
     position: relative;
 
     /*
-     * Fallback/native fragment positioning.
-     *
-     * JavaScript still owns the actual animation.
+     * Kept for accessibility/native fragment fallback,
+     * while JavaScript performs the actual navigation.
      */
     scroll-margin-top: 100px;
 
@@ -341,20 +331,7 @@ body.loading-rotation
 
 /* =========================================================
    BOTTOM ACTION AREA
-   =========================================================
- *
- * The link and colors now live in ONE flex row.
- *
- * NORMAL:
- *
- * [ LINK ] [ BLACK ] [ WHITE ] [ RED ] [ GREEN ] [ BLUE ]
- *
- * INVERT:
- *
- * [ BLACK ] [ WHITE ] [ RED ] [ GREEN ] [ BLUE ] [ LINK ]
- *
- * This eliminates the old absolute-position guessing.
- * ========================================================= */
+   ========================================================= */
 
 .vehicle .details .colors {
     position: absolute;
@@ -364,11 +341,7 @@ body.loading-rotation
 
     display: flex;
 
-    flex-direction: row;
-
     align-items: center;
-
-    justify-content: flex-end;
 
     gap: 5px;
 
@@ -379,7 +352,7 @@ body.loading-rotation
     opacity: 0;
 
     transform:
-        translateY(5px);
+        translateY(4px);
 
     transition:
         opacity 250ms ease,
@@ -392,26 +365,13 @@ body.loading-rotation
         );
 }
 
-/*
- * Inverted vehicle:
- *
- * Keep the row visually on the LEFT.
- */
 .vehicle.invert
 .details .colors {
     left: 5px;
     right: auto;
-
-    justify-content: flex-start;
 }
 
-/*
- * Show actions when vehicle is hovered.
- */
 .vehicle:hover
-.details .colors,
-
-.vehicle:focus-within
 .details .colors {
     opacity: 1;
 
@@ -424,13 +384,12 @@ body.loading-rotation
    ========================================================= */
 
 .vehicle .details .vehicle-link {
-    position: relative;
+    position: absolute;
+
+    bottom: 5px;
 
     width: 24px;
     height: 24px;
-
-    flex:
-        0 0 24px;
 
     display: flex;
 
@@ -439,12 +398,9 @@ body.loading-rotation
 
     padding: 0;
 
-    margin: 0;
-
     border: 0;
 
-    background:
-        transparent;
+    background: transparent;
 
     color:
         rgba(0, 0, 0, 0.55);
@@ -455,6 +411,56 @@ body.loading-rotation
 
     z-index: 45;
 
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform:
+        translateY(5px)
+        scale(0.82);
+
+    transition:
+        opacity 220ms ease,
+        visibility 220ms ease,
+        transform 280ms
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        color 220ms ease;
+}
+
+/*
+ * NORMAL VEHICLE
+ *
+ * Colors on right.
+ */
+.vehicle:not(.invert)
+.details .vehicle-link {
+    right: 135px;
+}
+
+/*
+ * INVERT VEHICLE
+ *
+ * Colors on left.
+ */
+.vehicle.invert
+.details .vehicle-link {
+    left: 135px;
+}
+
+/*
+ * Only show icon on hover/focus.
+ */
+.vehicle:hover
+.details .vehicle-link,
+.vehicle:focus-within
+.details .vehicle-link {
     opacity: 1;
 
     visibility: visible;
@@ -462,124 +468,8 @@ body.loading-rotation
     pointer-events: auto;
 
     transform:
-        scale(0.9);
-
-    transition:
-        transform 220ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        ),
-        color 220ms ease,
-        filter 220ms ease;
-}
-
-/*
- * =========================================================
- * NORMAL
- * =========================================================
- *
- * Because the link is the FIRST child:
- *
- * [ LINK ] [ BLACK ] [ WHITE ] [ RED ] [ GREEN ] [ BLUE ]
- * ========================================================= */
-
-.vehicle:not(.invert)
-.details .vehicle-link {
-    order: 1;
-}
-
-/*
- * =========================================================
- * COLORS
- * =========================================================
- */
-
-.vehicle .details
-.colors .color {
-    width: 20px;
-    height: 20px;
-
-    flex:
-        0 0 20px;
-
-    position: relative;
-
-    border-radius: 50%;
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    cursor: pointer;
-
-    box-shadow:
-        2px 2px 4px
-        rgba(0, 0, 0, 0.25);
-
-    transition:
-        transform 180ms ease,
-        box-shadow 180ms ease;
-}
-
-/*
- * All colors come AFTER the link for normal vehicles.
- */
-.vehicle:not(.invert)
-.details .colors .color {
-    order: 2;
-}
-
-/*
- * =========================================================
- * INVERTED VEHICLE
- * =========================================================
- *
- * Desired:
- *
- * [ BLACK ] [ WHITE ] [ RED ] [ GREEN ] [ BLUE ] [ LINK ]
- *
- * ========================================================= */
-
-.vehicle.invert
-.details .colors .color {
-    order: 1;
-}
-
-.vehicle.invert
-.details .vehicle-link {
-    order: 2;
-}
-
-/* =========================================================
-   LINK HOVER
-   ========================================================= */
-
-.vehicle-link:hover {
-    color:
-        rgba(0, 0, 0, 0.95);
-
-    transform:
-        scale(1.12);
-
-    filter:
-        drop-shadow(
-            0 3px 7px
-            rgba(0, 0, 0, 0.2)
-        );
-}
-
-.vehicle-link:focus-visible {
-    outline:
-        2px solid
-        rgba(0, 0, 0, 0.6);
-
-    outline-offset:
-        2px;
-
-    border-radius: 4px;
+        translateY(0)
+        scale(1);
 }
 
 /* =========================================================
@@ -602,6 +492,12 @@ body.loading-rotation
 .vehicle-link:hover svg {
     transform:
         scale(1.12);
+
+    filter:
+        drop-shadow(
+            0 2px 4px
+            rgba(0, 0, 0, 0.18)
+        );
 }
 
 /* =========================================================
@@ -610,8 +506,7 @@ body.loading-rotation
 
 .vehicle .details
 .vehicle-link.copied {
-    color:
-        #16a34a;
+    color: #16a34a;
 
     opacity: 1;
 
@@ -620,7 +515,8 @@ body.loading-rotation
     pointer-events: auto;
 
     transform:
-        scale(1.12);
+        translateY(0)
+        scale(1.08);
 }
 
 .vehicle .details
@@ -650,8 +546,34 @@ body.loading-rotation
 }
 
 /* =========================================================
-   COLOR HOVER
+   COLORS
    ========================================================= */
+
+.vehicle .details
+.colors .color {
+    width: 20px;
+    height: 20px;
+
+    flex: 0 0 20px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    cursor: pointer;
+
+    box-shadow:
+        2px 2px 4px
+        rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
 
 .vehicle .details
 .colors .color:hover {
@@ -684,15 +606,10 @@ body.loading-rotation
 
 .vehicle .details
 .colors .color.active::after,
-
 .vehicle .details
 .colors .color:hover::after {
     opacity: 1;
 }
-
-/* =========================================================
-   COLOR IMAGES
-   ========================================================= */
 
 .vehicle .details
 .colors .color[data-color="mb"] {
@@ -794,7 +711,6 @@ body.loading-rotation
     box-shadow:
         0 0 0 1px
             rgba(255, 255, 255, 0.85),
-
         0 20px 70px
             rgba(0, 0, 0, 0.18);
 
@@ -831,7 +747,6 @@ body.loading-rotation
         box-shadow:
             0 0 0 4px
                 rgba(255, 255, 255, 0.85),
-
             0 25px 75px
                 rgba(0, 0, 0, 0.22);
     }
@@ -840,7 +755,6 @@ body.loading-rotation
         box-shadow:
             0 0 0 1px
                 rgba(255, 255, 255, 0.85),
-
             0 20px 70px
                 rgba(0, 0, 0, 0.18);
     }
@@ -927,16 +841,18 @@ body.loading-rotation
         font-size: 12px;
     }
 
-    /* =====================================================
-       MOBILE ACTION ROW
-       ===================================================== */
+    /*
+     * Keep icon beside color row on mobile.
+     */
 
-    .vehicle .details .colors {
-        bottom: 5px;
+    .vehicle:not(.invert)
+    .details .vehicle-link {
+        right: 125px;
+    }
 
-        height: 23px;
-
-        gap: 4px;
+    .vehicle.invert
+    .details .vehicle-link {
+        left: 125px;
     }
 
     .vehicle .details
@@ -944,22 +860,7 @@ body.loading-rotation
         width: 18px;
         height: 18px;
 
-        flex:
-            0 0 18px;
-    }
-
-    .vehicle .details
-    .vehicle-link {
-        width: 21px;
-        height: 21px;
-
-        flex:
-            0 0 21px;
-    }
-
-    .vehicle-link svg {
-        width: 15px;
-        height: 15px;
+        flex-basis: 18px;
     }
 
     #footer {
@@ -969,27 +870,5 @@ body.loading-rotation
         padding: 6px 10px;
 
         font-size: 11px;
-    }
-}
-
-/* =========================================================
-   REDUCED MOTION
-   =========================================================
- *
- * Respect accessibility settings.
- *
- * Users who explicitly request reduced motion receive an
- * immediate scroll instead of the long cinematic animation.
- * ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-    .vehicle,
-    .vehicle .details,
-    .vehicle .image,
-    .vehicle img,
-    .vehicle .details .colors,
-    .vehicle .details .vehicle-link {
-        transition: none !important;
-        animation: none !important;
     }
 }
