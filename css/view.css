@@ -1,10 +1,10 @@
 * {
     box-sizing: border-box;
-    scrollbar-width: none
+    scrollbar-width: none;
 }
 
 ::-webkit-scrollbar {
-    width: 0
+    width: 0;
 }
 
 html,
@@ -12,31 +12,23 @@ body {
     margin: 0;
     width: 100%;
     height: 100%;
-    font-family: montserrat, sans-serif
+    font-family: montserrat, sans-serif;
 }
 
 body {
     position: relative;
-    overflow-x: hidden
+    overflow-x: hidden;
 }
-
-
-/* =========================================================
-   BACKGROUND
-   ========================================================= */
 
 body::before {
     content: "";
-
     position: fixed;
 
     background-image:
         var(--luxury-autos-background);
 
     background-size: cover;
-
     background-position: center;
-
     background-repeat: no-repeat;
 
     top: -15px;
@@ -47,8 +39,6 @@ body::before {
     z-index: -1;
 
     filter: blur(4px);
-
-    transform: scale(1.03)
 }
 
 
@@ -58,18 +48,16 @@ body::before {
 
 #page {
     width: 100%;
-
     margin: auto;
 
     display: flex;
-
     flex-wrap: wrap;
 
     justify-content: space-between;
 
     padding: 15px 0;
 
-    max-width: 1550px
+    max-width: 1550px;
 }
 
 
@@ -93,17 +81,23 @@ h1 {
     background:
         rgba(255, 255, 255, .5);
 
-    backdrop-filter: blur(8px);
+    backdrop-filter:
+        blur(8px);
 
-    padding: 10px 20px;
+    padding:
+        10px 20px;
 
-    font-size: 30px;
+    font-size:
+        30px;
 
-    color: #000;
+    color:
+        #000;
 
-    z-index: 1;
+    z-index:
+        1;
 
-    margin: 0;
+    margin:
+        0;
 
     clip-path:
         polygon(
@@ -112,12 +106,15 @@ h1 {
             100% calc(100% - 15px),
             calc(100% - 15px) 100%,
             0 100%
-        )
+        );
 }
 
 h1 a {
-    color: inherit;
-    text-decoration: none
+    color:
+        inherit;
+
+    text-decoration:
+        none;
 }
 
 
@@ -126,28 +123,25 @@ h1 a {
    ========================================================= */
 
 #vehicles {
-    width: 100%
+    width: 100%;
 }
-
-
-/* =========================================================
-   VEHICLE
-   ========================================================= */
 
 .vehicle {
     width: 100%;
-
     height: 350px;
 
-    display: flex
+    display: flex;
+
+    position: relative;
 }
 
 .vehicle:not(:first-child):not(:last-child) {
-    margin: -77px 0
+    margin: -77px 0;
 }
 
 .vehicle.invert {
-    flex-direction: row-reverse
+    flex-direction:
+        row-reverse;
 }
 
 
@@ -158,36 +152,47 @@ h1 a {
 .vehicle .details::before {
     content: "";
 
-    position: absolute;
+    position:
+        absolute;
 
-    top: 4px;
+    top:
+        4px;
 
-    left: 5px;
+    left:
+        5px;
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    line-height: 12px
+    line-height:
+        12px;
 }
 
 .vehicle.in-rotation
 .details::before {
-    content: "✔ Rotation";
+    content:
+        "✔ Rotation";
 
-    color: #0b8200
+    color:
+        #0b8200;
 }
 
 .vehicle.not-in-rotation
 .details::before {
-    content: "✖ Rotation";
+    content:
+        "✖ Rotation";
 
-    color: #b82b2b
+    color:
+        #b82b2b;
 }
 
 body.loading-rotation
 .vehicle .details::before {
-    content: "Loading..."
+    content:
+        "Loading...";
 }
 
 
@@ -196,28 +201,36 @@ body.loading-rotation
    ========================================================= */
 
 .vehicle .details {
-    width: 100%;
+    width:
+        100%;
 
-    height: calc(100% - 166px);
+    height:
+        calc(100% - 166px);
 
     background:
         rgba(255, 255, 255, .5);
 
-    backdrop-filter: blur(15px);
+    backdrop-filter:
+        blur(15px);
 
-    margin: 83px 6px;
+    margin:
+        83px 6px;
 
-    position: relative
+    position:
+        relative;
 }
 
 .vehicle:first-child .details {
-    height: calc(100% - 83px);
+    height:
+        calc(100% - 83px);
 
-    margin: 0 6px
+    margin:
+        0 6px;
 }
 
 .vehicle:last-child .details {
-    height: calc(100% - 83px)
+    height:
+        calc(100% - 83px);
 }
 
 
@@ -226,12 +239,17 @@ body.loading-rotation
    ========================================================= */
 
 .vehicle .details .inner {
-    position: absolute;
+    position:
+        absolute;
 
-    padding: 20px;
+    padding:
+        20px;
 
-    top: 50%;
-    left: 50%;
+    top:
+        50%;
+
+    left:
+        50%;
 
     transform:
         translate(
@@ -239,9 +257,11 @@ body.loading-rotation
             -50%
         );
 
-    width: max-content;
+    width:
+        max-content;
 
-    max-width: 100%
+    max-width:
+        100%;
 }
 
 
@@ -252,7 +272,11 @@ body.loading-rotation
 /*
  * Actual markup:
  *
- * <span>Vehicle Name</span>
+ * <div class="inner">
+ *     <span>Vehicle Name</span>
+ *     <small>Price</small>
+ *     <pre>model</pre>
+ * </div>
  *
  * Bold.
  *
@@ -260,56 +284,89 @@ body.loading-rotation
  */
 
 .vehicle .details .inner > span {
-    display: inline-block;
+    display:
+        inline-block;
 
-    margin: 0;
+    margin:
+        0;
 
-    font-size: 22px;
+    font-size:
+        22px;
 
-    font-weight: 700 !important;
+    font-weight:
+        700 !important;
 
-    line-height: 1.2;
+    line-height:
+        1.2;
 
-    color: #000;
+    color:
+        #000;
 
-    transform: none !important;
+    text-align:
+        center;
 
-    text-shadow: none !important
+    transform:
+        none !important;
+
+    text-shadow:
+        none !important;
 }
 
 
 /*
- * Compatibility with .vehicle-name.
+ * Compatibility with:
+ *
+ * .vehicle-name > span
  */
 
 .vehicle .details .vehicle-name {
-    font-size: 22px;
+    font-size:
+        22px;
 
-    font-weight: 700 !important;
+    font-weight:
+        700 !important;
 
-    line-height: 1.2;
+    line-height:
+        1.2;
 
-    color: #000;
+    color:
+        #000;
 
-    transform: none !important;
+    transform:
+        none !important;
 
-    text-shadow: none !important
+    text-shadow:
+        none !important;
 }
 
 .vehicle .details
 .vehicle-name > span {
-    font-size: inherit;
+    font-size:
+        inherit;
 
-    font-weight: inherit;
+    font-weight:
+        inherit;
 
-    line-height: inherit;
+    line-height:
+        inherit;
 
-    color: inherit;
+    color:
+        inherit;
 
-    transform: none !important;
+    transform:
+        none !important;
 
-    text-shadow: none !important
+    text-shadow:
+        none !important;
 }
+
+
+/*
+ * IMPORTANT:
+ *
+ * There are intentionally NO hover
+ * rules for the vehicle text.
+ */
 
 
 /* =========================================================
@@ -317,13 +374,17 @@ body.loading-rotation
    ========================================================= */
 
 .vehicle .details small {
-    display: block;
+    display:
+        block;
 
-    font-size: 15px;
+    font-size:
+        15px;
 
-    font-weight: 500;
+    font-weight:
+        500;
 
-    text-align: right
+    text-align:
+        right;
 }
 
 
@@ -332,45 +393,63 @@ body.loading-rotation
    ========================================================= */
 
 .vehicle .details pre {
-    margin: 0;
+    margin:
+        0;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    font-style: italic;
+    font-style:
+        italic;
 
-    text-align: right
+    text-align:
+        right;
 }
 
 .vehicle.invert
 .details pre,
+
 .vehicle.invert
 .details small {
-    text-align: left
+    text-align:
+        left;
 }
 
 
 /* =========================================================
-   COLORS
+   COLORS ROW
    ========================================================= */
 
 .vehicle .details .colors {
-    position: absolute;
+    position:
+        absolute;
 
-    bottom: 5px;
+    bottom:
+        5px;
 
-    right: 5px;
+    right:
+        5px;
 
-    display: flex;
+    display:
+        flex;
 
-    gap: 5px;
+    align-items:
+        center;
 
-    align-items: center;
+    gap:
+        5px;
 
-    transition: 500ms;
+    z-index:
+        40;
 
-    opacity: 0;
+    opacity:
+        0;
 
-    z-index: 20
+    pointer-events:
+        none;
+
+    transition:
+        opacity 500ms ease;
 }
 
 
@@ -379,61 +458,124 @@ body.loading-rotation
    ========================================================= */
 
 .vehicle:hover
+.details .colors,
+
+.vehicle:focus-within
 .details .colors {
-    opacity: 1
+    opacity:
+        1;
+
+    pointer-events:
+        auto;
 }
 
 
 /* =========================================================
-   COLOR CIRCLES
+   INVERTED COLORS
+   ========================================================= */
+
+.vehicle.invert
+.details .colors {
+    left:
+        6px;
+
+    right:
+        unset;
+}
+
+
+/* =========================================================
+   COLORS
    ========================================================= */
 
 .vehicle .details
 .colors .color {
-    width: 20px;
+    width:
+        20px;
 
-    height: 20px;
+    height:
+        20px;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
-    background-size: cover;
+    background-size:
+        cover;
 
-    background-position: center;
+    background-position:
+        center;
 
-    background-repeat: no-repeat;
+    background-repeat:
+        no-repeat;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     box-shadow:
         2px 2px 4px 0
         rgba(0, 0, 0, .25);
 
-    position: relative
+    position:
+        relative;
+
+    transition:
+        transform 220ms ease,
+        box-shadow 220ms ease,
+        filter 220ms ease,
+        opacity 220ms ease;
 }
 
 
 /* =========================================================
-   COLOR ACTIVE / HOVER
+   COLOR HOVER
+   ========================================================= */
+
+.vehicle .details
+.colors .color:hover {
+    transform:
+        scale(1.12);
+
+    box-shadow:
+        0 5px 14px
+        rgba(0, 0, 0, .20);
+}
+
+
+/* =========================================================
+   COLOR RING
    ========================================================= */
 
 .vehicle .details
 .colors .color::after {
-    content: "";
+    content:
+        "";
 
-    position: absolute;
+    position:
+        absolute;
 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top:
+        0;
 
-    border-radius: 50%;
+    left:
+        0;
 
-    border: 1px solid #fff;
+    right:
+        0;
 
-    transition: 250ms;
+    bottom:
+        0;
 
-    opacity: 0
+    border-radius:
+        50%;
+
+    border:
+        1px solid #fff;
+
+    transition:
+        250ms;
+
+    opacity:
+        0;
 }
 
 .vehicle .details
@@ -441,12 +583,13 @@ body.loading-rotation
 
 .vehicle .details
 .colors .color:hover::after {
-    opacity: 1
+    opacity:
+        1;
 }
 
 
 /* =========================================================
-   PERSISTENT ACTIVE COLOR
+   ACTIVE COLOR
    ========================================================= */
 
 .vehicle .details
@@ -454,9 +597,9 @@ body.loading-rotation
     box-shadow:
         0 0 0 2px #fff,
         0 0 0 3px
-            rgba(0, 0, 0, .25),
+        rgba(0, 0, 0, .25),
         2px 2px 6px
-            rgba(0, 0, 0, .28)
+        rgba(0, 0, 0, .28);
 }
 
 
@@ -467,43 +610,31 @@ body.loading-rotation
 .vehicle .details
 .colors .color[data-color=mb] {
     background-image:
-        url(/images/colors/mb.png)
+        url(/images/colors/mb.png);
 }
 
 .vehicle .details
 .colors .color[data-color=mw] {
     background-image:
-        url(/images/colors/mw.png)
+        url(/images/colors/mw.png);
 }
 
 .vehicle .details
 .colors .color[data-color=r] {
     background-image:
-        url(/images/colors/r.png)
+        url(/images/colors/r.png);
 }
 
 .vehicle .details
 .colors .color[data-color=g] {
     background-image:
-        url(/images/colors/g.png)
+        url(/images/colors/g.png);
 }
 
 .vehicle .details
 .colors .color[data-color=b] {
     background-image:
-        url(/images/colors/b.png)
-}
-
-
-/* =========================================================
-   INVERT COLORS
-   ========================================================= */
-
-.vehicle.invert
-.details .colors {
-    left: 6px;
-
-    right: unset
+        url(/images/colors/b.png);
 }
 
 
@@ -513,28 +644,41 @@ body.loading-rotation
 
 .vehicle .details
 .colors .vehicle-link {
-    width: 20px;
+    width:
+        20px;
 
-    height: 20px;
+    height:
+        20px;
 
-    min-width: 20px;
+    min-width:
+        20px;
 
-    min-height: 20px;
+    min-height:
+        20px;
 
     flex:
         0 0 20px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    padding: 0;
+    padding:
+        0;
 
-    margin: 0;
+    margin:
+        0;
 
-    border-radius: 50%;
+    border:
+        0;
+
+    border-radius:
+        50%;
 
     background:
         rgba(255, 255, 255, .32);
@@ -542,15 +686,26 @@ body.loading-rotation
     color:
         rgba(0, 0, 0, .58);
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    opacity: 0;
+    z-index:
+        100;
 
-    visibility: hidden;
+    opacity:
+        0;
 
-    pointer-events: none;
+    visibility:
+        hidden;
+
+    pointer-events:
+        none;
+
+    transform:
+        scale(.85);
 
     transition:
         opacity 250ms ease,
@@ -558,69 +713,229 @@ body.loading-rotation
         transform 250ms ease,
         background 200ms ease,
         color 200ms ease,
-        box-shadow 200ms ease
-}
-
-.vehicle .details
-.colors .vehicle-link svg {
-    width: 14px;
-
-    height: 14px;
-
-    display: block;
-
-    fill: none;
-
-    stroke: currentColor;
-
-    stroke-width: 2;
-
-    stroke-linecap: round;
-
-    stroke-linejoin: round
+        box-shadow 200ms ease;
 }
 
 
 /* =========================================================
-   LINK VISIBILITY
+   NORMAL HOVER LINK
    ========================================================= */
 
 .vehicle:hover
 .details .vehicle-link,
 
 .vehicle:focus-within
-.details .vehicle-link,
-
-.vehicle.hash-target
 .details .vehicle-link {
-    opacity: 1;
+    opacity:
+        1;
 
-    visibility: visible;
+    visibility:
+        visible;
 
-    pointer-events: auto
+    pointer-events:
+        auto;
+
+    transform:
+        scale(1);
 }
 
 
 /* =========================================================
-   ACTIVE HASH LINK
+   ACTIVE HASH VEHICLE
+   ========================================================= */
+
+/*
+ * IMPORTANT:
+ *
+ * Do NOT rely on:
+ *
+ * .vehicle.active-hash .colors
+ *
+ * to make the icon visible.
+ *
+ * The hash-target itself directly controls
+ * the row.
+ */
+
+.vehicle.hash-target
+.details .colors {
+    opacity:
+        1;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   ACTIVE VEHICLE — ONLY LINK
+   NON-HOVER STATE
+   ========================================================= */
+
+/*
+ * Hide every color while active.
+ */
+
+.vehicle.hash-target
+.details .colors .color {
+    opacity:
+        0;
+
+    visibility:
+        hidden;
+
+    pointer-events:
+        none;
+}
+
+
+/*
+ * Show ONLY the link icon.
+ *
+ * This works regardless of whether
+ * .active-link was added by JS.
+ */
+
+.vehicle.hash-target
+.details .colors .vehicle-link,
+
+.vehicle.hash-target
+.details .colors .vehicle-link.active-link {
+    opacity:
+        1 !important;
+
+    visibility:
+        visible !important;
+
+    pointer-events:
+        auto !important;
+
+    transform:
+        scale(1);
+
+    background:
+        rgba(255, 255, 255, .95);
+
+    color:
+        #000;
+
+    box-shadow:
+        0 0 0 2px
+            rgba(255, 255, 255, .95),
+
+        0 0 0 3px
+            rgba(0, 0, 0, .20),
+
+        0 4px 14px
+            rgba(0, 0, 0, .18);
+}
+
+
+/* =========================================================
+   ACTIVE VEHICLE — HOVER
+   ========================================================= */
+
+/*
+ * When hovering the active vehicle,
+ * reveal the color buttons again.
+ */
+
+.vehicle.hash-target:hover
+.details .colors {
+    pointer-events:
+        auto;
+}
+
+.vehicle.hash-target:hover
+.details .colors .color {
+    opacity:
+        1;
+
+    visibility:
+        visible;
+
+    pointer-events:
+        auto;
+}
+
+
+/*
+ * Link remains visible on hover too.
+ */
+
+.vehicle.hash-target:hover
+.details .colors .vehicle-link {
+    opacity:
+        1 !important;
+
+    visibility:
+        visible !important;
+
+    pointer-events:
+        auto !important;
+}
+
+
+/* =========================================================
+   ACTIVE LINK PULSE
    ========================================================= */
 
 .vehicle.hash-target
-.details .vehicle-link {
-    opacity: 1;
+.details .colors .vehicle-link svg,
 
-    visibility: visible;
+.vehicle.hash-target
+.details .colors .vehicle-link.active-link svg {
+    animation:
+        activeLinkPulse
+        1300ms
+        ease-in-out
+        infinite;
+}
 
-    pointer-events: auto;
+@keyframes activeLinkPulse {
 
-    background:
-        rgba(255, 255, 255, .9);
+    0%,
+    100% {
+        transform:
+            scale(1);
+    }
 
-    color: #000;
+    50% {
+        transform:
+            scale(1.15);
+    }
+}
 
-    box-shadow:
-        0 3px 12px
-        rgba(0, 0, 0, .15)
+
+/* =========================================================
+   LINK SVG
+   ========================================================= */
+
+.vehicle .details
+.colors .vehicle-link svg {
+    width:
+        14px;
+
+    height:
+        14px;
+
+    display:
+        block;
+
+    fill:
+        none;
+
+    stroke:
+        currentColor;
+
+    stroke-width:
+        2;
+
+    stroke-linecap:
+        round;
+
+    stroke-linejoin:
+        round;
 }
 
 
@@ -633,61 +948,15 @@ body.loading-rotation
     background:
         rgba(255, 255, 255, .96);
 
-    color: #000;
+    color:
+        #000;
 
     transform:
-        scale(1.1);
+        scale(1.10);
 
     box-shadow:
         0 4px 14px
-        rgba(0, 0, 0, .18)
-}
-
-
-/* =========================================================
-   ACTIVE LINK PULSE
-   ========================================================= */
-
-.vehicle.hash-target
-.details .vehicle-link svg {
-    animation:
-        activeLinkPulse
-        1300ms
-        ease-in-out
-        infinite
-}
-
-@keyframes activeLinkPulse {
-
-    0%,
-    100% {
-        transform:
-            scale(1)
-    }
-
-    50% {
-        transform:
-            scale(1.15)
-    }
-}
-
-
-/* =========================================================
-   ACTIVE HASH — COLORS HIDDEN
-   ========================================================= */
-
-.vehicle.hash-target
-.details .colors .color {
-    opacity: 0;
-
-    pointer-events: none
-}
-
-.vehicle.hash-target:hover
-.details .colors .color {
-    opacity: 1;
-
-    pointer-events: auto
+        rgba(0, 0, 0, .18);
 }
 
 
@@ -699,25 +968,31 @@ body.loading-rotation
     width:
         calc(50% + 37px);
 
-    flex-shrink: 0
+    flex-shrink:
+        0;
 }
 
 .vehicle:nth-child(odd)
 .image {
-    padding-left: 6px
+    padding-left:
+        6px;
 }
 
 .vehicle:nth-child(even)
 .image {
-    padding-right: 6px
+    padding-right:
+        6px;
 }
 
 .vehicle img {
-    width: 100%;
+    width:
+        100%;
 
-    height: 100%;
+    height:
+        100%;
 
-    object-fit: cover
+    object-fit:
+        cover;
 }
 
 
@@ -726,9 +1001,11 @@ body.loading-rotation
    ========================================================= */
 
 .vehicle.hash-target {
-    position: relative;
+    position:
+        relative;
 
-    z-index: 100
+    z-index:
+        100;
 }
 
 
@@ -740,11 +1017,14 @@ body.loading-rotation
     background:
         rgba(255, 255, 255, .5);
 
-    backdrop-filter: blur(8px);
+    backdrop-filter:
+        blur(8px);
 
-    position: fixed;
+    position:
+        fixed;
 
-    bottom: 15px;
+    bottom:
+        15px;
 
     left:
         calc(
@@ -752,15 +1032,20 @@ body.loading-rotation
             + 15px
         );
 
-    margin: 0;
+    margin:
+        0;
 
-    padding: 7px 15px;
+    padding:
+        7px 15px;
 
-    font-weight: 500;
+    font-weight:
+        500;
 
-    font-size: 15px;
+    font-size:
+        15px;
 
-    font-style: italic;
+    font-style:
+        italic;
 
     clip-path:
         polygon(
@@ -769,5 +1054,5 @@ body.loading-rotation
             100% 15px,
             100% 100%,
             0 100%
-        )
+        );
 }
