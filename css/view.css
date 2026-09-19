@@ -63,6 +63,8 @@ body::before {
     justify-content: space-between;
 
     padding: 15px 0;
+
+    overflow: visible;
 }
 
 
@@ -129,6 +131,8 @@ h1 a {
 
     position: relative;
 
+    min-width: 0;
+
     scroll-margin-top: 100px;
 
     transition:
@@ -155,8 +159,33 @@ h1 a {
    DETAILS
    ========================================================= */
 
+/*
+ * IMPORTANT FIX:
+ *
+ * Before:
+ *
+ * width: 100%;
+ *
+ * This caused the details + image to exceed
+ * the vehicle width.
+ *
+ * Now:
+ *
+ * DETAILS = 50% - 37px
+ * IMAGE   = 50% + 37px
+ *
+ * Total = exactly 100%
+ */
+
 .vehicle .details {
-    width: 100%;
+    width:
+        calc(50% - 37px);
+
+    flex:
+        0 0 calc(50% - 37px);
+
+    min-width: 0;
+
     height: calc(100% - 166px);
 
     position: relative;
@@ -182,6 +211,7 @@ h1 a {
 
 .vehicle:first-child .details {
     height: calc(100% - 83px);
+
     margin: 0 6px;
 }
 
@@ -222,17 +252,15 @@ h1 a {
    ========================================================= */
 
 /*
- * ACTUAL HTML:
+ * Actual markup:
  *
  * <div class="inner">
- *     <span>1960 Thundersteel Roamer C ten</span>
- *     <small>रु 1,699</small>
- *     <pre>c10</pre>
+ *     <span>Vehicle Name</span>
+ *     <small>Price</small>
+ *     <pre>model</pre>
  * </div>
  *
- * Make ONLY the text bold.
- *
- * There is deliberately NO hover effect.
+ * Bold with NO hover animation.
  */
 
 .vehicle .details .inner > span {
@@ -240,7 +268,9 @@ h1 a {
 
     margin: 0;
 
-    font-family: Montserrat, sans-serif;
+    font-family:
+        Montserrat,
+        sans-serif;
 
     font-size: 22px;
 
@@ -259,11 +289,7 @@ h1 a {
 
 
 /*
- * Compatibility with:
- *
- * <div class="vehicle-name">
- *     <span>Vehicle Name</span>
- * </div>
+ * Compatibility with .vehicle-name.
  */
 
 .vehicle .details .vehicle-name {
@@ -308,18 +334,7 @@ h1 a {
 
 
 /*
- * IMPORTANT:
- *
- * No:
- *
- * .vehicle:hover .vehicle-name
- *
- * No:
- *
- * .vehicle:hover span
- *
- * Therefore the vehicle title does not
- * move, glow, or change on hover.
+ * NO vehicle-name hover styles.
  */
 
 
@@ -338,9 +353,9 @@ h1 a {
 
     line-height: 1.25;
 
-    text-align: right;
-
     color: #000;
+
+    text-align: right;
 }
 
 .vehicle.invert
@@ -379,13 +394,11 @@ h1 a {
     position: absolute;
 
     bottom: 5px;
-
     right: 5px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: flex-end;
 
     gap: 6px;
@@ -415,7 +428,7 @@ h1 a {
 
 
 /*
- * RIGHT DETAILS
+ * INVERT:
  *
  * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
  */
@@ -423,7 +436,6 @@ h1 a {
 .vehicle.invert
 .details .colors {
     left: 5px;
-
     right: auto;
 
     justify-content: flex-start;
@@ -431,16 +443,15 @@ h1 a {
 
 
 /*
- * LEFT DETAILS
+ * NORMAL:
  *
  * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
  */
 
 .vehicle:not(.invert)
 .details .colors {
-    right: 5px;
-
     left: auto;
+    right: 5px;
 
     justify-content: flex-end;
 }
@@ -469,11 +480,6 @@ h1 a {
    ACTIVE HASH
    ========================================================= */
 
-/*
- * Active vehicle keeps the row area alive,
- * but colors are hidden until hover.
- */
-
 .vehicle.hash-target
 .details .colors {
     opacity: 1;
@@ -485,7 +491,7 @@ h1 a {
 
 
 /* =========================================================
-   ACTIVE HASH — HIDE COLORS
+   ACTIVE HASH — COLORS HIDDEN
    ========================================================= */
 
 .vehicle.hash-target
@@ -499,10 +505,9 @@ h1 a {
 }
 
 
-/*
- * Show colors when the active vehicle
- * is hovered.
- */
+/* =========================================================
+   ACTIVE HASH — SHOW COLORS ON HOVER
+   ========================================================= */
 
 .vehicle.hash-target:hover
 .details .colors .color,
@@ -531,7 +536,8 @@ h1 a {
     min-width: 20px;
     min-height: 20px;
 
-    flex: 0 0 20px;
+    flex:
+        0 0 20px;
 
     display: flex;
 
@@ -764,7 +770,8 @@ h1 a {
     min-width: 20px;
     min-height: 20px;
 
-    flex: 0 0 20px;
+    flex:
+        0 0 20px;
 
     position: relative;
 
@@ -833,11 +840,6 @@ h1 a {
     filter:
         brightness(1.05);
 }
-
-
-/* =========================================================
-   COLOR ACTIVE RING
-   ========================================================= */
 
 .vehicle .details
 .colors .color::after {
@@ -933,9 +935,18 @@ h1 a {
    VEHICLE IMAGE
    ========================================================= */
 
+/*
+ * The image gets the remaining half.
+ */
+
 .vehicle .image {
     width:
         calc(50% + 37px);
+
+    flex:
+        0 0 calc(50% + 37px);
+
+    min-width: 0;
 
     flex-shrink: 0;
 
@@ -963,6 +974,8 @@ h1 a {
 .vehicle img {
     width: 100%;
     height: 100%;
+
+    display: block;
 
     object-fit: cover;
 
@@ -1115,6 +1128,30 @@ h1 a {
         scroll-margin-top: 80px;
     }
 
+    /*
+     * On mobile keep the same proportional
+     * two-side layout.
+     */
+
+    .vehicle .details {
+        width:
+            calc(50% - 25px);
+
+        flex-basis:
+            calc(50% - 25px);
+
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+
+    .vehicle .image {
+        width:
+            calc(50% + 25px);
+
+        flex-basis:
+            calc(50% + 25px);
+    }
+
     .vehicle .details
     .inner {
         max-width:
@@ -1122,9 +1159,6 @@ h1 a {
 
         padding: 15px;
     }
-
-
-    /* Vehicle name */
 
     .vehicle .details
     .inner > span {
@@ -1136,7 +1170,6 @@ h1 a {
 
         text-shadow: none !important;
     }
-
 
     .vehicle .details
     .vehicle-name {
@@ -1160,7 +1193,6 @@ h1 a {
         text-shadow: none !important;
     }
 
-
     .vehicle .details small {
         font-size: 13px;
 
@@ -1171,7 +1203,6 @@ h1 a {
         font-size: 12px;
     }
 
-
     .vehicle .details .colors {
         bottom: 5px;
 
@@ -1179,7 +1210,6 @@ h1 a {
 
         gap: 4px;
     }
-
 
     .vehicle .details
     .vehicle-link {
@@ -1192,12 +1222,10 @@ h1 a {
         flex-basis: 18px;
     }
 
-
     .vehicle-link svg {
         width: 14px;
         height: 14px;
     }
-
 
     .vehicle .details
     .colors .color {
@@ -1209,7 +1237,6 @@ h1 a {
 
         flex-basis: 18px;
     }
-
 
     #footer {
         left: 10px;
