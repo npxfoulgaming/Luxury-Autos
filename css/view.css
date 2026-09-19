@@ -1,249 +1,131 @@
 * {
     box-sizing: border-box;
-    scrollbar-width: none;
+    scrollbar-width: none
 }
 
 ::-webkit-scrollbar {
-    width: 0;
+    width: 0
 }
 
 html,
 body {
     margin: 0;
     width: 100%;
-    min-height: 100%;
-    font-family: Montserrat, sans-serif;
-    overflow-x: hidden;
+    height: 100%;
+    font-family: montserrat, sans-serif
 }
-
-html {
-    scroll-behavior: auto;
-}
-
-body {
-    position: relative;
-}
-
-
-/* =========================================================
-   BACKGROUND
-   ========================================================= */
 
 body::before {
     content: "";
-
     position: fixed;
-
-    inset: -15px;
-
     background-size: cover;
     background-position: center;
-
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
     z-index: -1;
-
-    filter: blur(4px);
-
-    transform: scale(1.03);
+    filter: blur(4px)
 }
-
-
-/* =========================================================
-   PAGE
-   ========================================================= */
 
 #page {
     width: 100%;
-    max-width: 1550px;
-
     margin: auto;
-
     display: flex;
     flex-wrap: wrap;
-
     justify-content: space-between;
-
     padding: 15px 0;
-
-    overflow: visible;
+    max-width: 1550px
 }
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
 
 h1 {
     position: fixed;
-
     top: 15px;
-
-    left:
-        calc(
-            (max(100%, 1550px) - 1550px) / 2
-            + 15px
-        );
-
-    margin: 0;
-
-    padding: 10px 20px;
-
-    font-size: 30px;
+    left: calc((max(100%, 1550px) - 1550px)/2 + 15px);
     font-weight: 600;
-
+    background: rgba(255, 255, 255, .5);
+    backdrop-filter: blur(8px);
+    padding: 10px 20px;
+    font-size: 30px;
     color: #000;
-
-    background:
-        rgba(255, 255, 255, 0.5);
-
-    backdrop-filter: blur(12px);
-
-    z-index: 1000;
-
-    clip-path:
-        polygon(
-            0 0,
-            100% 0,
-            100% calc(100% - 15px),
-            calc(100% - 15px) 100%,
-            0 100%
-        );
-
-    box-shadow:
-        0 10px 35px
-        rgba(0, 0, 0, 0.08);
+    z-index: 1;
+    margin: 0;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)
 }
 
 h1 a {
     color: inherit;
-    text-decoration: none;
+    text-decoration: none
 }
 
-
-/* =========================================================
-   VEHICLE
-   ========================================================= */
+#vehicles {
+    width: 100%
+}
 
 .vehicle {
     width: 100%;
     height: 350px;
-
-    display: flex;
-
-    position: relative;
-
-    min-width: 0;
-
-    scroll-margin-top: 100px;
-
-    transition:
-        filter 700ms ease,
-        transform 900ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        );
+    display: flex
 }
 
 .vehicle:not(:first-child):not(:last-child) {
-    margin: -77px 0;
+    margin: -77px 0
 }
 
 .vehicle.invert {
-    flex-direction: row-reverse;
+    flex-direction: row-reverse
 }
 
+.vehicle .details::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 12px
+}
 
-/* =========================================================
-   DETAILS
-   ========================================================= */
+.vehicle.in-rotation .details::before {
+    content: "✔ Rotation";
+    color: #0b8200
+}
 
-/*
- * IMPORTANT FIX:
- *
- * Before:
- *
- * width: 100%;
- *
- * This caused the details + image to exceed
- * the vehicle width.
- *
- * Now:
- *
- * DETAILS = 50% - 37px
- * IMAGE   = 50% + 37px
- *
- * Total = exactly 100%
- */
+.vehicle.not-in-rotation .details::before {
+    content: "✖ Rotation";
+    color: #b82b2b
+}
+
+body.loading-rotation .vehicle .details::before {
+    content: "Loading..."
+}
 
 .vehicle .details {
-    width:
-        calc(50% - 37px);
-
-    flex:
-        0 0 calc(50% - 37px);
-
-    min-width: 0;
-
+    width: 100%;
     height: calc(100% - 166px);
-
-    position: relative;
-
-    margin: 83px 6px;
-
-    background:
-        rgba(255, 255, 255, 0.5);
-
+    background: rgba(255, 255, 255, .5);
     backdrop-filter: blur(15px);
-
-    transition:
-        background 700ms ease,
-        box-shadow 800ms ease,
-        transform 900ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        );
+    margin: 83px 6px;
+    position: relative
 }
 
 .vehicle:first-child .details {
     height: calc(100% - 83px);
-
-    margin: 0 6px;
+    margin: 0 6px
 }
 
 .vehicle:last-child .details {
-    height: calc(100% - 83px);
+    height: calc(100% - 83px)
 }
-
-
-/* =========================================================
-   CENTER CONTENT
-   ========================================================= */
 
 .vehicle .details .inner {
     position: absolute;
-
+    padding: 20px;
     top: 50%;
     left: 50%;
-
-    transform:
-        translate(
-            -50%,
-            -50%
-        );
-
+    transform: translate(-50%, -50%);
     width: max-content;
-
-    max-width:
-        calc(100% - 40px);
-
-    padding: 20px;
-
-    z-index: 10;
+    max-width: 100%
 }
 
 
@@ -252,7 +134,7 @@ h1 a {
    ========================================================= */
 
 /*
- * Actual markup:
+ * Your actual vehicle HTML uses:
  *
  * <div class="inner">
  *     <span>Vehicle Name</span>
@@ -260,129 +142,81 @@ h1 a {
  *     <pre>model</pre>
  * </div>
  *
- * Bold with NO hover animation.
+ * Only the vehicle name is made bold.
  */
 
 .vehicle .details .inner > span {
     display: inline-block;
-
     margin: 0;
-
-    font-family:
-        Montserrat,
-        sans-serif;
-
     font-size: 22px;
-
     font-weight: 700 !important;
-
     line-height: 1.2;
-
     color: #000;
-
-    text-align: center;
-
     transform: none !important;
-
-    text-shadow: none !important;
+    text-shadow: none !important
 }
 
 
 /*
- * Compatibility with .vehicle-name.
+ * Keep compatibility if another page uses:
+ *
+ * <div class="vehicle-name">
+ *     <span>Vehicle Name</span>
+ * </div>
  */
 
 .vehicle .details .vehicle-name {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 9px;
-
-    white-space: nowrap;
-
     font-size: 22px;
-
     font-weight: 700 !important;
-
     line-height: 1.2;
-
     color: #000;
-
     transform: none !important;
-
-    text-shadow: none !important;
+    text-shadow: none !important
 }
 
-.vehicle .details
-.vehicle-name > span {
-    display: inline-block;
-
+.vehicle .details .vehicle-name > span {
     font-size: inherit;
-
     font-weight: inherit;
-
     line-height: inherit;
-
     color: inherit;
-
     transform: none !important;
-
-    text-shadow: none !important;
+    text-shadow: none !important
 }
 
 
 /*
- * NO vehicle-name hover styles.
+ * IMPORTANT:
+ *
+ * There is intentionally NO:
+ *
+ * .vehicle:hover span
+ *
+ * or
+ *
+ * .vehicle:hover .vehicle-name
+ *
+ * so the vehicle text does not move,
+ * glow, scale, or animate on hover.
  */
 
 
-/* =========================================================
-   PRICE
-   ========================================================= */
-
 .vehicle .details small {
     display: block;
-
-    margin-top: 3px;
-
     font-size: 15px;
-
-    font-weight: 600;
-
-    line-height: 1.25;
-
-    color: #000;
-
-    text-align: right;
+    font-weight: 500;
+    text-align: right
 }
-
-.vehicle.invert
-.details small {
-    text-align: left;
-}
-
-
-/* =========================================================
-   MODEL
-   ========================================================= */
 
 .vehicle .details pre {
     margin: 0;
-
     font-size: 14px;
-
     font-style: italic;
-
-    text-align: right;
-
-    opacity: 0.82;
+    text-align: right
 }
 
-.vehicle.invert
-.details pre {
-    text-align: left;
+.vehicle.invert .details pre,
+.vehicle.invert .details small {
+    text-align: left
 }
 
 
@@ -392,38 +226,274 @@ h1 a {
 
 .vehicle .details .colors {
     position: absolute;
-
     bottom: 5px;
     right: 5px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    transition: 500ms;
+    opacity: 0;
+    z-index: 20
+}
+
+.vehicle:hover .details .colors {
+    opacity: 1
+}
+
+
+/* =========================================================
+   COLOR CIRCLES
+   ========================================================= */
+
+.vehicle .details .colors .color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, .25);
+    position: relative;
+    transition:
+        transform 220ms ease,
+        box-shadow 220ms ease,
+        filter 220ms ease,
+        opacity 220ms ease
+}
+
+
+/* =========================================================
+   COLOR HOVER
+   ========================================================= */
+
+.vehicle .details .colors .color:hover {
+    transform: scale(1.12)
+}
+
+
+/* =========================================================
+   COLOR ACTIVE RING
+   ========================================================= */
+
+.vehicle .details .colors .color::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    transition: 250ms;
+    opacity: 0
+}
+
+.vehicle .details .colors .color.active::after,
+.vehicle .details .colors .color:hover::after {
+    opacity: 1
+}
+
+
+/*
+ * Stronger persistent active color state.
+ */
+
+.vehicle .details .colors .color.active {
+    box-shadow:
+        0 0 0 2px #fff,
+        0 0 0 3px rgba(0, 0, 0, .25),
+        2px 2px 6px rgba(0, 0, 0, .28)
+}
+
+
+/* =========================================================
+   COLOR IMAGES
+   ========================================================= */
+
+.vehicle .details .colors .color[data-color=mb] {
+    background-image: url(/images/colors/mb.png)
+}
+
+.vehicle .details .colors .color[data-color=mw] {
+    background-image: url(/images/colors/mw.png)
+}
+
+.vehicle .details .colors .color[data-color=r] {
+    background-image: url(/images/colors/r.png)
+}
+
+.vehicle .details .colors .color[data-color=g] {
+    background-image: url(/images/colors/g.png)
+}
+
+.vehicle .details .colors .color[data-color=b] {
+    background-image: url(/images/colors/b.png)
+}
+
+
+/* =========================================================
+   INVERTED COLORS
+   ========================================================= */
+
+.vehicle.invert .details .colors {
+    left: 6px;
+    right: unset
+}
+
+
+/* =========================================================
+   LINK ICON
+   ========================================================= */
+
+.vehicle .details .colors .vehicle-link {
+    width: 20px;
+    height: 20px;
+
+    min-width: 20px;
+    min-height: 20px;
+
+    flex: 0 0 20px;
 
     display: flex;
 
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 
-    gap: 6px;
+    padding: 0;
+    margin: 0;
 
-    height: 24px;
+    border-radius: 50%;
 
-    z-index: 40;
+    background:
+        rgba(255, 255, 255, .32);
+
+    color:
+        rgba(0, 0, 0, .58);
+
+    text-decoration: none;
+
+    cursor: pointer;
 
     opacity: 0;
+    visibility: hidden;
 
     pointer-events: none;
 
-    transform:
-        translateY(7px)
-        scale(0.96);
-
     transition:
-        opacity 300ms ease,
-        transform 450ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        );
+        opacity 250ms ease,
+        visibility 250ms ease,
+        transform 250ms ease,
+        background 200ms ease,
+        color 200ms ease,
+        box-shadow 200ms ease
+}
+
+.vehicle .details .colors .vehicle-link svg {
+    width: 14px;
+    height: 14px;
+
+    display: block;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round
+}
+
+
+/* =========================================================
+   LINK ON HOVER
+   ========================================================= */
+
+.vehicle:hover .details .colors .vehicle-link,
+.vehicle:focus-within .details .colors .vehicle-link {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto
+}
+
+
+/* =========================================================
+   ACTIVE HASH LINK
+   ========================================================= */
+
+/*
+ * Active section:
+ *
+ * link stays visible even when not hovering.
+ */
+
+.vehicle.hash-target .details .colors {
+    opacity: 1
+}
+
+.vehicle.hash-target
+.details .colors .vehicle-link {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    background:
+        rgba(255, 255, 255, .90);
+
+    color: #000;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0, 0, 0, .15);
+
+    transform: scale(1)
+}
+
+
+/* =========================================================
+   ACTIVE HASH — HIDE COLOR CIRCLES
+   ========================================================= */
+
+/*
+ * When this vehicle is the active #hash,
+ * only the link icon is visible.
+ */
+
+.vehicle.hash-target
+.details .colors .color {
+    opacity: 0;
+    pointer-events: none
+}
+
+
+/*
+ * Hovering the active vehicle brings
+ * the color circles back.
+ */
+
+.vehicle.hash-target:hover
+.details .colors .color {
+    opacity: 1;
+    pointer-events: auto
+}
+
+
+/* =========================================================
+   LINK POSITIONS
+   ========================================================= */
+
+/*
+ * NORMAL:
+ *
+ * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
+ */
+
+.vehicle:not(.invert)
+.details .colors {
+    right: 5px;
+    left: auto;
+    justify-content: flex-end
 }
 
 
@@ -435,208 +505,9 @@ h1 a {
 
 .vehicle.invert
 .details .colors {
-    left: 5px;
-    right: auto;
-
-    justify-content: flex-start;
-}
-
-
-/*
- * NORMAL:
- *
- * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
- */
-
-.vehicle:not(.invert)
-.details .colors {
-    left: auto;
-    right: 5px;
-
-    justify-content: flex-end;
-}
-
-
-/* =========================================================
-   NORMAL HOVER
-   ========================================================= */
-
-.vehicle:hover
-.details .colors,
-
-.vehicle:focus-within
-.details .colors {
-    opacity: 1;
-
-    pointer-events: auto;
-
-    transform:
-        translateY(0)
-        scale(1);
-}
-
-
-/* =========================================================
-   ACTIVE HASH
-   ========================================================= */
-
-.vehicle.hash-target
-.details .colors {
-    opacity: 1;
-
-    transform:
-        translateY(0)
-        scale(1);
-}
-
-
-/* =========================================================
-   ACTIVE HASH — COLORS HIDDEN
-   ========================================================= */
-
-.vehicle.hash-target
-.details .colors .color {
-    opacity: 0;
-
-    pointer-events: none;
-
-    transform:
-        scale(0.75);
-}
-
-
-/* =========================================================
-   ACTIVE HASH — SHOW COLORS ON HOVER
-   ========================================================= */
-
-.vehicle.hash-target:hover
-.details .colors .color,
-
-.vehicle.hash-target:focus-within
-.details .colors .color {
-    opacity: 1;
-
-    pointer-events: auto;
-
-    transform:
-        scale(1);
-}
-
-
-/* =========================================================
-   LINK ICON
-   ========================================================= */
-
-.vehicle .details .vehicle-link {
-    position: relative;
-
-    width: 20px;
-    height: 20px;
-
-    min-width: 20px;
-    min-height: 20px;
-
-    flex:
-        0 0 20px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 0;
-    margin: 0;
-
-    border: 0;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255, 255, 255, 0.32);
-
-    color:
-        rgba(0, 0, 0, 0.58);
-
-    text-decoration: none;
-
-    cursor: pointer;
-
-    z-index: 45;
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    pointer-events: none;
-
-    transform:
-        translateY(7px)
-        scale(0.75);
-
-    transition:
-        opacity 260ms ease,
-        visibility 260ms ease,
-        transform 400ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        ),
-        color 220ms ease,
-        background 220ms ease,
-        box-shadow 220ms ease;
-}
-
-
-/* =========================================================
-   LINK VISIBILITY
-   ========================================================= */
-
-.vehicle:hover
-.details .vehicle-link,
-
-.vehicle:focus-within
-.details .vehicle-link,
-
-.vehicle.hash-target
-.details .vehicle-link {
-    opacity: 1;
-
-    visibility: visible;
-
-    pointer-events: auto;
-
-    transform:
-        translateY(0)
-        scale(1);
-}
-
-
-/* =========================================================
-   ACTIVE LINK
-   ========================================================= */
-
-.vehicle.hash-target
-.details .vehicle-link {
-    opacity: 1;
-
-    visibility: visible;
-
-    pointer-events: auto;
-
-    transform:
-        translateY(0)
-        scale(1);
-
-    background:
-        rgba(255, 255, 255, 0.90);
-
-    color: #000;
-
-    box-shadow:
-        0 4px 16px
-        rgba(0, 0, 0, 0.16);
+    left: 6px;
+    right: unset;
+    justify-content: flex-start
 }
 
 
@@ -644,63 +515,18 @@ h1 a {
    LINK HOVER
    ========================================================= */
 
-.vehicle .details
-.vehicle-link:hover {
+.vehicle .details .colors .vehicle-link:hover {
+    background:
+        rgba(255, 255, 255, .96);
+
     color: #000;
 
-    background:
-        rgba(255, 255, 255, 0.96);
+    transform:
+        scale(1.10);
 
     box-shadow:
         0 4px 14px
-        rgba(0, 0, 0, 0.16);
-
-    transform:
-        translateY(-1px)
-        scale(1.12);
-}
-
-
-/* =========================================================
-   LINK SVG
-   ========================================================= */
-
-.vehicle-link svg {
-    width: 15px;
-    height: 15px;
-
-    display: block;
-
-    fill: none;
-
-    stroke: currentColor;
-
-    stroke-width: 2;
-
-    stroke-linecap: round;
-    stroke-linejoin: round;
-
-    transition:
-        transform 300ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        ),
-        filter 300ms ease;
-}
-
-.vehicle-link:hover svg {
-    transform:
-        scale(1.14)
-        rotate(-5deg);
-
-    filter:
-        drop-shadow(
-            0 2px 5px
-            rgba(0, 0, 0, 0.20)
-        );
+        rgba(0, 0, 0, .18)
 }
 
 
@@ -709,360 +535,58 @@ h1 a {
    ========================================================= */
 
 .vehicle.hash-target
-.details .vehicle-link svg {
+.details .colors .vehicle-link svg {
     animation:
         activeLinkPulse
         1300ms
         ease-in-out
-        infinite;
+        infinite
 }
 
 @keyframes activeLinkPulse {
+
     0%,
     100% {
-        transform:
-            scale(1);
+        transform: scale(1)
     }
 
     50% {
-        transform:
-            scale(1.18);
+        transform: scale(1.15)
     }
 }
 
 
 /* =========================================================
-   COPIED
+   IMAGE
    ========================================================= */
-
-.vehicle .details
-.vehicle-link.copied {
-    color: #16a34a;
-
-    opacity: 1;
-
-    visibility: visible;
-
-    pointer-events: auto;
-
-    transform:
-        translateY(0)
-        scale(1.08);
-
-    background:
-        rgba(255, 255, 255, 0.92);
-
-    box-shadow:
-        0 5px 18px
-        rgba(22, 163, 74, 0.18);
-}
-
-
-/* =========================================================
-   COLOR CIRCLES
-   ========================================================= */
-
-.vehicle .details
-.colors .color {
-    width: 20px;
-    height: 20px;
-
-    min-width: 20px;
-    min-height: 20px;
-
-    flex:
-        0 0 20px;
-
-    position: relative;
-
-    border-radius: 50%;
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    cursor: pointer;
-
-    box-shadow:
-        2px 2px 4px
-        rgba(0, 0, 0, 0.25);
-
-    transition:
-        transform 220ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        ),
-        box-shadow 220ms ease,
-        filter 220ms ease,
-        opacity 220ms ease;
-}
-
-
-/* =========================================================
-   COLOR HOVER
-   ========================================================= */
-
-.vehicle .details
-.colors .color:hover {
-    transform:
-        scale(1.17)
-        translateY(-1px);
-
-    box-shadow:
-        0 5px 16px
-        rgba(0, 0, 0, 0.23);
-
-    filter:
-        brightness(1.04);
-}
-
-
-/* =========================================================
-   ACTIVE COLOR
-   ========================================================= */
-
-.vehicle .details
-.colors .color.active {
-    transform:
-        scale(1.10);
-
-    box-shadow:
-        0 0 0 2px
-            rgba(255, 255, 255, 0.98),
-        0 0 0 4px
-            rgba(0, 0, 0, 0.22),
-        0 5px 16px
-            rgba(0, 0, 0, 0.25);
-
-    filter:
-        brightness(1.05);
-}
-
-.vehicle .details
-.colors .color::after {
-    content: "";
-
-    position: absolute;
-
-    inset: -2px;
-
-    border-radius: 50%;
-
-    border:
-        1px solid #fff;
-
-    opacity: 0;
-
-    transform:
-        scale(0.8);
-
-    transition:
-        opacity 220ms ease,
-        transform 220ms ease;
-}
-
-.vehicle .details
-.colors .color.active::after {
-    opacity: 1;
-
-    transform:
-        scale(1);
-}
-
-.vehicle .details
-.colors .color:hover::after {
-    opacity: 1;
-
-    transform:
-        scale(1);
-}
-
-
-/* =========================================================
-   COLOR IMAGES
-   ========================================================= */
-
-.vehicle .details
-.colors .color[data-color="mb"] {
-    background-image:
-        url("/images/colors/mb.png");
-
-    background-color:
-        #303030;
-}
-
-.vehicle .details
-.colors .color[data-color="mw"] {
-    background-image:
-        url("/images/colors/mw.png");
-
-    background-color:
-        #eeeeee;
-}
-
-.vehicle .details
-.colors .color[data-color="r"] {
-    background-image:
-        url("/images/colors/r.png");
-
-    background-color:
-        #8e1f32;
-}
-
-.vehicle .details
-.colors .color[data-color="g"] {
-    background-image:
-        url("/images/colors/g.png");
-
-    background-color:
-        #397253;
-}
-
-.vehicle .details
-.colors .color[data-color="b"] {
-    background-image:
-        url("/images/colors/b.png");
-
-    background-color:
-        #397d9d;
-}
-
-
-/* =========================================================
-   VEHICLE IMAGE
-   ========================================================= */
-
-/*
- * The image gets the remaining half.
- */
 
 .vehicle .image {
-    width:
-        calc(50% + 37px);
-
-    flex:
-        0 0 calc(50% + 37px);
-
-    min-width: 0;
-
-    flex-shrink: 0;
-
-    transition:
-        transform 900ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        ),
-        filter 800ms ease;
+    width: calc(50% + 37px);
+    flex-shrink: 0
 }
 
-.vehicle:nth-child(odd)
-.image {
-    padding-left: 6px;
+.vehicle:nth-child(odd) .image {
+    padding-left: 6px
 }
 
-.vehicle:nth-child(even)
-.image {
-    padding-right: 6px;
+.vehicle:nth-child(even) .image {
+    padding-right: 6px
 }
 
 .vehicle img {
     width: 100%;
     height: 100%;
-
-    display: block;
-
-    object-fit: cover;
-
-    transition:
-        transform 1400ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        ),
-        filter 1000ms ease;
+    object-fit: cover
 }
 
 
 /* =========================================================
-   HASH TARGET
+   ACTIVE HASH VEHICLE
    ========================================================= */
 
 .vehicle.hash-target {
-    z-index: 100;
-
-    filter:
-        drop-shadow(
-            0 24px 55px
-            rgba(0, 0, 0, 0.22)
-        );
-
-    transform:
-        scale(1.002);
-}
-
-.vehicle.hash-target
-.details {
-    background:
-        rgba(255, 255, 255, 0.70);
-
-    box-shadow:
-        0 0 0 1px
-            rgba(255, 255, 255, 0.9),
-        0 24px 75px
-            rgba(0, 0, 0, 0.20);
-
-    animation:
-        targetDetailsIn
-        1100ms
-        cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        )
-        both;
-}
-
-.vehicle.hash-target
-.image img {
-    transform:
-        scale(1.045);
-
-    filter:
-        saturate(1.09)
-        contrast(1.035);
-}
-
-@keyframes targetDetailsIn {
-    0% {
-        box-shadow:
-            0 0 0 0
-            rgba(255, 255, 255, 0);
-    }
-
-    40% {
-        box-shadow:
-            0 0 0 5px
-                rgba(255, 255, 255, 0.82),
-            0 25px 80px
-                rgba(0, 0, 0, 0.23);
-    }
-
-    100% {
-        box-shadow:
-            0 0 0 1px
-                rgba(255, 255, 255, 0.9),
-            0 24px 75px
-                rgba(0, 0, 0, 0.20);
-    }
+    position: relative;
+    z-index: 100
 }
 
 
@@ -1071,205 +595,15 @@ h1 a {
    ========================================================= */
 
 #footer {
-    position: fixed;
-
-    bottom: 15px;
-
-    left:
-        calc(
-            (max(100%, 1550px) - 1550px) / 2
-            + 15px
-        );
-
-    margin: 0;
-
-    padding: 7px 15px;
-
-    font-size: 15px;
-    font-weight: 500;
-    font-style: italic;
-
-    background:
-        rgba(255, 255, 255, 0.5);
-
+    background: rgba(255, 255, 255, .5);
     backdrop-filter: blur(8px);
-
-    z-index: 900;
-
-    clip-path:
-        polygon(
-            0 0,
-            calc(100% - 15px) 0,
-            100% 15px,
-            100% 100%,
-            0 100%
-        );
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 700px) {
-
-    h1 {
-        top: 10px;
-        left: 10px;
-
-        padding: 8px 14px;
-
-        font-size: 22px;
-    }
-
-    .vehicle {
-        height: 300px;
-
-        scroll-margin-top: 80px;
-    }
-
-    /*
-     * On mobile keep the same proportional
-     * two-side layout.
-     */
-
-    .vehicle .details {
-        width:
-            calc(50% - 25px);
-
-        flex-basis:
-            calc(50% - 25px);
-
-        margin-left: 4px;
-        margin-right: 4px;
-    }
-
-    .vehicle .image {
-        width:
-            calc(50% + 25px);
-
-        flex-basis:
-            calc(50% + 25px);
-    }
-
-    .vehicle .details
-    .inner {
-        max-width:
-            calc(100% - 30px);
-
-        padding: 15px;
-    }
-
-    .vehicle .details
-    .inner > span {
-        font-size: 18px;
-
-        font-weight: 700 !important;
-
-        transform: none !important;
-
-        text-shadow: none !important;
-    }
-
-    .vehicle .details
-    .vehicle-name {
-        font-size: 18px;
-
-        font-weight: 700 !important;
-
-        transform: none !important;
-
-        text-shadow: none !important;
-    }
-
-    .vehicle .details
-    .vehicle-name > span {
-        font-size: inherit;
-
-        font-weight: inherit;
-
-        transform: none !important;
-
-        text-shadow: none !important;
-    }
-
-    .vehicle .details small {
-        font-size: 13px;
-
-        font-weight: 600;
-    }
-
-    .vehicle .details pre {
-        font-size: 12px;
-    }
-
-    .vehicle .details .colors {
-        bottom: 5px;
-
-        height: 22px;
-
-        gap: 4px;
-    }
-
-    .vehicle .details
-    .vehicle-link {
-        width: 18px;
-        height: 18px;
-
-        min-width: 18px;
-        min-height: 18px;
-
-        flex-basis: 18px;
-    }
-
-    .vehicle-link svg {
-        width: 14px;
-        height: 14px;
-    }
-
-    .vehicle .details
-    .colors .color {
-        width: 18px;
-        height: 18px;
-
-        min-width: 18px;
-        min-height: 18px;
-
-        flex-basis: 18px;
-    }
-
-    #footer {
-        left: 10px;
-
-        bottom: 10px;
-
-        padding: 6px 10px;
-
-        font-size: 11px;
-    }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (
-    prefers-reduced-motion: reduce
-) {
-    .vehicle,
-    .vehicle .details,
-    .vehicle .image,
-    .vehicle img,
-    .vehicle-link,
-    .vehicle-link svg {
-        transition-duration:
-            0.01ms !important;
-
-        animation-duration:
-            0.01ms !important;
-
-        animation-iteration-count:
-            1 !important;
-    }
+    position: fixed;
+    bottom: 15px;
+    left: calc((max(100%, 1550px) - 1550px)/2 + 15px);
+    margin: 0;
+    padding: 7px 15px;
+    font-weight: 500;
+    font-size: 15px;
+    font-style: italic;
+    clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%)
 }
