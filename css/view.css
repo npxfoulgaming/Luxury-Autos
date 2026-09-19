@@ -15,42 +15,104 @@ body {
     font-family: montserrat, sans-serif
 }
 
+body {
+    position: relative;
+    overflow-x: hidden
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
 body::before {
     content: "";
+
     position: fixed;
+
+    background-image:
+        var(--luxury-autos-background);
+
     background-size: cover;
+
     background-position: center;
+
+    background-repeat: no-repeat;
+
     top: -15px;
     left: -15px;
     right: -15px;
     bottom: -15px;
+
     z-index: -1;
-    filter: blur(4px)
+
+    filter: blur(4px);
+
+    transform: scale(1.03)
 }
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
 
 #page {
     width: 100%;
+
     margin: auto;
+
     display: flex;
+
     flex-wrap: wrap;
+
     justify-content: space-between;
+
     padding: 15px 0;
+
     max-width: 1550px
 }
 
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 h1 {
     position: fixed;
+
     top: 15px;
-    left: calc((max(100%, 1550px) - 1550px)/2 + 15px);
+
+    left:
+        calc(
+            (max(100%, 1550px) - 1550px)/2
+            + 15px
+        );
+
     font-weight: 600;
-    background: rgba(255, 255, 255, .5);
+
+    background:
+        rgba(255, 255, 255, .5);
+
     backdrop-filter: blur(8px);
+
     padding: 10px 20px;
+
     font-size: 30px;
+
     color: #000;
+
     z-index: 1;
+
     margin: 0;
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            100% calc(100% - 15px),
+            calc(100% - 15px) 100%,
+            0 100%
+        )
 }
 
 h1 a {
@@ -58,13 +120,25 @@ h1 a {
     text-decoration: none
 }
 
+
+/* =========================================================
+   VEHICLES
+   ========================================================= */
+
 #vehicles {
     width: 100%
 }
 
+
+/* =========================================================
+   VEHICLE
+   ========================================================= */
+
 .vehicle {
     width: 100%;
+
     height: 350px;
+
     display: flex
 }
 
@@ -76,41 +150,69 @@ h1 a {
     flex-direction: row-reverse
 }
 
+
+/* =========================================================
+   ROTATION STATUS
+   ========================================================= */
+
 .vehicle .details::before {
     content: "";
+
     position: absolute;
+
     top: 4px;
+
     left: 5px;
+
     font-size: 12px;
+
     font-weight: 700;
+
     line-height: 12px
 }
 
-.vehicle.in-rotation .details::before {
+.vehicle.in-rotation
+.details::before {
     content: "✔ Rotation";
+
     color: #0b8200
 }
 
-.vehicle.not-in-rotation .details::before {
+.vehicle.not-in-rotation
+.details::before {
     content: "✖ Rotation";
+
     color: #b82b2b
 }
 
-body.loading-rotation .vehicle .details::before {
+body.loading-rotation
+.vehicle .details::before {
     content: "Loading..."
 }
 
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
 .vehicle .details {
     width: 100%;
+
     height: calc(100% - 166px);
-    background: rgba(255, 255, 255, .5);
+
+    background:
+        rgba(255, 255, 255, .5);
+
     backdrop-filter: blur(15px);
+
     margin: 83px 6px;
+
     position: relative
 }
 
 .vehicle:first-child .details {
     height: calc(100% - 83px);
+
     margin: 0 6px
 }
 
@@ -118,13 +220,27 @@ body.loading-rotation .vehicle .details::before {
     height: calc(100% - 83px)
 }
 
+
+/* =========================================================
+   INNER
+   ========================================================= */
+
 .vehicle .details .inner {
     position: absolute;
+
     padding: 20px;
+
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
     width: max-content;
+
     max-width: 100%
 }
 
@@ -134,88 +250,101 @@ body.loading-rotation .vehicle .details::before {
    ========================================================= */
 
 /*
- * Your actual vehicle HTML uses:
+ * Actual markup:
  *
- * <div class="inner">
- *     <span>Vehicle Name</span>
- *     <small>Price</small>
- *     <pre>model</pre>
- * </div>
+ * <span>Vehicle Name</span>
  *
- * Only the vehicle name is made bold.
+ * Bold.
+ *
+ * NO hover effect.
  */
 
 .vehicle .details .inner > span {
     display: inline-block;
+
     margin: 0;
+
     font-size: 22px;
+
     font-weight: 700 !important;
+
     line-height: 1.2;
+
     color: #000;
+
     transform: none !important;
+
     text-shadow: none !important
 }
 
 
 /*
- * Keep compatibility if another page uses:
- *
- * <div class="vehicle-name">
- *     <span>Vehicle Name</span>
- * </div>
+ * Compatibility with .vehicle-name.
  */
 
 .vehicle .details .vehicle-name {
     font-size: 22px;
+
     font-weight: 700 !important;
+
     line-height: 1.2;
+
     color: #000;
+
     transform: none !important;
+
     text-shadow: none !important
 }
 
-.vehicle .details .vehicle-name > span {
+.vehicle .details
+.vehicle-name > span {
     font-size: inherit;
+
     font-weight: inherit;
+
     line-height: inherit;
+
     color: inherit;
+
     transform: none !important;
+
     text-shadow: none !important
 }
 
 
-/*
- * IMPORTANT:
- *
- * There is intentionally NO:
- *
- * .vehicle:hover span
- *
- * or
- *
- * .vehicle:hover .vehicle-name
- *
- * so the vehicle text does not move,
- * glow, scale, or animate on hover.
- */
-
+/* =========================================================
+   PRICE
+   ========================================================= */
 
 .vehicle .details small {
     display: block;
+
     font-size: 15px;
+
     font-weight: 500;
+
     text-align: right
 }
+
+
+/* =========================================================
+   MODEL
+   ========================================================= */
 
 .vehicle .details pre {
     margin: 0;
+
     font-size: 14px;
+
     font-style: italic;
+
     text-align: right
 }
 
-.vehicle.invert .details pre,
-.vehicle.invert .details small {
+.vehicle.invert
+.details pre,
+.vehicle.invert
+.details small {
     text-align: left
 }
 
@@ -226,17 +355,31 @@ body.loading-rotation .vehicle .details::before {
 
 .vehicle .details .colors {
     position: absolute;
+
     bottom: 5px;
+
     right: 5px;
+
     display: flex;
+
     gap: 5px;
+
     align-items: center;
+
     transition: 500ms;
+
     opacity: 0;
+
     z-index: 20
 }
 
-.vehicle:hover .details .colors {
+
+/* =========================================================
+   NORMAL VEHICLE HOVER
+   ========================================================= */
+
+.vehicle:hover
+.details .colors {
     opacity: 1
 }
 
@@ -245,65 +388,75 @@ body.loading-rotation .vehicle .details::before {
    COLOR CIRCLES
    ========================================================= */
 
-.vehicle .details .colors .color {
+.vehicle .details
+.colors .color {
     width: 20px;
+
     height: 20px;
+
     border-radius: 50%;
+
     background-size: cover;
+
     background-position: center;
+
     background-repeat: no-repeat;
+
     cursor: pointer;
-    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, .25);
-    position: relative;
-    transition:
-        transform 220ms ease,
-        box-shadow 220ms ease,
-        filter 220ms ease,
-        opacity 220ms ease
+
+    box-shadow:
+        2px 2px 4px 0
+        rgba(0, 0, 0, .25);
+
+    position: relative
 }
 
 
 /* =========================================================
-   COLOR HOVER
+   COLOR ACTIVE / HOVER
    ========================================================= */
 
-.vehicle .details .colors .color:hover {
-    transform: scale(1.12)
-}
-
-
-/* =========================================================
-   COLOR ACTIVE RING
-   ========================================================= */
-
-.vehicle .details .colors .color::after {
+.vehicle .details
+.colors .color::after {
     content: "";
+
     position: absolute;
+
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+
     border-radius: 50%;
+
     border: 1px solid #fff;
+
     transition: 250ms;
+
     opacity: 0
 }
 
-.vehicle .details .colors .color.active::after,
-.vehicle .details .colors .color:hover::after {
+.vehicle .details
+.colors .color.active::after,
+
+.vehicle .details
+.colors .color:hover::after {
     opacity: 1
 }
 
 
-/*
- * Stronger persistent active color state.
- */
+/* =========================================================
+   PERSISTENT ACTIVE COLOR
+   ========================================================= */
 
-.vehicle .details .colors .color.active {
+.vehicle .details
+.colors .color.active {
     box-shadow:
         0 0 0 2px #fff,
-        0 0 0 3px rgba(0, 0, 0, .25),
-        2px 2px 6px rgba(0, 0, 0, .28)
+        0 0 0 3px
+            rgba(0, 0, 0, .25),
+        2px 2px 6px
+            rgba(0, 0, 0, .28)
 }
 
 
@@ -311,33 +464,45 @@ body.loading-rotation .vehicle .details::before {
    COLOR IMAGES
    ========================================================= */
 
-.vehicle .details .colors .color[data-color=mb] {
-    background-image: url(/images/colors/mb.png)
+.vehicle .details
+.colors .color[data-color=mb] {
+    background-image:
+        url(/images/colors/mb.png)
 }
 
-.vehicle .details .colors .color[data-color=mw] {
-    background-image: url(/images/colors/mw.png)
+.vehicle .details
+.colors .color[data-color=mw] {
+    background-image:
+        url(/images/colors/mw.png)
 }
 
-.vehicle .details .colors .color[data-color=r] {
-    background-image: url(/images/colors/r.png)
+.vehicle .details
+.colors .color[data-color=r] {
+    background-image:
+        url(/images/colors/r.png)
 }
 
-.vehicle .details .colors .color[data-color=g] {
-    background-image: url(/images/colors/g.png)
+.vehicle .details
+.colors .color[data-color=g] {
+    background-image:
+        url(/images/colors/g.png)
 }
 
-.vehicle .details .colors .color[data-color=b] {
-    background-image: url(/images/colors/b.png)
+.vehicle .details
+.colors .color[data-color=b] {
+    background-image:
+        url(/images/colors/b.png)
 }
 
 
 /* =========================================================
-   INVERTED COLORS
+   INVERT COLORS
    ========================================================= */
 
-.vehicle.invert .details .colors {
+.vehicle.invert
+.details .colors {
     left: 6px;
+
     right: unset
 }
 
@@ -346,21 +511,27 @@ body.loading-rotation .vehicle .details::before {
    LINK ICON
    ========================================================= */
 
-.vehicle .details .colors .vehicle-link {
+.vehicle .details
+.colors .vehicle-link {
     width: 20px;
+
     height: 20px;
 
     min-width: 20px;
+
     min-height: 20px;
 
-    flex: 0 0 20px;
+    flex:
+        0 0 20px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding: 0;
+
     margin: 0;
 
     border-radius: 50%;
@@ -376,6 +547,7 @@ body.loading-rotation .vehicle .details::before {
     cursor: pointer;
 
     opacity: 0;
+
     visibility: hidden;
 
     pointer-events: none;
@@ -389,8 +561,10 @@ body.loading-rotation .vehicle .details::before {
         box-shadow 200ms ease
 }
 
-.vehicle .details .colors .vehicle-link svg {
+.vehicle .details
+.colors .vehicle-link svg {
     width: 14px;
+
     height: 14px;
 
     display: block;
@@ -402,18 +576,27 @@ body.loading-rotation .vehicle .details::before {
     stroke-width: 2;
 
     stroke-linecap: round;
+
     stroke-linejoin: round
 }
 
 
 /* =========================================================
-   LINK ON HOVER
+   LINK VISIBILITY
    ========================================================= */
 
-.vehicle:hover .details .colors .vehicle-link,
-.vehicle:focus-within .details .colors .vehicle-link {
+.vehicle:hover
+.details .vehicle-link,
+
+.vehicle:focus-within
+.details .vehicle-link,
+
+.vehicle.hash-target
+.details .vehicle-link {
     opacity: 1;
+
     visibility: visible;
+
     pointer-events: auto
 }
 
@@ -422,92 +605,22 @@ body.loading-rotation .vehicle .details::before {
    ACTIVE HASH LINK
    ========================================================= */
 
-/*
- * Active section:
- *
- * link stays visible even when not hovering.
- */
-
-.vehicle.hash-target .details .colors {
-    opacity: 1
-}
-
 .vehicle.hash-target
-.details .colors .vehicle-link {
+.details .vehicle-link {
     opacity: 1;
+
     visibility: visible;
+
     pointer-events: auto;
 
     background:
-        rgba(255, 255, 255, .90);
+        rgba(255, 255, 255, .9);
 
     color: #000;
 
     box-shadow:
         0 3px 12px
-        rgba(0, 0, 0, .15);
-
-    transform: scale(1)
-}
-
-
-/* =========================================================
-   ACTIVE HASH — HIDE COLOR CIRCLES
-   ========================================================= */
-
-/*
- * When this vehicle is the active #hash,
- * only the link icon is visible.
- */
-
-.vehicle.hash-target
-.details .colors .color {
-    opacity: 0;
-    pointer-events: none
-}
-
-
-/*
- * Hovering the active vehicle brings
- * the color circles back.
- */
-
-.vehicle.hash-target:hover
-.details .colors .color {
-    opacity: 1;
-    pointer-events: auto
-}
-
-
-/* =========================================================
-   LINK POSITIONS
-   ========================================================= */
-
-/*
- * NORMAL:
- *
- * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
- */
-
-.vehicle:not(.invert)
-.details .colors {
-    right: 5px;
-    left: auto;
-    justify-content: flex-end
-}
-
-
-/*
- * INVERT:
- *
- * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
- */
-
-.vehicle.invert
-.details .colors {
-    left: 6px;
-    right: unset;
-    justify-content: flex-start
+        rgba(0, 0, 0, .15)
 }
 
 
@@ -515,14 +628,15 @@ body.loading-rotation .vehicle .details::before {
    LINK HOVER
    ========================================================= */
 
-.vehicle .details .colors .vehicle-link:hover {
+.vehicle .details
+.colors .vehicle-link:hover {
     background:
         rgba(255, 255, 255, .96);
 
     color: #000;
 
     transform:
-        scale(1.10);
+        scale(1.1);
 
     box-shadow:
         0 4px 14px
@@ -531,11 +645,11 @@ body.loading-rotation .vehicle .details::before {
 
 
 /* =========================================================
-   ACTIVE LINK ANIMATION
+   ACTIVE LINK PULSE
    ========================================================= */
 
 .vehicle.hash-target
-.details .colors .vehicle-link svg {
+.details .vehicle-link svg {
     animation:
         activeLinkPulse
         1300ms
@@ -547,12 +661,33 @@ body.loading-rotation .vehicle .details::before {
 
     0%,
     100% {
-        transform: scale(1)
+        transform:
+            scale(1)
     }
 
     50% {
-        transform: scale(1.15)
+        transform:
+            scale(1.15)
     }
+}
+
+
+/* =========================================================
+   ACTIVE HASH — COLORS HIDDEN
+   ========================================================= */
+
+.vehicle.hash-target
+.details .colors .color {
+    opacity: 0;
+
+    pointer-events: none
+}
+
+.vehicle.hash-target:hover
+.details .colors .color {
+    opacity: 1;
+
+    pointer-events: auto
 }
 
 
@@ -561,31 +696,38 @@ body.loading-rotation .vehicle .details::before {
    ========================================================= */
 
 .vehicle .image {
-    width: calc(50% + 37px);
+    width:
+        calc(50% + 37px);
+
     flex-shrink: 0
 }
 
-.vehicle:nth-child(odd) .image {
+.vehicle:nth-child(odd)
+.image {
     padding-left: 6px
 }
 
-.vehicle:nth-child(even) .image {
+.vehicle:nth-child(even)
+.image {
     padding-right: 6px
 }
 
 .vehicle img {
     width: 100%;
+
     height: 100%;
+
     object-fit: cover
 }
 
 
 /* =========================================================
-   ACTIVE HASH VEHICLE
+   ACTIVE VEHICLE
    ========================================================= */
 
 .vehicle.hash-target {
     position: relative;
+
     z-index: 100
 }
 
@@ -595,15 +737,37 @@ body.loading-rotation .vehicle .details::before {
    ========================================================= */
 
 #footer {
-    background: rgba(255, 255, 255, .5);
+    background:
+        rgba(255, 255, 255, .5);
+
     backdrop-filter: blur(8px);
+
     position: fixed;
+
     bottom: 15px;
-    left: calc((max(100%, 1550px) - 1550px)/2 + 15px);
+
+    left:
+        calc(
+            (max(100%, 1550px) - 1550px)/2
+            + 15px
+        );
+
     margin: 0;
+
     padding: 7px 15px;
+
     font-weight: 500;
+
     font-size: 15px;
+
     font-style: italic;
-    clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%)
+
+    clip-path:
+        polygon(
+            0 0,
+            calc(100% - 15px) 0,
+            100% 15px,
+            100% 100%,
+            0 100%
+        )
 }

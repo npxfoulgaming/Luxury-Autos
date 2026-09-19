@@ -7,23 +7,23 @@
      * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
      *
-     * Canonical URL:
-     *
-     * /view/legendary.html#mst
-     *
-     * NOT:
+     * Vehicle URL:
      *
      * /view/legendary.html/#mst
      *
+     * Link placement:
      *
-     * Normal details:
-     *
+     * NORMAL:
      * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
      *
-     * Inverted details:
-     *
+     * INVERT:
      * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
      */
+
+
+    /* ============================================================
+       PAGE DATA
+       ============================================================ */
 
     const pageTitle =
         typeof title !== "undefined"
@@ -69,7 +69,7 @@
 
 
     /* ============================================================
-       HISTORY / SCROLL RESTORATION
+       HISTORY
        ============================================================ */
 
     try {
@@ -84,61 +84,46 @@
 
 
     /* ============================================================
-    URL HELPERS
-    ============================================================ */
+       URL HELPERS
+       ============================================================ */
 
     /*
-    * Always keep the page path with exactly ONE
-    * trailing slash before the hash.
-    *
-    * Example:
-    *
-    * /view/legendary.html
-    *
-    * becomes:
-    *
-    * /view/legendary.html/
-    *
-    * So the vehicle link becomes:
-    *
-    * /view/legendary.html/#rmodescort
-    */
-    function getCanonicalVehiclePath(pathname) {
+     * Always keep exactly ONE slash
+     * immediately before the hash.
+     *
+     * Example:
+     *
+     * /view/legendary.html/
+     */
+
+    function getCanonicalVehiclePath(
+        pathname
+    ) {
         let path =
             pathname ||
             window.location.pathname ||
             "/";
 
-        /*
-        * Remove all existing trailing slashes first.
-        */
         path =
             path.replace(
                 /\/+$/,
                 ""
             );
 
-        /*
-        * Root stays "/".
-        */
         if (!path) {
             return "/";
         }
 
-        /*
-        * Add exactly ONE trailing slash.
-        */
         return `${path}/`;
     }
 
 
     /*
-    * Build vehicle link.
-    *
-    * Example:
-    *
-    * https://luxury-autos.vercel.app/view/legendary.html/#rmodescort
-    */
+     * Build:
+     *
+     * https://luxury-autos.vercel.app/view/legendary.html/#mst
+     */
+
     function buildVehicleUrl(model) {
         if (!model) {
             return window.location.href;
@@ -164,9 +149,9 @@
 
 
     /*
-    * Build clean page URL while
-    * keeping the trailing slash.
-    */
+     * Clean URL without the hash.
+     */
+
     function buildCleanCanonicalUrl() {
         const url =
             new URL(
@@ -185,8 +170,8 @@
 
 
     /* ============================================================
-    CANONICALIZE CURRENT URL
-    ============================================================ */
+       CANONICALIZE CURRENT URL
+       ============================================================ */
 
     function canonicalizeCurrentUrl() {
         const currentPath =
@@ -222,45 +207,147 @@
     }
 
 
-    /*
-     * Fix:
-     *
-     * /view/legendary.html/
-     *
-     * into:
-     *
-     * /view/legendary.html
-     *
-     * while preserving an existing #hash.
-     */
-
     canonicalizeCurrentUrl();
 
 
     /* ============================================================
-       PREVENT NATIVE HASH JUMP
+       BACKGROUND IMAGE
        ============================================================ */
 
-    if (initialHashModel) {
-        const cleanUrl =
-            buildCleanCanonicalUrl();
+    function escapeCssUrlValue(value) {
+        return String(value)
+            .replace(
+                /\\/g,
+                "\\\\"
+            )
+            .replace(
+                /"/g,
+                '\\"'
+            )
+            .replace(
+                /\)/g,
+                "\\)"
+            );
+    }
+
+
+    function getConfiguredBackground() {
+        const candidates = [
+            document.body?.dataset?.background,
+            document.body?.dataset?.bg,
+            document.documentElement?.dataset?.background,
+            document.documentElement?.dataset?.bg,
+            document.querySelector(
+                "#page[data-background]"
+            )?.dataset?.background,
+            document.querySelector(
+                "#page[data-bg]"
+            )?.dataset?.bg,
+            document.querySelector(
+                "[data-background]"
+            )?.dataset?.background
+        ];
+
+        for (
+            const candidate of candidates
+        ) {
+            if (
+                candidate &&
+                String(candidate).trim()
+            ) {
+                return String(candidate).trim();
+            }
+        }
+
+        /*
+         * Check an existing inline
+         * background-image on body.
+         */
+
+        const inlineBackground =
+            document.body?.style?.backgroundImage ||
+            "";
+
+        if (
+            inlineBackground &&
+            inlineBackground !== "none"
+        ) {
+            const match =
+                inlineBackground.match(
+                    /url\(["']?(.*?)["']?\)/i
+                );
+
+            if (
+                match &&
+                match[1]
+            ) {
+                return match[1];
+            }
+        }
+
+        return "";
+    }
+
+
+    function setPageBackground() {
+        let source =
+            getConfiguredBackground();
+
+
+        /*
+         * If no configured background exists,
+         * use the first vehicle image.
+         *
+         * This guarantees the blurred page
+         * background is not empty.
+         */
+
+        if (!source) {
+            const firstImage =
+                document.querySelector(
+                    ".vehicle .image img"
+                );
+
+            if (firstImage) {
+                source =
+                    firstImage.currentSrc ||
+                    firstImage.src ||
+                    firstImage.getAttribute(
+                        "src"
+                    ) ||
+                    "";
+            }
+        }
+
+        if (!source) {
+            return;
+        }
 
         try {
-            window.history.replaceState(
-                {
-                    luxuryAutosInitialHash:
-                        initialHashModel
-                },
-                "",
-                cleanUrl
-            );
-        } catch {}
+            const absoluteUrl =
+                new URL(
+                    source,
+                    window.location.href
+                ).href;
 
-        window.scrollTo(
-            0,
-            0
-        );
+            document.documentElement.style.setProperty(
+                "--luxury-autos-background",
+                `url("${escapeCssUrlValue(absoluteUrl)}")`
+            );
+        } catch {
+            document.documentElement.style.setProperty(
+                "--luxury-autos-background",
+                `url("${escapeCssUrlValue(source)}")`
+            );
+        }
     }
+
+
+    /*
+     * Set early if a configured background exists.
+     */
+
+    setPageBackground();
 
 
     /* ============================================================
@@ -370,9 +457,7 @@
             "";
 
         model =
-            String(
-                model
-            ).trim();
+            String(model).trim();
 
         if (!model) {
             return;
@@ -389,15 +474,6 @@
            VEHICLE NAME
            -------------------------------------------------------- */
 
-        /*
-         * Supports the actual structure:
-         *
-         * <div class="inner">
-         *     <span>Vehicle Name</span>
-         *     ...
-         * </div>
-         */
-
         const inner =
             vehicle.querySelector(
                 ".details .inner"
@@ -409,10 +485,6 @@
                     ".vehicle-name"
                 );
 
-            /*
-             * Existing .vehicle-name structure.
-             */
-
             if (vehicleName) {
                 let nameSpan =
                     vehicleName.querySelector(
@@ -421,7 +493,9 @@
 
                 if (!nameSpan) {
                     const text =
-                        vehicleName.textContent.trim();
+                        vehicleName
+                            .textContent
+                            .trim();
 
                     vehicleName.textContent =
                         "";
@@ -492,7 +566,8 @@
             );
 
         if (
-            duplicateLinks.length > 1
+            duplicateLinks.length >
+            1
         ) {
             duplicateLinks.forEach(
                 (
@@ -562,7 +637,7 @@
 
 
     /* ============================================================
-       DECORATE ALL
+       DECORATE ALL VEHICLES
        ============================================================ */
 
     function decorateAllVehicles() {
@@ -577,7 +652,7 @@
 
 
     /* ============================================================
-       PREMIUM SCROLL ENGINE
+       PREMIUM SCROLL
        ============================================================ */
 
     let activeScrollFrame =
@@ -891,7 +966,7 @@
 
 
     /* ============================================================
-       WAIT FOR VEHICLE
+       WAIT FOR DYNAMIC VEHICLES
        ============================================================ */
 
     function scrollToHashWhenReady(
@@ -986,12 +1061,10 @@
                 "#page"
             );
 
-        /*
-         * No page container.
-         */
-
         if (!container) {
             decorateAllVehicles();
+
+            setPageBackground();
 
             if (initialHashModel) {
                 restoreInitialHash();
@@ -1004,7 +1077,6 @@
 
                 initialHashModel =
                     "";
-
             }
 
             return;
@@ -1024,6 +1096,8 @@
             staticVehicles.length
         ) {
             decorateAllVehicles();
+
+            setPageBackground();
 
             if (
                 typeof window
@@ -1137,6 +1211,8 @@
 
             decorateAllVehicles();
 
+            setPageBackground();
+
 
             if (
                 typeof window
@@ -1169,6 +1245,8 @@
             );
 
             decorateAllVehicles();
+
+            setPageBackground();
 
             if (initialHashModel) {
                 restoreInitialHash();
@@ -1255,18 +1333,6 @@
         vehicle.dataset.model =
             model;
 
-
-        /*
-         * IMPORTANT:
-         *
-         * Matches your actual HTML:
-         *
-         * <div class="inner">
-         *     <span>Vehicle Name</span>
-         *     <small>Price</small>
-         *     <pre>Model</pre>
-         * </div>
-         */
 
         vehicle.innerHTML = `
             <div class="details">
@@ -1403,11 +1469,6 @@
             }
 
 
-            /*
-             * Save original image for
-             * static vehicles too.
-             */
-
             if (
                 !image.dataset.originalSrc
             ) {
@@ -1419,8 +1480,9 @@
 
 
             /*
-             * Clicking the already selected
-             * color unselects it.
+             * Click selected color again:
+             * remove selection and restore
+             * original image.
              */
 
             const alreadyActive =
@@ -1446,8 +1508,7 @@
 
 
             /*
-             * Remove active from
-             * all colors.
+             * Remove old selection.
              */
 
             vehicle
@@ -1472,10 +1533,6 @@
             );
 
 
-            /*
-             * Color suffixes.
-             */
-
             const suffixMap = {
                 mb: "_mb",
                 mw: "_mw",
@@ -1499,11 +1556,6 @@
             }
 
 
-            /*
-             * Remove an existing
-             * vehicle color suffix.
-             */
-
             const source =
                 image.getAttribute(
                     "src"
@@ -1515,10 +1567,6 @@
                     ""
                 );
 
-
-            /*
-             * Detect image extension.
-             */
 
             const extensionMatch =
                 cleanSource.match(
@@ -1535,19 +1583,9 @@
                 return;
             }
 
+
             const extension =
                 extensionMatch[1];
-
-
-            /*
-             * Example:
-             *
-             * pulse.png
-             *
-             * ↓ red
-             *
-             * pulse_r.png
-             */
 
             const newSource =
                 cleanSource.replace(
@@ -1584,22 +1622,11 @@
             }
 
 
-            /*
-             * Creates:
-             *
-             * https://luxury-autos.vercel.app/view/legendary.html#mst
-             */
-
             const fullUrl =
                 buildVehicleUrl(
                     model
                 );
 
-
-            /*
-             * Update browser URL
-             * without reloading.
-             */
 
             try {
                 window.history.pushState(
@@ -1613,10 +1640,6 @@
             } catch {}
 
 
-            /*
-             * Scroll from current position.
-             */
-
             scrollToVehicle(
                 model,
                 true,
@@ -1624,20 +1647,12 @@
             );
 
 
-            /*
-             * Copy the exact canonical URL.
-             */
-
             try {
                 await navigator.clipboard.writeText(
                     fullUrl
                 );
             } catch {}
 
-
-            /*
-             * Copied state.
-             */
 
             this.classList.add(
                 "copied"
@@ -1682,10 +1697,6 @@
                 return;
             }
 
-
-            /*
-             * Normalize the current URL.
-             */
 
             const canonicalUrl =
                 buildVehicleUrl(
@@ -1788,6 +1799,8 @@
 
     decorateAllVehicles();
 
+    setPageBackground();
+
     loadVehicles();
 
 
@@ -1799,6 +1812,8 @@
         "load",
         function () {
             decorateAllVehicles();
+
+            setPageBackground();
 
             canonicalizeCurrentUrl();
 
