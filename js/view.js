@@ -7,23 +7,141 @@
      * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
      *
-     * URL FORMAT:
+     * SUPPORTED DEEP LINKS:
      *
-     * /view/special.html/#pulse
+     * https://luxury-autos.vercel.app/view/special.html/#pulse
      *
      * IMPORTANT:
-     * The pathname is NEVER modified.
      *
-     * We only change the hash.
+     * The pathname is kept as:
      *
-     * This prevents:
+     * /view/special.html
      *
-     * /special.html/
+     * NEVER:
      *
-     * from accidentally being generated.
+     * /view/special.html/
+     *
+     * The hash is handled entirely by JavaScript.
      *
      * ============================================================
      */
+
+
+    /*
+     * ============================================================
+     * URL CANONICALIZATION
+     * ============================================================
+     *
+     * Vercel/static hosting can sometimes serve:
+     *
+     * /special.html/
+     *
+     * even when the real file is:
+     *
+     * /special.html
+     *
+     * If that happens, repair it immediately.
+     *
+     * IMPORTANT:
+     *
+     * The hash is NOT removed here.
+     *
+     * Example:
+     *
+     * /view/special.html/#pulse
+     *
+     * becomes:
+     *
+     * /view/special.html/#pulse
+     *
+     * without triggering a reload.
+     */
+
+    function getCanonicalPathname() {
+        let pathname =
+            window.location.pathname;
+
+        /*
+         * Only remove the trailing slash when
+         * it comes AFTER an HTML filename.
+         *
+         * Example:
+         *
+         * /view/special.html/
+         *
+         * -> /view/special.html
+         *
+         * But:
+         *
+         * /view/
+         *
+         * stays /view/
+         */
+
+        if (
+            /\.html\/$/i.test(
+                pathname
+            )
+        ) {
+            pathname =
+                pathname.replace(
+                    /\/$/u,
+                    ""
+                );
+        }
+
+        return pathname;
+    }
+
+
+    function canonicalizeCurrentUrl() {
+        const pathname =
+            getCanonicalPathname();
+
+        const currentPath =
+            window.location.pathname;
+
+        if (
+            pathname ===
+            currentPath
+        ) {
+            return;
+        }
+
+        const canonicalUrl =
+            pathname +
+            window.location.search +
+            window.location.hash;
+
+        try {
+            window.history.replaceState(
+                {
+                    luxuryAutosCanonical:
+                        true
+                },
+                "",
+                canonicalUrl
+            );
+        } catch {
+            /*
+             * Fallback.
+             */
+
+            window.location.replace(
+                canonicalUrl
+            );
+        }
+    }
+
+
+    /*
+     * IMPORTANT:
+     *
+     * Run this BEFORE reading/removing the
+     * initial hash.
+     */
+
+    canonicalizeCurrentUrl();
 
 
     /*
@@ -35,7 +153,8 @@
     let initialHash =
         window.location.hash || "";
 
-    let initialHashModel = "";
+    let initialHashModel =
+        "";
 
     if (
         initialHash &&
@@ -78,11 +197,21 @@
      * ============================================================
      * PREVENT NATIVE HASH JUMP
      * ============================================================
+     *
+     * We now remove ONLY the hash.
+     *
+     * The pathname is already canonical:
+     *
+     * /view/special.html
+     *
+     * and NOT:
+     *
+     * /view/special.html/
      */
 
     if (initialHashModel) {
         const cleanInitialUrl =
-            window.location.pathname +
+            getCanonicalPathname() +
             window.location.search;
 
         try {
@@ -99,9 +228,8 @@
         }
 
         /*
-         * Force the initial position to the
-         * very top before our cinematic
-         * navigation begins.
+         * Always start direct deep-links
+         * from the very top.
          */
 
         window.scrollTo(
@@ -263,56 +391,49 @@
 
     /*
      * ============================================================
-     * URL
+     * BUILD VEHICLE URL
      * ============================================================
      *
-     * IMPORTANT FIX:
+     * THIS IS THE IMPORTANT URL FUNCTION.
      *
-     * DO NOT MODIFY pathname.
+     * It does NOT:
      *
-     * If the current page is:
+     * url.pathname += "/";
      *
-     * /view/special.html
+     * It uses the canonical pathname.
      *
-     * the generated URL remains:
+     * Result:
      *
      * /view/special.html/#pulse
      *
-     * NOT:
+     * NEVER:
      *
-     * /view/special.html//#pulse
-     * /view/special.html/#pulse with a
-     * modified pathname.
+     * /view/special.html//
+     * /view/special.html/#pulse
+     * after pathname corruption.
      */
 
     function buildVehicleUrl(model) {
-        const url =
-            new URL(
-                window.location.href
-            );
+        const pathname =
+            getCanonicalPathname();
 
-        /*
-         * Preserve:
-         *
-         * pathname
-         * search
-         *
-         * exactly as the current page has them.
-         */
+        const search =
+            window.location.search;
 
-        url.hash = "";
-
-        /*
-         * encodeURIComponent makes models containing
-         * spaces/special characters safe.
-         */
-
-        url.hash =
+        const encodedModel =
             encodeURIComponent(
-                String(model || "").trim()
+                String(
+                    model || ""
+                ).trim()
             );
 
-        return url.href;
+        return (
+            window.location.origin +
+            pathname +
+            search +
+            "#" +
+            encodedModel
+        );
     }
 
 
@@ -323,7 +444,9 @@
      */
 
     function restoreInitialHash() {
-        if (!initialHashModel) {
+        if (
+            !initialHashModel
+        ) {
             return;
         }
 
@@ -378,15 +501,12 @@
             const vehicle
             of vehicles
         ) {
-            const currentModel =
+            if (
                 getVehicleModel(
                     vehicle
                 )
                     .trim()
-                    .toLowerCase();
-
-            if (
-                currentModel ===
+                    .toLowerCase() ===
                 wanted
             ) {
                 return vehicle;
@@ -529,7 +649,7 @@
                 ></path>
 
                 <path
-                    d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                    d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07-7.07l1.71-1.71"
                 ></path>
             </svg>
         `;
@@ -558,10 +678,6 @@
             return;
         }
 
-        /*
-         * Native fragment target.
-         */
-
         vehicle.id =
             model;
 
@@ -585,9 +701,7 @@
 
 
         /*
-         * --------------------------------------------------------
          * VEHICLE NAME
-         * --------------------------------------------------------
          */
 
         let nameWrapper =
@@ -624,9 +738,7 @@
 
 
         /*
-         * --------------------------------------------------------
          * COLOR ROW
-         * --------------------------------------------------------
          */
 
         let colors =
@@ -650,9 +762,7 @@
 
 
         /*
-         * --------------------------------------------------------
-         * LINK ICON
-         * --------------------------------------------------------
+         * LINK
          */
 
         let link =
@@ -677,7 +787,7 @@
 
 
         /*
-         * Remove duplicate icons.
+         * Remove duplicates.
          */
 
         colors
@@ -697,10 +807,6 @@
 
 
         /*
-         * ========================================================
-         * LINK POSITION
-         * ========================================================
-         *
          * NORMAL:
          *
          * LINK | BLACK | WHITE | RED | GREEN | BLUE
@@ -729,7 +835,7 @@
 
     /*
      * ============================================================
-     * DECORATE ALL VEHICLES
+     * DECORATE ALL
      * ============================================================
      */
 
@@ -753,7 +859,7 @@
 
     /*
      * ============================================================
-     * PREMIUM EASING
+     * EASING
      * ============================================================
      */
 
@@ -776,25 +882,6 @@
 
     /*
      * ============================================================
-     * EXTRA CINEMATIC EASING
-     * ============================================================
-     */
-
-    function cinematicEase(t) {
-        /*
-         * Smooth quintic movement with a slightly
-         * softer beginning and ending.
-         */
-
-        const eased =
-            easeInOutQuint(t);
-
-        return eased;
-    }
-
-
-    /*
-     * ============================================================
      * SCROLL STATE
      * ============================================================
      */
@@ -805,12 +892,6 @@
     let scrollAnimationToken =
         0;
 
-
-    /*
-     * ============================================================
-     * CANCEL SCROLL
-     * ============================================================
-     */
 
     function cancelPremiumScroll() {
         scrollAnimationToken++;
@@ -831,61 +912,47 @@
 
     /*
      * ============================================================
-     * DISTANCE-AWARE DURATION
+     * DURATION
      * ============================================================
      */
 
     function getScrollDuration(
         distance
     ) {
-        const absoluteDistance =
-            Math.abs(distance);
+        const d =
+            Math.abs(
+                distance
+            );
 
-        if (
-            absoluteDistance < 80
-        ) {
+        if (d < 80) {
             return 450;
         }
 
-        if (
-            absoluteDistance < 250
-        ) {
+        if (d < 250) {
             return 650;
         }
 
-        if (
-            absoluteDistance < 500
-        ) {
+        if (d < 500) {
             return 850;
         }
 
-        if (
-            absoluteDistance < 900
-        ) {
+        if (d < 900) {
             return 1100;
         }
 
-        if (
-            absoluteDistance < 1500
-        ) {
+        if (d < 1500) {
             return 1400;
         }
 
-        if (
-            absoluteDistance < 2300
-        ) {
+        if (d < 2300) {
             return 1650;
         }
 
-        if (
-            absoluteDistance < 3500
-        ) {
+        if (d < 3500) {
             return 1950;
         }
 
-        if (
-            absoluteDistance < 5000
-        ) {
+        if (d < 5000) {
             return 2250;
         }
 
@@ -895,7 +962,7 @@
 
     /*
      * ============================================================
-     * PREMIUM SMART SCROLL
+     * PREMIUM SCROLL
      * ============================================================
      */
 
@@ -923,10 +990,6 @@
             return;
         }
 
-        /*
-         * Respect reduced motion.
-         */
-
         if (
             window.matchMedia &&
             window.matchMedia(
@@ -947,7 +1010,7 @@
                 distance
             );
 
-        const animationToken =
+        const token =
             scrollAnimationToken;
 
         let startTime =
@@ -956,12 +1019,8 @@
         function animate(
             currentTime
         ) {
-            /*
-             * Another navigation has started.
-             */
-
             if (
-                animationToken !==
+                token !==
                 scrollAnimationToken
             ) {
                 return;
@@ -986,7 +1045,7 @@
                 );
 
             const eased =
-                cinematicEase(
+                easeInOutQuint(
                     progress
                 );
 
@@ -1027,28 +1086,18 @@
 
     /*
      * ============================================================
-     * CALCULATE VEHICLE TARGET
+     * TARGET POSITION
      * ============================================================
      */
 
     function calculateVehicleTarget(
         vehicle
     ) {
-        if (!vehicle) {
-            return 0;
-        }
-
         const rect =
             vehicle.getBoundingClientRect();
 
         const viewportHeight =
             window.innerHeight;
-
-        /*
-         * Small visual offset so the target
-         * feels centered without fighting
-         * the fixed title.
-         */
 
         const headerOffset =
             window.innerWidth <= 700
@@ -1071,10 +1120,6 @@
             window.scrollY +
             delta;
 
-        /*
-         * Never scroll outside the page.
-         */
-
         targetY =
             Math.max(
                 0,
@@ -1089,19 +1134,16 @@
                     window.innerHeight
             );
 
-        targetY =
-            Math.min(
-                targetY,
-                maxScroll
-            );
-
-        return targetY;
+        return Math.min(
+            targetY,
+            maxScroll
+        );
     }
 
 
     /*
      * ============================================================
-     * TARGET STATE
+     * HIGHLIGHT
      * ============================================================
      */
 
@@ -1115,8 +1157,8 @@
                 ".vehicle.hash-target"
             )
             .forEach(
-                (element) => {
-                    element.classList.remove(
+                (vehicle) => {
+                    vehicle.classList.remove(
                         "hash-target"
                     );
                 }
@@ -1142,15 +1184,7 @@
             return false;
         }
 
-        /*
-         * Stop all previous navigation.
-         */
-
         cancelPremiumScroll();
-
-        /*
-         * Clear old target.
-         */
 
         clearVehicleHighlights();
 
@@ -1163,25 +1197,15 @@
                 null;
         }
 
-        /*
-         * Highlight new target immediately.
-         */
-
         vehicle.classList.add(
             "hash-target"
         );
 
 
         /*
-         * --------------------------------------------------------
-         * DIRECT URL LOAD
-         * --------------------------------------------------------
+         * DIRECT DEEP LINK:
          *
-         * When opening:
-         *
-         * /special.html/#pulse
-         *
-         * always begin at the top.
+         * Start from absolute top.
          */
 
         if (fromTop) {
@@ -1193,16 +1217,11 @@
 
 
         /*
-         * Wait for layout.
+         * Wait for layout/images.
          */
 
         requestAnimationFrame(
             () => {
-                /*
-                 * Make sure images/layout have had
-                 * an opportunity to settle.
-                 */
-
                 requestAnimationFrame(
                     () => {
                         const targetY =
@@ -1231,18 +1250,6 @@
                             );
                         }
 
-                        /*
-                         * Keep the highlight visible
-                         * during and after navigation.
-                         */
-
-                        const highlightDuration =
-                            Math.max(
-                                3200,
-                                duration +
-                                    1500
-                            );
-
                         highlightTimer =
                             setTimeout(
                                 () => {
@@ -1253,7 +1260,11 @@
                                     highlightTimer =
                                         null;
                                 },
-                                highlightDuration
+                                Math.max(
+                                    3200,
+                                    duration +
+                                        1500
+                                )
                             );
                     }
                 );
@@ -1266,7 +1277,7 @@
 
     /*
      * ============================================================
-     * HASH TARGET LOADING
+     * HASH NAVIGATION
      * ============================================================
      */
 
@@ -1289,10 +1300,6 @@
         if (!model) {
             return;
         }
-
-        /*
-         * Avoid duplicate navigation.
-         */
 
         if (
             lastNavigationModel ===
@@ -1335,11 +1342,6 @@
 
                 return;
             }
-
-            /*
-             * Dynamic vehicle data may not have
-             * finished loading yet.
-             */
 
             if (
                 attempts < 150
@@ -1428,12 +1430,6 @@
             model;
 
 
-        /*
-         * ========================================================
-         * DETAILS
-         * ========================================================
-         */
-
         const details =
             document.createElement(
                 "div"
@@ -1499,9 +1495,7 @@
 
 
         /*
-         * ========================================================
          * COLORS
-         * ========================================================
          */
 
         const colors =
@@ -1552,9 +1546,7 @@
 
 
         /*
-         * ========================================================
          * IMAGE
-         * ========================================================
          */
 
         const imageContainer =
@@ -1625,7 +1617,7 @@
 
 
         /*
-         * STATIC HTML
+         * STATIC VEHICLES
          */
 
         const staticVehicles =
@@ -1638,9 +1630,16 @@
         ) {
             decorateAllVehicles();
 
-            loadServerRotation();
+            if (
+                typeof loadServerRotation ===
+                "function"
+            ) {
+                loadServerRotation();
+            }
 
-            if (initialHashModel) {
+            if (
+                initialHashModel
+            ) {
                 restoreInitialHash();
 
                 scrollToHashWhenReady(
@@ -1717,7 +1716,12 @@
 
                     addFooter();
 
-                    loadServerRotation();
+                    if (
+                        typeof loadServerRotation ===
+                        "function"
+                    ) {
+                        loadServerRotation();
+                    }
 
 
                     if (
@@ -1745,7 +1749,13 @@
 
                     decorateAllVehicles();
 
-                    loadServerRotation();
+                    if (
+                        typeof loadServerRotation ===
+                        "function"
+                    ) {
+                        loadServerRotation();
+                    }
+
 
                     if (
                         initialHashModel
@@ -1929,7 +1939,7 @@
 
 
             /*
-             * Build the exact URL:
+             * ALWAYS generate:
              *
              * /view/special.html/#pulse
              */
@@ -1941,8 +1951,9 @@
 
 
             /*
-             * Update browser URL without
-             * triggering native hash scrolling.
+             * Change only browser history.
+             *
+             * No native fragment jump.
              */
 
             try {
@@ -1955,35 +1966,16 @@
                     fullUrl
                 );
             } catch {
-                /*
-                 * Fallback for unusual browsers.
-                 */
-
-                window.location.hash =
-                    encodeURIComponent(
-                        model
-                    );
+                return;
             }
 
-
-            /*
-             * Allow the same vehicle to be
-             * navigated to again.
-             */
 
             lastNavigationModel =
                 "";
 
 
             /*
-             * IMPORTANT:
-             *
-             * false means:
-             *
-             * DO NOT go to the top.
-             *
-             * Start exactly where the user
-             * currently is.
+             * Start from CURRENT position.
              */
 
             scrollToVehicle(
@@ -1994,7 +1986,7 @@
 
 
             /*
-             * Copy the correct URL.
+             * Copy exact deep-link.
              */
 
             const copied =
@@ -2058,6 +2050,13 @@
     window.addEventListener(
         "popstate",
         () => {
+            /*
+             * Canonicalize again in case the
+             * browser restored an old URL.
+             */
+
+            canonicalizeCurrentUrl();
+
             const model =
                 getHashModel();
 
@@ -2122,13 +2121,17 @@
     window.addEventListener(
         "load",
         () => {
+            /*
+             * Repair any trailing .html/
+             * pathname again after page load.
+             */
+
+            canonicalizeCurrentUrl();
+
             decorateAllVehicles();
 
             /*
-             * If the page was loaded directly with
-             * a hash and vehicle loading happened
-             * after the initial initialization,
-             * make one final safe attempt.
+             * Initial direct deep-link.
              */
 
             if (
