@@ -17,6 +17,9 @@ body {
 }
 
 html {
+    /*
+     * JavaScript owns all smooth scrolling.
+     */
     scroll-behavior: auto;
 }
 
@@ -66,6 +69,7 @@ h1 {
     position: fixed;
 
     top: 15px;
+
     left:
         calc(
             (max(100%, 1550px) - 1550px) / 2
@@ -81,7 +85,8 @@ h1 {
 
     color: #000;
 
-    background: rgba(255, 255, 255, 0.5);
+    background:
+        rgba(255, 255, 255, 0.5);
 
     backdrop-filter: blur(12px);
 
@@ -97,7 +102,8 @@ h1 {
         );
 
     box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.08);
+        0 10px 35px
+        rgba(0, 0, 0, 0.08);
 }
 
 h1 a {
@@ -121,11 +127,21 @@ h1 a {
 
     position: relative;
 
+    /*
+     * Kept for accessibility/native fragment fallback,
+     * while JavaScript performs the actual navigation.
+     */
     scroll-margin-top: 100px;
 
     transition:
         filter 500ms ease,
-        transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+        transform 700ms
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
 }
 
 .vehicle:not(:first-child):not(:last-child) {
@@ -156,7 +172,13 @@ h1 a {
     transition:
         background 500ms ease,
         box-shadow 600ms ease,
-        transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+        transform 700ms
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
 }
 
 .vehicle:first-child .details {
@@ -214,7 +236,10 @@ body.loading-rotation
     left: 50%;
 
     transform:
-        translate(-50%, -50%);
+        translate(
+            -50%,
+            -50%
+        );
 
     width: max-content;
 
@@ -259,7 +284,8 @@ body.loading-rotation
         translateY(-1px);
 
     text-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.13);
+        0 5px 20px
+        rgba(0, 0, 0, 0.13);
 }
 
 /* =========================================================
@@ -307,14 +333,6 @@ body.loading-rotation
    BOTTOM ACTION AREA
    ========================================================= */
 
-/*
-   This is a dedicated bottom action layer.
-
-   Link + colors are on the SAME horizontal line.
-
-   Nothing is positioned above the colors.
-*/
-
 .vehicle .details .colors {
     position: absolute;
 
@@ -339,7 +357,12 @@ body.loading-rotation
     transition:
         opacity 250ms ease,
         transform 300ms
-        cubic-bezier(0.22, 1, 0.36, 1);
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
 }
 
 .vehicle.invert
@@ -348,9 +371,6 @@ body.loading-rotation
     right: auto;
 }
 
-/*
-   Only show colors when this vehicle is hovered.
-*/
 .vehicle:hover
 .details .colors {
     opacity: 1;
@@ -362,20 +382,6 @@ body.loading-rotation
 /* =========================================================
    LINK ICON
    ========================================================= */
-
-/*
-   IMPORTANT:
-
-   The icon is NOT above the colors.
-
-   It occupies the SAME bottom action row.
-
-   Normal:
-   [colors] [link]
-
-   Inverted:
-   [link] [colors]
-*/
 
 .vehicle .details .vehicle-link {
     position: absolute;
@@ -396,7 +402,8 @@ body.loading-rotation
 
     background: transparent;
 
-    color: rgba(0, 0, 0, 0.55);
+    color:
+        rgba(0, 0, 0, 0.55);
 
     text-decoration: none;
 
@@ -418,35 +425,38 @@ body.loading-rotation
         opacity 220ms ease,
         visibility 220ms ease,
         transform 280ms
-        cubic-bezier(0.22, 1, 0.36, 1),
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
         color 220ms ease;
 }
 
 /*
-   NORMAL VEHICLE
-
-   Colors are on right.
-   Link sits immediately beside them.
-*/
+ * NORMAL VEHICLE
+ *
+ * Colors on right.
+ */
 .vehicle:not(.invert)
 .details .vehicle-link {
     right: 135px;
 }
 
 /*
-   INVERT VEHICLE
-
-   Colors are on left.
-   Link sits immediately beside them.
-*/
+ * INVERT VEHICLE
+ *
+ * Colors on left.
+ */
 .vehicle.invert
 .details .vehicle-link {
     left: 135px;
 }
 
 /*
-   Only the hovered vehicle gets its icon.
-*/
+ * Only show icon on hover/focus.
+ */
 .vehicle:hover
 .details .vehicle-link,
 .vehicle:focus-within
@@ -493,10 +503,6 @@ body.loading-rotation
 /* =========================================================
    COPIED STATE
    ========================================================= */
-
-/*
-   Green for exactly 3 seconds.
-*/
 
 .vehicle .details
 .vehicle-link.copied {
@@ -647,7 +653,12 @@ body.loading-rotation
 
     transition:
         transform 800ms
-        cubic-bezier(0.22, 1, 0.36, 1),
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
         filter 700ms ease;
 }
 
@@ -669,7 +680,12 @@ body.loading-rotation
 
     transition:
         transform 1200ms
-        cubic-bezier(0.22, 1, 0.36, 1),
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
         filter 900ms ease;
 }
 
@@ -826,8 +842,8 @@ body.loading-rotation
     }
 
     /*
-       Keep icon beside the color row on mobile.
-    */
+     * Keep icon beside color row on mobile.
+     */
 
     .vehicle:not(.invert)
     .details .vehicle-link {
