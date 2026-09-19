@@ -17,9 +17,6 @@ body {
 }
 
 html {
-    /*
-     * JavaScript controls all scrolling.
-     */
     scroll-behavior: auto;
 }
 
@@ -43,6 +40,8 @@ body::before {
     z-index: -1;
 
     filter: blur(4px);
+
+    transform: scale(1.03);
 }
 
 
@@ -132,14 +131,11 @@ h1 a {
 
     position: relative;
 
-    /*
-     * Fallback for native browser fragment behavior.
-     */
     scroll-margin-top: 100px;
 
     transition:
-        filter 500ms ease,
-        transform 700ms
+        filter 700ms ease,
+        transform 900ms
         cubic-bezier(
             0.22,
             1,
@@ -175,9 +171,9 @@ h1 a {
     backdrop-filter: blur(15px);
 
     transition:
-        background 500ms ease,
-        box-shadow 600ms ease,
-        transform 700ms
+        background 700ms ease,
+        box-shadow 800ms ease,
+        transform 900ms
         cubic-bezier(
             0.22,
             1,
@@ -357,7 +353,7 @@ body.loading-rotation
 
     justify-content: flex-end;
 
-    gap: 5px;
+    gap: 6px;
 
     height: 24px;
 
@@ -366,11 +362,12 @@ body.loading-rotation
     opacity: 0;
 
     transform:
-        translateY(5px);
+        translateY(7px)
+        scale(0.96);
 
     transition:
-        opacity 250ms ease,
-        transform 300ms
+        opacity 300ms ease,
+        transform 450ms
         cubic-bezier(
             0.22,
             1,
@@ -388,9 +385,9 @@ body.loading-rotation
 }
 
 
-/*
- * Show the complete action row.
- */
+/* =========================================================
+   ACTION ROW VISIBILITY
+   ========================================================= */
 
 .vehicle:hover
 .details .colors,
@@ -403,26 +400,14 @@ body.loading-rotation
     opacity: 1;
 
     transform:
-        translateY(0);
+        translateY(0)
+        scale(1);
 }
 
 
 /* =========================================================
    LINK ICON
-   =========================================================
- *
- * The icon is now a normal flex item.
- *
- * NORMAL:
- *
- * LINK | BLACK | WHITE | RED | GREEN | BLUE
- *
- * INVERT:
- *
- * BLACK | WHITE | RED | GREEN | BLUE | LINK
- *
- * JavaScript controls which side it is inserted on.
- */
+   ========================================================= */
 
 .vehicle .details .vehicle-link {
     position: relative;
@@ -443,7 +428,10 @@ body.loading-rotation
 
     border: 0;
 
-    background: transparent;
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.32);
 
     color:
         rgba(0, 0, 0, 0.58);
@@ -461,13 +449,13 @@ body.loading-rotation
     pointer-events: none;
 
     transform:
-        translateY(5px)
-        scale(0.82);
+        translateY(7px)
+        scale(0.75);
 
     transition:
-        opacity 220ms ease,
-        visibility 220ms ease,
-        transform 280ms
+        opacity 260ms ease,
+        visibility 260ms ease,
+        transform 400ms
         cubic-bezier(
             0.22,
             1,
@@ -475,13 +463,14 @@ body.loading-rotation
             1
         ),
         color 220ms ease,
-        filter 220ms ease;
+        background 220ms ease,
+        box-shadow 220ms ease;
 }
 
 
-/*
- * Normal hover/focus.
- */
+/* =========================================================
+   LINK SHOW
+   ========================================================= */
 
 .vehicle:hover
 .details .vehicle-link,
@@ -503,10 +492,29 @@ body.loading-rotation
 }
 
 
-/*
- * =========================================================
- * LINK SVG
- * ========================================================= */
+/* =========================================================
+   LINK HOVER
+   ========================================================= */
+
+.vehicle .details .vehicle-link:hover {
+    color: #000;
+
+    background:
+        rgba(255, 255, 255, 0.85);
+
+    box-shadow:
+        0 4px 14px
+        rgba(0, 0, 0, 0.16);
+
+    transform:
+        translateY(-1px)
+        scale(1.12);
+}
+
+
+/* =========================================================
+   LINK SVG
+   ========================================================= */
 
 .vehicle-link svg {
     width: 15px;
@@ -517,32 +525,32 @@ body.loading-rotation
     stroke: currentColor;
 
     transition:
-        transform 250ms ease,
-        filter 250ms ease;
-}
-
-.vehicle-link:hover {
-    color: #000;
+        transform 300ms
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        filter 300ms ease;
 }
 
 .vehicle-link:hover svg {
     transform:
-        scale(1.16)
-        rotate(-4deg);
+        scale(1.14)
+        rotate(-5deg);
 
     filter:
         drop-shadow(
-            0 2px 4px
-            rgba(0, 0, 0, 0.18)
+            0 2px 5px
+            rgba(0, 0, 0, 0.20)
         );
 }
 
 
-/*
- * =========================================================
- * ACTIVE HASH LINK
- * =========================================================
- */
+/* =========================================================
+   ACTIVE HASH LINK
+   ========================================================= */
 
 .vehicle.hash-target
 .details .vehicle-link {
@@ -557,13 +565,20 @@ body.loading-rotation
     transform:
         translateY(0)
         scale(1);
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    box-shadow:
+        0 4px 16px
+        rgba(0, 0, 0, 0.14);
 }
 
 .vehicle.hash-target
 .details .vehicle-link svg {
     animation:
         activeLinkPulse
-        1200ms
+        1300ms
         ease-in-out
         infinite;
 }
@@ -599,6 +614,13 @@ body.loading-rotation
     transform:
         translateY(0)
         scale(1.08);
+
+    background:
+        rgba(255, 255, 255, 0.9);
+
+    box-shadow:
+        0 5px 18px
+        rgba(22, 163, 74, 0.18);
 }
 
 .vehicle .details
@@ -654,18 +676,29 @@ body.loading-rotation
         rgba(0, 0, 0, 0.25);
 
     transition:
-        transform 180ms ease,
-        box-shadow 180ms ease;
+        transform 220ms
+        cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        box-shadow 220ms ease,
+        filter 220ms ease;
 }
 
 .vehicle .details
 .colors .color:hover {
     transform:
-        scale(1.15);
+        scale(1.17)
+        translateY(-1px);
 
     box-shadow:
-        0 5px 14px
-        rgba(0, 0, 0, 0.22);
+        0 5px 16px
+        rgba(0, 0, 0, 0.23);
+
+    filter:
+        brightness(1.04);
 }
 
 .vehicle .details
@@ -674,7 +707,7 @@ body.loading-rotation
 
     position: absolute;
 
-    inset: 0;
+    inset: -2px;
 
     border-radius: 50%;
 
@@ -683,8 +716,12 @@ body.loading-rotation
 
     opacity: 0;
 
+    transform:
+        scale(0.8);
+
     transition:
-        opacity 200ms ease;
+        opacity 220ms ease,
+        transform 220ms ease;
 }
 
 .vehicle .details
@@ -693,6 +730,9 @@ body.loading-rotation
 .vehicle .details
 .colors .color:hover::after {
     opacity: 1;
+
+    transform:
+        scale(1);
 }
 
 
@@ -742,14 +782,14 @@ body.loading-rotation
     flex-shrink: 0;
 
     transition:
-        transform 800ms
+        transform 900ms
         cubic-bezier(
             0.22,
             1,
             0.36,
             1
         ),
-        filter 700ms ease;
+        filter 800ms ease;
 }
 
 .vehicle:nth-child(odd)
@@ -769,14 +809,14 @@ body.loading-rotation
     object-fit: cover;
 
     transition:
-        transform 1200ms
+        transform 1400ms
         cubic-bezier(
             0.22,
             1,
             0.36,
             1
         ),
-        filter 900ms ease;
+        filter 1000ms ease;
 }
 
 
@@ -789,25 +829,28 @@ body.loading-rotation
 
     filter:
         drop-shadow(
-            0 20px 45px
-            rgba(0, 0, 0, 0.20)
+            0 24px 55px
+            rgba(0, 0, 0, 0.22)
         );
+
+    transform:
+        scale(1.002);
 }
 
 .vehicle.hash-target
 .details {
     background:
-        rgba(255, 255, 255, 0.68);
+        rgba(255, 255, 255, 0.70);
 
     box-shadow:
         0 0 0 1px
-            rgba(255, 255, 255, 0.85),
-        0 20px 70px
-            rgba(0, 0, 0, 0.18);
+            rgba(255, 255, 255, 0.9),
+        0 24px 75px
+            rgba(0, 0, 0, 0.20);
 
     animation:
         targetDetailsIn
-        1000ms
+        1100ms
         cubic-bezier(
             0.22,
             1,
@@ -820,11 +863,11 @@ body.loading-rotation
 .vehicle.hash-target
 .image img {
     transform:
-        scale(1.035);
+        scale(1.045);
 
     filter:
-        saturate(1.08)
-        contrast(1.03);
+        saturate(1.09)
+        contrast(1.035);
 }
 
 @keyframes targetDetailsIn {
@@ -834,20 +877,20 @@ body.loading-rotation
             rgba(255, 255, 255, 0);
     }
 
-    45% {
+    40% {
         box-shadow:
-            0 0 0 4px
-                rgba(255, 255, 255, 0.85),
-            0 25px 75px
-                rgba(0, 0, 0, 0.22);
+            0 0 0 5px
+                rgba(255, 255, 255, 0.82),
+            0 25px 80px
+                rgba(0, 0, 0, 0.23);
     }
 
     100% {
         box-shadow:
             0 0 0 1px
-                rgba(255, 255, 255, 0.85),
-            0 20px 70px
-                rgba(0, 0, 0, 0.18);
+                rgba(255, 255, 255, 0.9),
+            0 24px 75px
+                rgba(0, 0, 0, 0.20);
     }
 }
 
@@ -941,12 +984,6 @@ body.loading-rotation
     }
 
 
-    /*
-     * ---------------------------------------------------------
-     * Mobile action row
-     * ---------------------------------------------------------
-     */
-
     .vehicle .details .colors {
         bottom: 5px;
 
@@ -955,10 +992,6 @@ body.loading-rotation
         gap: 4px;
     }
 
-
-    /*
-     * LINK
-     */
 
     .vehicle .details
     .vehicle-link {
@@ -975,10 +1008,6 @@ body.loading-rotation
     }
 
 
-    /*
-     * COLORS
-     */
-
     .vehicle .details
     .colors .color {
         width: 18px;
@@ -987,10 +1016,6 @@ body.loading-rotation
         flex-basis: 18px;
     }
 
-
-    /*
-     * Footer
-     */
 
     #footer {
         left: 10px;
@@ -1017,7 +1042,9 @@ body.loading-rotation
     .vehicle-link,
     .vehicle-link svg {
         transition-duration: 0.01ms !important;
+
         animation-duration: 0.01ms !important;
+
         animation-iteration-count: 1 !important;
     }
 }

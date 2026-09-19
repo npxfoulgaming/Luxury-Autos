@@ -7,41 +7,20 @@
      * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
      *
-     * Features:
+     * URL FORMAT:
      *
-     * 1. Direct deep-link:
+     * /view/special.html/#pulse
      *
-     *    /view/respected.html/#zr3806str
+     * IMPORTANT:
+     * The pathname is NEVER modified.
      *
-     *    Starts from the top and smoothly travels to the vehicle.
+     * We only change the hash.
      *
-     * 2. Normal vehicle-link click:
+     * This prevents:
      *
-     *    Starts from the user's CURRENT scroll position.
+     * /special.html/
      *
-     * 3. Target below current position:
-     *
-     *    Smooth downward cinematic scroll.
-     *
-     * 4. Target above current position:
-     *
-     *    Smooth upward cinematic scroll.
-     *
-     * 5. Distance-aware animation:
-     *
-     *    Short distance = shorter animation.
-     *    Long distance  = longer animation.
-     *
-     * 6. Existing animations are cancelled before
-     *    a new navigation starts.
-     *
-     * 7. Link icon belongs to the color row:
-     *
-     *    Normal:
-     *    LINK | BLACK | WHITE | RED | GREEN | BLUE
-     *
-     *    Inverted:
-     *    BLACK | WHITE | RED | GREEN | BLUE | LINK
+     * from accidentally being generated.
      *
      * ============================================================
      */
@@ -99,14 +78,6 @@
      * ============================================================
      * PREVENT NATIVE HASH JUMP
      * ============================================================
-     *
-     * The browser may attempt to jump directly to:
-     *
-     * #vehicle
-     *
-     * before our JavaScript is ready.
-     *
-     * Remove the hash immediately and restore it later.
      */
 
     if (initialHashModel) {
@@ -126,6 +97,12 @@
         } catch {
             // Ignore history API errors.
         }
+
+        /*
+         * Force the initial position to the
+         * very top before our cinematic
+         * navigation begins.
+         */
 
         window.scrollTo(
             0,
@@ -288,6 +265,24 @@
      * ============================================================
      * URL
      * ============================================================
+     *
+     * IMPORTANT FIX:
+     *
+     * DO NOT MODIFY pathname.
+     *
+     * If the current page is:
+     *
+     * /view/special.html
+     *
+     * the generated URL remains:
+     *
+     * /view/special.html/#pulse
+     *
+     * NOT:
+     *
+     * /view/special.html//#pulse
+     * /view/special.html/#pulse with a
+     * modified pathname.
      */
 
     function buildVehicleUrl(model) {
@@ -297,24 +292,25 @@
             );
 
         /*
-         * Always force:
+         * Preserve:
          *
-         * /page.html/#model
+         * pathname
+         * search
          *
-         * instead of:
-         *
-         * /page.html#model
+         * exactly as the current page has them.
          */
-
-        if (
-            !url.pathname.endsWith("/")
-        ) {
-            url.pathname += "/";
-        }
 
         url.hash = "";
 
-        url.hash = model;
+        /*
+         * encodeURIComponent makes models containing
+         * spaces/special characters safe.
+         */
+
+        url.hash =
+            encodeURIComponent(
+                String(model || "").trim()
+            );
 
         return url.href;
     }
@@ -369,7 +365,9 @@
         }
 
         const wanted =
-            model.toLowerCase();
+            String(model)
+                .trim()
+                .toLowerCase();
 
         const vehicles =
             container.querySelectorAll(
@@ -380,10 +378,15 @@
             const vehicle
             of vehicles
         ) {
-            if (
+            const currentModel =
                 getVehicleModel(
                     vehicle
-                ).toLowerCase() ===
+                )
+                    .trim()
+                    .toLowerCase();
+
+            if (
+                currentModel ===
                 wanted
             ) {
                 return vehicle;
@@ -631,11 +634,6 @@
                 ":scope > .colors"
             );
 
-        /*
-         * If older/static HTML already has
-         * a colors container, keep it.
-         */
-
         if (!colors) {
             colors =
                 document.createElement(
@@ -677,6 +675,7 @@
                 model;
         }
 
+
         /*
          * Remove duplicate icons.
          */
@@ -699,14 +698,14 @@
 
         /*
          * ========================================================
-         * IMPORTANT ICON POSITION
+         * LINK POSITION
          * ========================================================
          *
-         * Normal vehicle:
+         * NORMAL:
          *
          * LINK | BLACK | WHITE | RED | GREEN | BLUE
          *
-         * Inverted vehicle:
+         * INVERT:
          *
          * BLACK | WHITE | RED | GREEN | BLUE | LINK
          */
@@ -777,6 +776,25 @@
 
     /*
      * ============================================================
+     * EXTRA CINEMATIC EASING
+     * ============================================================
+     */
+
+    function cinematicEase(t) {
+        /*
+         * Smooth quintic movement with a slightly
+         * softer beginning and ending.
+         */
+
+        const eased =
+            easeInOutQuint(t);
+
+        return eased;
+    }
+
+
+    /*
+     * ============================================================
      * SCROLL STATE
      * ============================================================
      */
@@ -813,19 +831,8 @@
 
     /*
      * ============================================================
-     * ADAPTIVE SCROLL DURATION
+     * DISTANCE-AWARE DURATION
      * ============================================================
-     *
-     * The farther the destination is,
-     * the longer the animation becomes.
-     *
-     * This prevents:
-     *
-     * 50px  -> 1500ms
-     *
-     * while also avoiding:
-     *
-     * 5000px -> 400ms
      */
 
     function getScrollDuration(
@@ -835,42 +842,54 @@
             Math.abs(distance);
 
         if (
-            absoluteDistance < 120
+            absoluteDistance < 80
         ) {
-            return 500;
+            return 450;
         }
 
         if (
-            absoluteDistance < 400
+            absoluteDistance < 250
         ) {
-            return 700;
+            return 650;
+        }
+
+        if (
+            absoluteDistance < 500
+        ) {
+            return 850;
         }
 
         if (
             absoluteDistance < 900
         ) {
-            return 950;
+            return 1100;
         }
 
         if (
-            absoluteDistance < 1600
+            absoluteDistance < 1500
         ) {
-            return 1200;
+            return 1400;
         }
 
         if (
-            absoluteDistance < 2800
+            absoluteDistance < 2300
         ) {
-            return 1500;
+            return 1650;
         }
 
         if (
-            absoluteDistance < 4500
+            absoluteDistance < 3500
         ) {
-            return 1800;
+            return 1950;
         }
 
-        return 2150;
+        if (
+            absoluteDistance < 5000
+        ) {
+            return 2250;
+        }
+
+        return 2550;
     }
 
 
@@ -905,7 +924,7 @@
         }
 
         /*
-         * Respect reduced-motion accessibility.
+         * Respect reduced motion.
          */
 
         if (
@@ -938,7 +957,7 @@
             currentTime
         ) {
             /*
-             * A new scroll has started.
+             * Another navigation has started.
              */
 
             if (
@@ -966,13 +985,8 @@
                     1
                 );
 
-            /*
-             * Strong acceleration at the beginning,
-             * long deceleration at the end.
-             */
-
             const eased =
-                easeInOutQuint(
+                cinematicEase(
                     progress
                 );
 
@@ -1013,13 +1027,17 @@
 
     /*
      * ============================================================
-     * CALCULATE SMART TARGET
+     * CALCULATE VEHICLE TARGET
      * ============================================================
      */
 
     function calculateVehicleTarget(
         vehicle
     ) {
+        if (!vehicle) {
+            return 0;
+        }
+
         const rect =
             vehicle.getBoundingClientRect();
 
@@ -1027,24 +1045,15 @@
             window.innerHeight;
 
         /*
-         * Fixed heading offset.
+         * Small visual offset so the target
+         * feels centered without fighting
+         * the fixed title.
          */
 
         const headerOffset =
             window.innerWidth <= 700
-                ? 25
-                : 35;
-
-        /*
-         * Center the vehicle.
-         *
-         * This works whether the target is:
-         *
-         * - above
-         * - below
-         * - partially visible
-         * - completely visible
-         */
+                ? 30
+                : 45;
 
         const vehicleCenter =
             rect.top +
@@ -1063,7 +1072,7 @@
             delta;
 
         /*
-         * Keep target inside page.
+         * Never scroll outside the page.
          */
 
         targetY =
@@ -1092,12 +1101,13 @@
 
     /*
      * ============================================================
-     * VEHICLE TARGET STATE
+     * TARGET STATE
      * ============================================================
      */
 
     let highlightTimer =
         null;
+
 
     function clearVehicleHighlights() {
         document
@@ -1133,13 +1143,13 @@
         }
 
         /*
-         * Stop previous animation immediately.
+         * Stop all previous navigation.
          */
 
         cancelPremiumScroll();
 
         /*
-         * Clear previous highlight.
+         * Clear old target.
          */
 
         clearVehicleHighlights();
@@ -1154,7 +1164,7 @@
         }
 
         /*
-         * Highlight current target.
+         * Highlight new target immediately.
          */
 
         vehicle.classList.add(
@@ -1164,10 +1174,14 @@
 
         /*
          * --------------------------------------------------------
-         * DIRECT DEEP LINK
+         * DIRECT URL LOAD
          * --------------------------------------------------------
          *
-         * Start from the absolute top.
+         * When opening:
+         *
+         * /special.html/#pulse
+         *
+         * always begin at the top.
          */
 
         if (fromTop) {
@@ -1179,67 +1193,70 @@
 
 
         /*
-         * Wait one frame so the browser has
-         * a fresh layout before measuring.
+         * Wait for layout.
          */
 
         requestAnimationFrame(
             () => {
-                const targetY =
-                    calculateVehicleTarget(
-                        vehicle
-                    );
-
-                const distance =
-                    targetY -
-                    window.scrollY;
-
                 /*
-                 * Smart duration based on actual distance.
+                 * Make sure images/layout have had
+                 * an opportunity to settle.
                  */
 
-                const duration =
-                    getScrollDuration(
-                        distance
-                    );
-
-                if (animated) {
-                    premiumScrollTo(
-                        targetY,
-                        duration
-                    );
-                } else {
-                    window.scrollTo(
-                        0,
-                        targetY
-                    );
-                }
-
-
-                /*
-                 * Keep target highlight long enough
-                 * for the navigation to complete.
-                 */
-
-                const highlightDuration =
-                    Math.max(
-                        2500,
-                        duration +
-                            1200
-                    );
-
-                highlightTimer =
-                    setTimeout(
-                        () => {
-                            vehicle.classList.remove(
-                                "hash-target"
+                requestAnimationFrame(
+                    () => {
+                        const targetY =
+                            calculateVehicleTarget(
+                                vehicle
                             );
 
-                            highlightTimer =
-                                null;
-                        },
-                        highlightDuration
-                    );
+                        const distance =
+                            targetY -
+                            window.scrollY;
+
+                        const duration =
+                            getScrollDuration(
+                                distance
+                            );
+
+                        if (animated) {
+                            premiumScrollTo(
+                                targetY,
+                                duration
+                            );
+                        } else {
+                            window.scrollTo(
+                                0,
+                                targetY
+                            );
+                        }
+
+                        /*
+                         * Keep the highlight visible
+                         * during and after navigation.
+                         */
+
+                        const highlightDuration =
+                            Math.max(
+                                3200,
+                                duration +
+                                    1500
+                            );
+
+                        highlightTimer =
+                            setTimeout(
+                                () => {
+                                    vehicle.classList.remove(
+                                        "hash-target"
+                                    );
+
+                                    highlightTimer =
+                                        null;
+                                },
+                                highlightDuration
+                            );
+                    }
+                );
             }
         );
 
@@ -1259,6 +1276,7 @@
     let lastNavigationModel =
         "";
 
+
     function scrollToHashWhenReady(
         animated = true,
         forcedModel = "",
@@ -1273,8 +1291,7 @@
         }
 
         /*
-         * Avoid duplicate animations caused by
-         * repeated lifecycle events.
+         * Avoid duplicate navigation.
          */
 
         if (
@@ -1320,11 +1337,12 @@
             }
 
             /*
-             * Wait for dynamically loaded vehicles.
+             * Dynamic vehicle data may not have
+             * finished loading yet.
              */
 
             if (
-                attempts < 120
+                attempts < 150
             ) {
                 hashTimer =
                     setTimeout(
@@ -1495,11 +1513,6 @@
             "colors";
 
 
-        /*
-         * Link will be inserted by
-         * decorateVehicle().
-         */
-
         [
             ["mb", "Matte Black"],
             ["mw", "Matte White"],
@@ -1612,7 +1625,7 @@
 
 
         /*
-         * STATIC HTML VEHICLES
+         * STATIC HTML
          */
 
         const staticVehicles =
@@ -1901,18 +1914,25 @@
 
             event.stopPropagation();
 
-
             const link =
                 event.currentTarget;
 
             const model =
-                link.dataset.model;
-
+                String(
+                    link.dataset.model ||
+                        ""
+                ).trim();
 
             if (!model) {
                 return;
             }
 
+
+            /*
+             * Build the exact URL:
+             *
+             * /view/special.html/#pulse
+             */
 
             const fullUrl =
                 buildVehicleUrl(
@@ -1921,23 +1941,34 @@
 
 
             /*
-             * Update URL without triggering
-             * native browser fragment scrolling.
+             * Update browser URL without
+             * triggering native hash scrolling.
              */
 
-            window.history.pushState(
-                {
-                    vehicle:
+            try {
+                window.history.pushState(
+                    {
+                        vehicle:
+                            model
+                    },
+                    "",
+                    fullUrl
+                );
+            } catch {
+                /*
+                 * Fallback for unusual browsers.
+                 */
+
+                window.location.hash =
+                    encodeURIComponent(
                         model
-                },
-                "",
-                fullUrl
-            );
+                    );
+            }
 
 
             /*
-             * Allow another navigation to this
-             * same model later.
+             * Allow the same vehicle to be
+             * navigated to again.
              */
 
             lastNavigationModel =
@@ -1947,10 +1978,12 @@
             /*
              * IMPORTANT:
              *
-             * false = DON'T start from top.
+             * false means:
              *
-             * The animation begins exactly
-             * from the user's current position.
+             * DO NOT go to the top.
+             *
+             * Start exactly where the user
+             * currently is.
              */
 
             scrollToVehicle(
@@ -1961,7 +1994,7 @@
 
 
             /*
-             * Copy full URL.
+             * Copy the correct URL.
              */
 
             const copied =
@@ -2084,24 +2117,34 @@
      * ============================================================
      * PAGE LOAD
      * ============================================================
-     *
-     * IMPORTANT:
-     *
-     * We intentionally do NOT repeatedly call
-     * scrollToHashWhenReady() at:
-     *
-     * 350ms
-     * 1000ms
-     * 2000ms
-     *
-     * Those repeated calls were capable of restarting
-     * the premium animation while it was already running.
      */
 
     window.addEventListener(
         "load",
         () => {
             decorateAllVehicles();
+
+            /*
+             * If the page was loaded directly with
+             * a hash and vehicle loading happened
+             * after the initial initialization,
+             * make one final safe attempt.
+             */
+
+            if (
+                initialHashModel
+            ) {
+                restoreInitialHash();
+
+                scrollToHashWhenReady(
+                    true,
+                    initialHashModel,
+                    true
+                );
+
+                initialHashModel =
+                    "";
+            }
         }
     );
 
