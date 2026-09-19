@@ -269,6 +269,20 @@ body.loading-rotation
    VEHICLE NAME
    ========================================================= */
 
+/*
+ * Actual markup:
+ *
+ * <div class="inner">
+ *     <span>Vehicle Name</span>
+ *     <small>Price</small>
+ *     <pre>model</pre>
+ * </div>
+ *
+ * Bold.
+ *
+ * NO hover effect.
+ */
+
 .vehicle .details .inner > span {
     display:
         inline-block;
@@ -288,6 +302,9 @@ body.loading-rotation
     color:
         #000;
 
+    text-align:
+        center;
+
     transform:
         none !important;
 
@@ -297,7 +314,9 @@ body.loading-rotation
 
 
 /*
- * Compatibility.
+ * Compatibility with:
+ *
+ * .vehicle-name > span
  */
 
 .vehicle .details .vehicle-name {
@@ -343,7 +362,10 @@ body.loading-rotation
 
 
 /*
- * NO vehicle text hover effect.
+ * IMPORTANT:
+ *
+ * There are intentionally NO hover
+ * rules for the vehicle text.
  */
 
 
@@ -386,6 +408,7 @@ body.loading-rotation
 
 .vehicle.invert
 .details pre,
+
 .vehicle.invert
 .details small {
     text-align:
@@ -422,9 +445,17 @@ body.loading-rotation
     opacity:
         0;
 
+    pointer-events:
+        none;
+
     transition:
         opacity 500ms ease;
 }
+
+
+/* =========================================================
+   NORMAL VEHICLE HOVER
+   ========================================================= */
 
 .vehicle:hover
 .details .colors,
@@ -433,6 +464,9 @@ body.loading-rotation
 .details .colors {
     opacity:
         1;
+
+    pointer-events:
+        auto;
 }
 
 
@@ -707,29 +741,66 @@ body.loading-rotation
 
 
 /* =========================================================
-   ACTIVE LINK — ALWAYS VISIBLE
-   =========================================================
-   
-   THIS IS THE IMPORTANT FIX.
+   ACTIVE HASH VEHICLE
+   ========================================================= */
+
+/*
+ * IMPORTANT:
+ *
+ * Do NOT rely on:
+ *
+ * .vehicle.active-hash .colors
+ *
+ * to make the icon visible.
+ *
+ * The hash-target itself directly controls
+ * the row.
  */
 
-.vehicle.active-hash
-.details .colors.active-link-row {
+.vehicle.hash-target
+.details .colors {
     opacity:
         1;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   ACTIVE VEHICLE — ONLY LINK
+   NON-HOVER STATE
+   ========================================================= */
+
+/*
+ * Hide every color while active.
+ */
+
+.vehicle.hash-target
+.details .colors .color {
+    opacity:
+        0;
+
+    visibility:
+        hidden;
+
+    pointer-events:
+        none;
 }
 
 
 /*
- * The active icon itself is independently
- * visible regardless of hover.
+ * Show ONLY the link icon.
+ *
+ * This works regardless of whether
+ * .active-link was added by JS.
  */
 
-.vehicle.active-hash
-.details .vehicle-link.active-link,
+.vehicle.hash-target
+.details .colors .vehicle-link,
 
 .vehicle.hash-target
-.details .vehicle-link.active-link {
+.details .colors .vehicle-link.active-link {
     opacity:
         1 !important;
 
@@ -740,7 +811,7 @@ body.loading-rotation
         auto !important;
 
     transform:
-        scale(1) !important;
+        scale(1);
 
     background:
         rgba(255, 255, 255, .95);
@@ -751,48 +822,49 @@ body.loading-rotation
     box-shadow:
         0 0 0 2px
             rgba(255, 255, 255, .95),
+
         0 0 0 3px
             rgba(0, 0, 0, .20),
+
         0 4px 14px
             rgba(0, 0, 0, .18);
 }
 
 
 /* =========================================================
-   ACTIVE LINK ICON
+   ACTIVE VEHICLE — HOVER
    ========================================================= */
 
-.vehicle.active-hash
-.details .vehicle-link.active-link svg {
-    animation:
-        activeLinkPulse
-        1300ms
-        ease-in-out
-        infinite;
-}
-
-
 /*
- * Make sure the color circles are hidden
- * while the active vehicle is not hovered.
+ * When hovering the active vehicle,
+ * reveal the color buttons again.
  */
 
-.vehicle.active-hash
+.vehicle.hash-target:hover
+.details .colors {
+    pointer-events:
+        auto;
+}
+
+.vehicle.hash-target:hover
 .details .colors .color {
     opacity:
-        0;
+        1;
+
+    visibility:
+        visible;
 
     pointer-events:
-        none;
+        auto;
 }
 
 
 /*
- * But keep the active link visible.
+ * Link remains visible on hover too.
  */
 
-.vehicle.active-hash
-.details .colors .active-link {
+.vehicle.hash-target:hover
+.details .colors .vehicle-link {
     opacity:
         1 !important;
 
@@ -805,19 +877,33 @@ body.loading-rotation
 
 
 /* =========================================================
-   ACTIVE VEHICLE HOVER
+   ACTIVE LINK PULSE
    ========================================================= */
 
-.vehicle.active-hash:hover
-.details .colors .color,
+.vehicle.hash-target
+.details .colors .vehicle-link svg,
 
-.vehicle.active-hash:focus-within
-.details .colors .color {
-    opacity:
-        1;
+.vehicle.hash-target
+.details .colors .vehicle-link.active-link svg {
+    animation:
+        activeLinkPulse
+        1300ms
+        ease-in-out
+        infinite;
+}
 
-    pointer-events:
-        auto;
+@keyframes activeLinkPulse {
+
+    0%,
+    100% {
+        transform:
+            scale(1);
+    }
+
+    50% {
+        transform:
+            scale(1.15);
+    }
 }
 
 
@@ -871,25 +957,6 @@ body.loading-rotation
     box-shadow:
         0 4px 14px
         rgba(0, 0, 0, .18);
-}
-
-
-/* =========================================================
-   ACTIVE LINK ANIMATION
-   ========================================================= */
-
-@keyframes activeLinkPulse {
-
-    0%,
-    100% {
-        transform:
-            scale(1);
-    }
-
-    50% {
-        transform:
-            scale(1.15);
-    }
 }
 
 
