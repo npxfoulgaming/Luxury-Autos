@@ -4,33 +4,48 @@
     /*
      * ============================================================
      * LUXURY AUTOS
-     * Advanced / Smart Deep-Link Navigation
+     * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
      *
-     * URL format:
+     * Features:
      *
-     * /view/respected.html/#zr3806str
+     * 1. Direct deep-link:
      *
-     * Navigation behavior:
+     *    /view/respected.html/#zr3806str
      *
-     * 1. Direct URL
-     *    -> navigate from the current browser position
-     *       to the requested vehicle.
+     *    Starts from the top and smoothly travels to the vehicle.
      *
-     * 2. Vehicle link click
-     *    -> navigate from the user's CURRENT position.
+     * 2. Normal vehicle-link click:
      *
-     * 3. Browser back / forward
-     *    -> navigate once to the new hash.
+     *    Starts from the user's CURRENT scroll position.
      *
-     * 4. No repeated scroll animations.
+     * 3. Target below current position:
      *
-     * 5. Scroll duration is calculated from distance.
+     *    Smooth downward cinematic scroll.
      *
-     * 6. Link icon is the FIRST item in the colors row.
+     * 4. Target above current position:
+     *
+     *    Smooth upward cinematic scroll.
+     *
+     * 5. Distance-aware animation:
+     *
+     *    Short distance = shorter animation.
+     *    Long distance  = longer animation.
+     *
+     * 6. Existing animations are cancelled before
+     *    a new navigation starts.
+     *
+     * 7. Link icon belongs to the color row:
+     *
+     *    Normal:
+     *    LINK | BLACK | WHITE | RED | GREEN | BLUE
+     *
+     *    Inverted:
+     *    BLACK | WHITE | RED | GREEN | BLUE | LINK
      *
      * ============================================================
      */
+
 
     /*
      * ============================================================
@@ -38,12 +53,35 @@
      * ============================================================
      */
 
-    let initialHashModel =
-        getHashModelFromLocation();
+    let initialHash =
+        window.location.hash || "";
+
+    let initialHashModel = "";
+
+    if (
+        initialHash &&
+        initialHash.length > 1
+    ) {
+        try {
+            initialHashModel =
+                decodeURIComponent(
+                    initialHash.substring(1)
+                ).trim();
+        } catch {
+            initialHashModel =
+                initialHash
+                    .substring(1)
+                    .trim();
+        }
+    }
+
 
     /*
-     * Prevent browser native fragment scrolling.
+     * ============================================================
+     * HISTORY SCROLL RESTORATION
+     * ============================================================
      */
+
     try {
         if (
             "scrollRestoration" in
@@ -56,43 +94,49 @@
         // Ignore unsupported browsers.
     }
 
+
     /*
-     * Browser can jump to an element with id="#model"
-     * before our JavaScript gets control.
+     * ============================================================
+     * PREVENT NATIVE HASH JUMP
+     * ============================================================
+     *
+     * The browser may attempt to jump directly to:
+     *
+     * #vehicle
+     *
+     * before our JavaScript is ready.
      *
      * Remove the hash immediately and restore it later.
      */
-    if (initialHashModel) {
-        try {
-            const cleanUrl =
-                window.location.pathname +
-                window.location.search;
 
+    if (initialHashModel) {
+        const cleanInitialUrl =
+            window.location.pathname +
+            window.location.search;
+
+        try {
             window.history.replaceState(
                 {
-                    luxuryAutosInitial:
+                    luxuryAutosInitialHash:
                         initialHashModel
                 },
                 "",
-                cleanUrl
+                cleanInitialUrl
             );
         } catch {
             // Ignore history API errors.
         }
 
-        /*
-         * Always begin initial deep-link navigation
-         * from the top of the page.
-         */
         window.scrollTo(
             0,
             0
         );
     }
 
+
     /*
      * ============================================================
-     * LUXURY AUTOS DATA
+     * PAGE DATA
      * ============================================================
      */
 
@@ -114,6 +158,13 @@
     const jsonKey =
         pageTitle + " Imports";
 
+
+    /*
+     * ============================================================
+     * PRICE FORMATTER
+     * ============================================================
+     */
+
     const formatter =
         new Intl.NumberFormat(
             "en-US",
@@ -125,23 +176,6 @@
             }
         );
 
-    /*
-     * ============================================================
-     * NAVIGATION STATE
-     * ============================================================
-     */
-
-    let activeScrollFrame =
-        null;
-
-    let activeNavigationToken =
-        0;
-
-    let currentlyNavigatingTo =
-        "";
-
-    let lastHandledHash =
-        "";
 
     /*
      * ============================================================
@@ -162,79 +196,6 @@
         `);
     }
 
-    /*
-     * ============================================================
-     * HASH HELPERS
-     * ============================================================
-     */
-
-    function decodeHash(hash) {
-        if (
-            !hash ||
-            hash.length <= 1
-        ) {
-            return "";
-        }
-
-        try {
-            return decodeURIComponent(
-                hash.substring(1)
-            ).trim();
-        } catch {
-            return hash
-                .substring(1)
-                .trim();
-        }
-    }
-
-    function getHashModel() {
-        return decodeHash(
-            window.location.hash
-        );
-    }
-
-    function getHashModelFromLocation() {
-        return decodeHash(
-            window.location.hash
-        );
-    }
-
-    /*
-     * ============================================================
-     * URL
-     * ============================================================
-     *
-     * Always:
-     *
-     * /respected.html/#zr3806str
-     *
-     * Never:
-     *
-     * /respected.html#zr3806str
-     * ============================================================
-     */
-
-    function buildVehicleUrl(model) {
-        const url =
-            new URL(
-                window.location.href
-            );
-
-        /*
-         * Force trailing slash before hash.
-         */
-        if (
-            !url.pathname.endsWith("/")
-        ) {
-            url.pathname += "/";
-        }
-
-        url.hash = "";
-
-        url.hash = model;
-
-        return url.href;
-    }
 
     /*
      * ============================================================
@@ -268,9 +229,10 @@
         );
     }
 
+
     /*
      * ============================================================
-     * MODEL
+     * VEHICLE MODEL
      * ============================================================
      */
 
@@ -287,6 +249,107 @@
             ""
         ).trim();
     }
+
+
+    /*
+     * ============================================================
+     * HASH
+     * ============================================================
+     */
+
+    function decodeHash(hash) {
+        if (
+            !hash ||
+            hash.length <= 1
+        ) {
+            return "";
+        }
+
+        try {
+            return decodeURIComponent(
+                hash.substring(1)
+            ).trim();
+        } catch {
+            return hash
+                .substring(1)
+                .trim();
+        }
+    }
+
+
+    function getHashModel() {
+        return decodeHash(
+            window.location.hash
+        );
+    }
+
+
+    /*
+     * ============================================================
+     * URL
+     * ============================================================
+     */
+
+    function buildVehicleUrl(model) {
+        const url =
+            new URL(
+                window.location.href
+            );
+
+        /*
+         * Always force:
+         *
+         * /page.html/#model
+         *
+         * instead of:
+         *
+         * /page.html#model
+         */
+
+        if (
+            !url.pathname.endsWith("/")
+        ) {
+            url.pathname += "/";
+        }
+
+        url.hash = "";
+
+        url.hash = model;
+
+        return url.href;
+    }
+
+
+    /*
+     * ============================================================
+     * RESTORE INITIAL HASH
+     * ============================================================
+     */
+
+    function restoreInitialHash() {
+        if (!initialHashModel) {
+            return;
+        }
+
+        const targetUrl =
+            buildVehicleUrl(
+                initialHashModel
+            );
+
+        try {
+            window.history.replaceState(
+                {
+                    vehicle:
+                        initialHashModel
+                },
+                "",
+                targetUrl
+            );
+        } catch {
+            // Ignore history API errors.
+        }
+    }
+
 
     /*
      * ============================================================
@@ -330,9 +393,10 @@
         return null;
     }
 
+
     /*
      * ============================================================
-     * COPY
+     * COPY TO CLIPBOARD
      * ============================================================
      */
 
@@ -413,6 +477,7 @@
         }
     }
 
+
     /*
      * ============================================================
      * LINK ICON
@@ -469,62 +534,6 @@
         return link;
     }
 
-    /*
-     * ============================================================
-     * ACTIVE URL STATE
-     * ============================================================
-     */
-
-    function updateActiveLinkState() {
-        const currentModel =
-            getHashModel()
-                .toLowerCase();
-
-        document
-            .querySelectorAll(
-                ".vehicle"
-            )
-            .forEach(
-                (vehicle) => {
-                    const model =
-                        getVehicleModel(
-                            vehicle
-                        ).toLowerCase();
-
-                    const link =
-                        vehicle.querySelector(
-                            ".vehicle-link"
-                        );
-
-                    if (!link) {
-                        return;
-                    }
-
-                    if (
-                        currentModel &&
-                        model ===
-                            currentModel
-                    ) {
-                        link.classList.add(
-                            "active-link"
-                        );
-
-                        link.setAttribute(
-                            "aria-current",
-                            "location"
-                        );
-                    } else {
-                        link.classList.remove(
-                            "active-link"
-                        );
-
-                        link.removeAttribute(
-                            "aria-current"
-                        );
-                    }
-                }
-            );
-    }
 
     /*
      * ============================================================
@@ -549,6 +558,7 @@
         /*
          * Native fragment target.
          */
+
         vehicle.id =
             model;
 
@@ -569,6 +579,7 @@
         if (!inner) {
             return;
         }
+
 
         /*
          * --------------------------------------------------------
@@ -608,14 +619,10 @@
             );
         }
 
+
         /*
          * --------------------------------------------------------
-         * COLORS ROW
-         * --------------------------------------------------------
-         *
-         * Link is intentionally inserted as FIRST child:
-         *
-         * [ link ] [ mb ] [ mw ] [ r ] [ g ] [ b ]
+         * COLOR ROW
          * --------------------------------------------------------
          */
 
@@ -623,6 +630,11 @@
             details.querySelector(
                 ":scope > .colors"
             );
+
+        /*
+         * If older/static HTML already has
+         * a colors container, keep it.
+         */
 
         if (!colors) {
             colors =
@@ -638,6 +650,13 @@
             );
         }
 
+
+        /*
+         * --------------------------------------------------------
+         * LINK ICON
+         * --------------------------------------------------------
+         */
+
         let link =
             colors.querySelector(
                 ":scope > .vehicle-link"
@@ -648,11 +667,6 @@
                 createLinkIcon(
                     model
                 );
-
-            colors.insertBefore(
-                link,
-                colors.firstChild
-            );
         } else {
             link.href =
                 buildVehicleUrl(
@@ -661,22 +675,62 @@
 
             link.dataset.model =
                 model;
-
-            /*
-             * Always make it first.
-             */
-            colors.insertBefore(
-                link,
-                colors.firstChild
-            );
         }
 
-        updateActiveLinkState();
+        /*
+         * Remove duplicate icons.
+         */
+
+        colors
+            .querySelectorAll(
+                ":scope > .vehicle-link"
+            )
+            .forEach(
+                (duplicate) => {
+                    if (
+                        duplicate !==
+                        link
+                    ) {
+                        duplicate.remove();
+                    }
+                }
+            );
+
+
+        /*
+         * ========================================================
+         * IMPORTANT ICON POSITION
+         * ========================================================
+         *
+         * Normal vehicle:
+         *
+         * LINK | BLACK | WHITE | RED | GREEN | BLUE
+         *
+         * Inverted vehicle:
+         *
+         * BLACK | WHITE | RED | GREEN | BLUE | LINK
+         */
+
+        if (
+            vehicle.classList.contains(
+                "invert"
+            )
+        ) {
+            colors.appendChild(
+                link
+            );
+        } else {
+            colors.insertBefore(
+                link,
+                colors.firstElementChild
+            );
+        }
     }
+
 
     /*
      * ============================================================
-     * DECORATE ALL
+     * DECORATE ALL VEHICLES
      * ============================================================
      */
 
@@ -695,26 +749,12 @@
             .forEach(
                 decorateVehicle
             );
-
-        updateActiveLinkState();
     }
+
 
     /*
      * ============================================================
-     * SMART EASING
-     * ============================================================
-     *
-     * Quint easing gives the movement:
-     *
-     * slow start
-     *      ↓
-     * smooth acceleration
-     *      ↓
-     * long controlled movement
-     *      ↓
-     * very soft arrival
-     *
-     * This feels much less like a browser jump.
+     * PREMIUM EASING
      * ============================================================
      */
 
@@ -734,81 +774,29 @@
                     2;
     }
 
-    /*
-     * ============================================================
-     * SMART SCROLL DURATION
-     * ============================================================
-     *
-     * Short distance:
-     *     ~1.2 seconds
-     *
-     * Medium distance:
-     *     ~2 seconds
-     *
-     * Very long distance:
-     *     ~4+ seconds
-     *
-     * This makes long jumps feel intentional instead of
-     * teleporting quickly.
-     * ============================================================
-     */
-
-    function getSmartScrollDuration(
-        distance
-    ) {
-        const absoluteDistance =
-            Math.abs(
-                distance
-            );
-
-        const viewportHeight =
-            Math.max(
-                window.innerHeight,
-                1
-            );
-
-        const viewportDistances =
-            absoluteDistance /
-            viewportHeight;
-
-        let duration =
-            1150 +
-            viewportDistances *
-                520;
-
-        /*
-         * Minimum.
-         */
-        duration =
-            Math.max(
-                1150,
-                duration
-            );
-
-        /*
-         * Maximum.
-         */
-        duration =
-            Math.min(
-                5000,
-                duration
-            );
-
-        return duration;
-    }
 
     /*
      * ============================================================
-     * SMART PREMIUM SCROLL
+     * SCROLL STATE
      * ============================================================
      */
 
-    function premiumScrollTo(
-        targetY
-    ) {
-        /*
-         * Stop any previous animation.
-         */
+    let activeScrollFrame =
+        null;
+
+    let scrollAnimationToken =
+        0;
+
+
+    /*
+     * ============================================================
+     * CANCEL SCROLL
+     * ============================================================
+     */
+
+    function cancelPremiumScroll() {
+        scrollAnimationToken++;
+
         if (
             activeScrollFrame !==
             null
@@ -820,6 +808,83 @@
             activeScrollFrame =
                 null;
         }
+    }
+
+
+    /*
+     * ============================================================
+     * ADAPTIVE SCROLL DURATION
+     * ============================================================
+     *
+     * The farther the destination is,
+     * the longer the animation becomes.
+     *
+     * This prevents:
+     *
+     * 50px  -> 1500ms
+     *
+     * while also avoiding:
+     *
+     * 5000px -> 400ms
+     */
+
+    function getScrollDuration(
+        distance
+    ) {
+        const absoluteDistance =
+            Math.abs(distance);
+
+        if (
+            absoluteDistance < 120
+        ) {
+            return 500;
+        }
+
+        if (
+            absoluteDistance < 400
+        ) {
+            return 700;
+        }
+
+        if (
+            absoluteDistance < 900
+        ) {
+            return 950;
+        }
+
+        if (
+            absoluteDistance < 1600
+        ) {
+            return 1200;
+        }
+
+        if (
+            absoluteDistance < 2800
+        ) {
+            return 1500;
+        }
+
+        if (
+            absoluteDistance < 4500
+        ) {
+            return 1800;
+        }
+
+        return 2150;
+    }
+
+
+    /*
+     * ============================================================
+     * PREMIUM SMART SCROLL
+     * ============================================================
+     */
+
+    function premiumScrollTo(
+        targetY,
+        duration = null
+    ) {
+        cancelPremiumScroll();
 
         const startY =
             window.scrollY;
@@ -829,8 +894,7 @@
             startY;
 
         if (
-            Math.abs(distance) <
-            2
+            Math.abs(distance) < 2
         ) {
             window.scrollTo(
                 0,
@@ -840,31 +904,47 @@
             return;
         }
 
-        const duration =
-            getSmartScrollDuration(
+        /*
+         * Respect reduced-motion accessibility.
+         */
+
+        if (
+            window.matchMedia &&
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches
+        ) {
+            window.scrollTo(
+                0,
+                targetY
+            );
+
+            return;
+        }
+
+        const animationDuration =
+            duration ||
+            getScrollDuration(
                 distance
             );
 
+        const animationToken =
+            scrollAnimationToken;
+
         let startTime =
             null;
-
-        const token =
-            activeNavigationToken;
 
         function animate(
             currentTime
         ) {
             /*
-             * If a new navigation started,
-             * stop this animation immediately.
+             * A new scroll has started.
              */
-            if (
-                token !==
-                activeNavigationToken
-            ) {
-                activeScrollFrame =
-                    null;
 
+            if (
+                animationToken !==
+                scrollAnimationToken
+            ) {
                 return;
             }
 
@@ -882,23 +962,28 @@
             const progress =
                 Math.min(
                     elapsed /
-                        duration,
+                        animationDuration,
                     1
                 );
+
+            /*
+             * Strong acceleration at the beginning,
+             * long deceleration at the end.
+             */
 
             const eased =
                 easeInOutQuint(
                     progress
                 );
 
-            const position =
+            const currentY =
                 startY +
                 distance *
                     eased;
 
             window.scrollTo(
                 0,
-                position
+                currentY
             );
 
             if (
@@ -925,13 +1010,14 @@
             );
     }
 
+
     /*
      * ============================================================
-     * TARGET POSITION
+     * CALCULATE SMART TARGET
      * ============================================================
      */
 
-    function calculateTargetY(
+    function calculateVehicleTarget(
         vehicle
     ) {
         const rect =
@@ -941,55 +1027,51 @@
             window.innerHeight;
 
         /*
-         * Center the complete vehicle section.
+         * Fixed heading offset.
          */
+
+        const headerOffset =
+            window.innerWidth <= 700
+                ? 25
+                : 35;
+
+        /*
+         * Center the vehicle.
+         *
+         * This works whether the target is:
+         *
+         * - above
+         * - below
+         * - partially visible
+         * - completely visible
+         */
+
         const vehicleCenter =
             rect.top +
-            rect.height /
-                2;
+            rect.height / 2;
 
-        const viewportCenter =
-            viewportHeight /
-            2;
+        const desiredCenter =
+            viewportHeight / 2 +
+            headerOffset / 2;
 
         const delta =
             vehicleCenter -
-            viewportCenter;
+            desiredCenter;
 
-        /*
-         * IMPORTANT:
-         *
-         * This is based on the CURRENT scroll position.
-         *
-         * Therefore:
-         *
-         * current position 1000
-         * target position 5000
-         *
-         * -> animation travels 4000px.
-         *
-         * It does NOT calculate only from the target's
-         * already-visible position.
-         */
         let targetY =
             window.scrollY +
             delta;
 
         /*
-         * Fixed title compensation.
+         * Keep target inside page.
          */
-        const headerOffset =
-            window.innerWidth <=
-            700
-                ? 25
-                : 35;
 
-        targetY -=
-            headerOffset;
+        targetY =
+            Math.max(
+                0,
+                targetY
+            );
 
-        /*
-         * Clamp to page.
-         */
         const maxScroll =
             Math.max(
                 0,
@@ -999,51 +1081,25 @@
             );
 
         targetY =
-            Math.max(
-                0,
-                Math.min(
-                    targetY,
-                    maxScroll
-                )
+            Math.min(
+                targetY,
+                maxScroll
             );
 
         return targetY;
     }
 
+
     /*
      * ============================================================
-     * SCROLL TO VEHICLE
+     * VEHICLE TARGET STATE
      * ============================================================
      */
 
-    function scrollToVehicle(
-        model,
-        animated = true,
-        forceTop = false
-    ) {
-        const vehicle =
-            findVehicle(model);
+    let highlightTimer =
+        null;
 
-        if (!vehicle) {
-            return false;
-        }
-
-        /*
-         * New navigation token.
-         *
-         * Any previous animation becomes invalid.
-         */
-        activeNavigationToken++;
-
-        const navigationToken =
-            activeNavigationToken;
-
-        currentlyNavigatingTo =
-            model.toLowerCase();
-
-        /*
-         * Remove previous target.
-         */
+    function clearVehicleHighlights() {
         document
             .querySelectorAll(
                 ".vehicle.hash-target"
@@ -1055,53 +1111,102 @@
                     );
                 }
             );
+    }
+
+
+    /*
+     * ============================================================
+     * SCROLL TO VEHICLE
+     * ============================================================
+     */
+
+    function scrollToVehicle(
+        model,
+        animated = true,
+        fromTop = false
+    ) {
+        const vehicle =
+            findVehicle(model);
+
+        if (!vehicle) {
+            return false;
+        }
 
         /*
-         * Highlight target immediately.
+         * Stop previous animation immediately.
          */
+
+        cancelPremiumScroll();
+
+        /*
+         * Clear previous highlight.
+         */
+
+        clearVehicleHighlights();
+
+        if (highlightTimer) {
+            clearTimeout(
+                highlightTimer
+            );
+
+            highlightTimer =
+                null;
+        }
+
+        /*
+         * Highlight current target.
+         */
+
         vehicle.classList.add(
             "hash-target"
         );
 
+
         /*
-         * Direct initial deep-link:
+         * --------------------------------------------------------
+         * DIRECT DEEP LINK
+         * --------------------------------------------------------
          *
-         * Start from TOP.
-         *
-         * Internal navigation:
-         *
-         * Keep current position.
+         * Start from the absolute top.
          */
-        if (forceTop) {
+
+        if (fromTop) {
             window.scrollTo(
                 0,
                 0
             );
         }
 
+
         /*
-         * Wait one frame so the target's layout is stable.
+         * Wait one frame so the browser has
+         * a fresh layout before measuring.
          */
+
         requestAnimationFrame(
             () => {
-                /*
-                 * A newer navigation may already exist.
-                 */
-                if (
-                    navigationToken !==
-                    activeNavigationToken
-                ) {
-                    return;
-                }
-
                 const targetY =
-                    calculateTargetY(
+                    calculateVehicleTarget(
                         vehicle
+                    );
+
+                const distance =
+                    targetY -
+                    window.scrollY;
+
+                /*
+                 * Smart duration based on actual distance.
+                 */
+
+                const duration =
+                    getScrollDuration(
+                        distance
                     );
 
                 if (animated) {
                     premiumScrollTo(
-                        targetY
+                        targetY,
+                        duration
                     );
                 } else {
                     window.scrollTo(
@@ -1110,115 +1215,84 @@
                     );
                 }
 
+
                 /*
-                 * Keep target highlighted after arriving.
+                 * Keep target highlight long enough
+                 * for the navigation to complete.
                  */
-                setTimeout(
-                    () => {
-                        if (
-                            navigationToken ===
-                            activeNavigationToken
-                        ) {
+
+                const highlightDuration =
+                    Math.max(
+                        2500,
+                        duration +
+                            1200
+                    );
+
+                highlightTimer =
+                    setTimeout(
+                        () => {
                             vehicle.classList.remove(
                                 "hash-target"
                             );
-                        }
-                    },
-                    3500
-                );
+
+                            highlightTimer =
+                                null;
+                        },
+                        highlightDuration
+                    );
             }
         );
 
         return true;
     }
 
-    /*
-     * ============================================================
-     * NAVIGATE TO HASH
-     * ============================================================
-     */
-
-    function navigateToHash(
-        model,
-        options = {}
-    ) {
-        if (!model) {
-            return false;
-        }
-
-        const {
-            animated = true,
-            forceTop = false,
-            allowRetry = true
-        } = options;
-
-        const normalized =
-            model.toLowerCase();
-
-        /*
-         * If the exact same navigation is already active,
-         * DO NOT restart it.
-         *
-         * This is the important fix for the previous
-         * "small scrolling" behavior.
-         */
-        if (
-            normalized ===
-                currentlyNavigatingTo &&
-            activeScrollFrame !==
-                null
-        ) {
-            return true;
-        }
-
-        const found =
-            scrollToVehicle(
-                model,
-                animated,
-                forceTop
-            );
-
-        if (found) {
-            lastHandledHash =
-                normalized;
-
-            return true;
-        }
-
-        /*
-         * Vehicles may still be loading.
-         */
-        if (allowRetry) {
-            waitForVehicleAndNavigate(
-                model,
-                animated,
-                forceTop
-            );
-        }
-
-        return false;
-    }
 
     /*
      * ============================================================
-     * WAIT FOR DYNAMIC VEHICLE
+     * HASH TARGET LOADING
      * ============================================================
      */
 
-    let navigationRetryTimer =
+    let hashTimer =
         null;
 
-    function waitForVehicleAndNavigate(
-        model,
-        animated,
-        forceTop
+    let lastNavigationModel =
+        "";
+
+    function scrollToHashWhenReady(
+        animated = true,
+        forcedModel = "",
+        fromTop = false
     ) {
+        const model =
+            forcedModel ||
+            getHashModel();
+
+        if (!model) {
+            return;
+        }
+
+        /*
+         * Avoid duplicate animations caused by
+         * repeated lifecycle events.
+         */
+
         if (
-            navigationRetryTimer
+            lastNavigationModel ===
+                model &&
+            !fromTop &&
+            findVehicle(model)
         ) {
+            return;
+        }
+
+        if (hashTimer) {
             clearTimeout(
-                navigationRetryTimer
+                hashTimer
             );
+
+            hashTimer =
+                null;
         }
 
         let attempts = 0;
@@ -1228,38 +1302,44 @@
 
             decorateAllVehicles();
 
-            const vehicle =
-                findVehicle(
-                    model
+            const found =
+                scrollToVehicle(
+                    model,
+                    animated,
+                    fromTop
                 );
 
-            if (vehicle) {
-                navigateToHash(
-                    model,
-                    {
-                        animated,
-                        forceTop,
-                        allowRetry:
-                            false
-                    }
-                );
+            if (found) {
+                lastNavigationModel =
+                    model;
+
+                hashTimer =
+                    null;
 
                 return;
             }
 
+            /*
+             * Wait for dynamically loaded vehicles.
+             */
+
             if (
                 attempts < 120
             ) {
-                navigationRetryTimer =
+                hashTimer =
                     setTimeout(
                         attempt,
                         100
                     );
+            } else {
+                hashTimer =
+                    null;
             }
         }
 
         attempt();
     }
+
 
     /*
      * ============================================================
@@ -1309,6 +1389,7 @@
                     : "0 80px, 80px 0, 100% 0, 100% 100%, 0 100%";
         }
 
+
         const element =
             document.createElement(
                 "div"
@@ -1328,6 +1409,7 @@
         element.id =
             model;
 
+
         /*
          * ========================================================
          * DETAILS
@@ -1342,6 +1424,7 @@
         details.className =
             "details";
 
+
         const inner =
             document.createElement(
                 "div"
@@ -1350,6 +1433,7 @@
         inner.className =
             "inner";
 
+
         const name =
             document.createElement(
                 "span"
@@ -1357,6 +1441,7 @@
 
         name.textContent =
             label;
+
 
         const priceElement =
             document.createElement(
@@ -1368,6 +1453,7 @@
                 price
             );
 
+
         const modelElement =
             document.createElement(
                 "pre"
@@ -1375,6 +1461,7 @@
 
         modelElement.textContent =
             model;
+
 
         inner.appendChild(
             name
@@ -1392,12 +1479,10 @@
             inner
         );
 
+
         /*
          * ========================================================
          * COLORS
-         * ========================================================
-         *
-         * LINK WILL BE INSERTED FIRST BY decorateVehicle().
          * ========================================================
          */
 
@@ -1409,6 +1494,12 @@
         colors.className =
             "colors";
 
+
+        /*
+         * Link will be inserted by
+         * decorateVehicle().
+         */
+
         [
             ["mb", "Matte Black"],
             ["mw", "Matte White"],
@@ -1416,7 +1507,7 @@
             ["g", "Green"],
             ["b", "Blue"]
         ].forEach(
-            ([color, label]) => {
+            ([color, colorLabel]) => {
                 const colorElement =
                     document.createElement(
                         "div"
@@ -1429,7 +1520,12 @@
                     color;
 
                 colorElement.title =
-                    label;
+                    colorLabel;
+
+                colorElement.setAttribute(
+                    "aria-label",
+                    colorLabel
+                );
 
                 colors.appendChild(
                     colorElement
@@ -1440,6 +1536,7 @@
         details.appendChild(
             colors
         );
+
 
         /*
          * ========================================================
@@ -1458,6 +1555,7 @@
         imageContainer.style.clipPath =
             `polygon(${mask})`;
 
+
         const image =
             document.createElement(
                 "img"
@@ -1472,9 +1570,11 @@
         image.loading =
             "lazy";
 
+
         imageContainer.appendChild(
             image
         );
+
 
         element.appendChild(
             details
@@ -1487,6 +1587,7 @@
         return element;
     }
 
+
     /*
      * ============================================================
      * LOAD VEHICLES
@@ -1498,22 +1599,22 @@
             getVehiclesContainer();
 
         if (!container) {
-            if (
-                initialHashModel
-            ) {
-                waitForVehicleAndNavigate(
-                    initialHashModel,
-                    true,
-                    true
-                );
-            }
+            scrollToHashWhenReady(
+                false,
+                initialHashModel,
+                Boolean(
+                    initialHashModel
+                )
+            );
 
             return;
         }
 
+
         /*
-         * STATIC HTML
+         * STATIC HTML VEHICLES
          */
+
         const staticVehicles =
             container.querySelectorAll(
                 ".vehicle"
@@ -1524,56 +1625,29 @@
         ) {
             decorateAllVehicles();
 
-            if (
-                typeof loadServerRotation ===
-                "function"
-            ) {
-                loadServerRotation();
+            loadServerRotation();
+
+            if (initialHashModel) {
+                restoreInitialHash();
+
+                scrollToHashWhenReady(
+                    true,
+                    initialHashModel,
+                    true
+                );
             }
 
-            /*
-             * Restore URL.
-             */
-            if (
-                initialHashModel
-            ) {
-                const model =
-                    initialHashModel;
-
-                window.history.replaceState(
-                    {
-                        vehicle:
-                            model
-                    },
-                    "",
-                    buildVehicleUrl(
-                        model
-                    )
-                );
-
-                updateActiveLinkState();
-
-                /*
-                 * Exactly ONE initial navigation.
-                 */
-                navigateToHash(
-                    model,
-                    {
-                        animated: true,
-                        forceTop: true
-                    }
-                );
-
-                initialHashModel =
-                    "";
-            }
+            initialHashModel =
+                "";
 
             return;
         }
 
+
         /*
          * DYNAMIC JSON
          */
+
         $.get(
             "/json?_=" +
                 Date.now()
@@ -1591,6 +1665,7 @@
                             ]
                             : [];
 
+
                     vehicles.sort(
                         (a, b) =>
                             String(
@@ -1604,8 +1679,10 @@
                             )
                     );
 
+
                     container.innerHTML =
                         "";
+
 
                     vehicles.forEach(
                         (
@@ -1622,53 +1699,28 @@
                         }
                     );
 
+
                     decorateAllVehicles();
 
                     addFooter();
 
-                    if (
-                        typeof loadServerRotation ===
-                        "function"
-                    ) {
-                        loadServerRotation();
-                    }
+                    loadServerRotation();
 
-                    /*
-                     * Restore direct URL.
-                     */
+
                     if (
                         initialHashModel
                     ) {
-                        const model =
-                            initialHashModel;
+                        restoreInitialHash();
 
-                        window.history.replaceState(
-                            {
-                                vehicle:
-                                    model
-                            },
-                            "",
-                            buildVehicleUrl(
-                                model
-                            )
+                        scrollToHashWhenReady(
+                            true,
+                            initialHashModel,
+                            true
                         );
-
-                        updateActiveLinkState();
-
-                        /*
-                         * Exactly ONE initial navigation.
-                         */
-                        navigateToHash(
-                            model,
-                            {
-                                animated: true,
-                                forceTop: true
-                            }
-                        );
-
-                        initialHashModel =
-                            "";
                     }
+
+                    initialHashModel =
+                        "";
                 }
             )
             .fail(
@@ -1680,15 +1732,26 @@
 
                     decorateAllVehicles();
 
+                    loadServerRotation();
+
                     if (
-                        typeof loadServerRotation ===
-                        "function"
+                        initialHashModel
                     ) {
-                        loadServerRotation();
+                        restoreInitialHash();
+
+                        scrollToHashWhenReady(
+                            true,
+                            initialHashModel,
+                            true
+                        );
                     }
+
+                    initialHashModel =
+                        "";
                 }
             );
     }
+
 
     /*
      * ============================================================
@@ -1730,6 +1793,7 @@
         );
     }
 
+
     /*
      * ============================================================
      * COLORS
@@ -1761,6 +1825,7 @@
                     "original"
                 );
 
+
             if (
                 target.hasClass(
                     "active"
@@ -1780,11 +1845,13 @@
                 return;
             }
 
+
             let src =
                 original ||
                 image.attr(
                     "src"
                 );
+
 
             if (!original) {
                 image.data(
@@ -1793,27 +1860,32 @@
                 );
             }
 
+
             src =
                 src.replace(
                     /\.png$/i,
                     `_${color}.png`
                 );
 
+
             image.attr(
                 "src",
                 src
             );
+
 
             $(".color.active", vehicle)
                 .removeClass(
                     "active"
                 );
 
+
             target.addClass(
                 "active"
             );
         }
     );
+
 
     /*
      * ============================================================
@@ -1829,29 +1901,30 @@
 
             event.stopPropagation();
 
+
             const link =
                 event.currentTarget;
 
             const model =
                 link.dataset.model;
 
+
             if (!model) {
                 return;
             }
 
-            /*
-             * Always:
-             *
-             * /page.html/#model
-             */
+
             const fullUrl =
                 buildVehicleUrl(
                     model
                 );
 
+
             /*
-             * New history entry.
+             * Update URL without triggering
+             * native browser fragment scrolling.
              */
+
             window.history.pushState(
                 {
                     vehicle:
@@ -1861,34 +1934,41 @@
                 fullUrl
             );
 
+
             /*
-             * Update active link immediately.
+             * Allow another navigation to this
+             * same model later.
              */
-            updateActiveLinkState();
+
+            lastNavigationModel =
+                "";
+
 
             /*
              * IMPORTANT:
              *
-             * forceTop = FALSE
+             * false = DON'T start from top.
              *
-             * Therefore this starts from exactly where
-             * the user is right now.
+             * The animation begins exactly
+             * from the user's current position.
              */
-            navigateToHash(
+
+            scrollToVehicle(
                 model,
-                {
-                    animated: true,
-                    forceTop: false
-                }
+                true,
+                false
             );
 
+
             /*
-             * Copy URL.
+             * Copy full URL.
              */
+
             const copied =
                 await copyToClipboard(
                     fullUrl
                 );
+
 
             if (copied) {
                 link.classList.add(
@@ -1900,17 +1980,13 @@
                         link.classList.remove(
                             "copied"
                         );
-
-                        /*
-                         * Preserve active state.
-                         */
-                        updateActiveLinkState();
                     },
                     3000
                 );
             }
         }
     );
+
 
     /*
      * ============================================================
@@ -1925,30 +2001,20 @@
                 getHashModel();
 
             if (!model) {
-                currentlyNavigatingTo =
-                    "";
-
-                updateActiveLinkState();
-
                 return;
             }
 
-            /*
-             * A genuine hash change should navigate.
-             *
-             * No forceTop here.
-             */
-            navigateToHash(
-                model,
-                {
-                    animated: true,
-                    forceTop: false
-                }
-            );
+            lastNavigationModel =
+                "";
 
-            updateActiveLinkState();
+            scrollToHashWhenReady(
+                true,
+                model,
+                false
+            );
         }
     );
+
 
     /*
      * ============================================================
@@ -1962,27 +2028,21 @@
             const model =
                 getHashModel();
 
-            updateActiveLinkState();
-
             if (!model) {
-                currentlyNavigatingTo =
-                    "";
-
                 return;
             }
 
-            /*
-             * Navigate from the CURRENT scroll position.
-             */
-            navigateToHash(
+            lastNavigationModel =
+                "";
+
+            scrollToHashWhenReady(
+                true,
                 model,
-                {
-                    animated: true,
-                    forceTop: false
-                }
+                false
             );
         }
     );
+
 
     /*
      * ============================================================
@@ -2008,6 +2068,7 @@
         }
     );
 
+
     /*
      * ============================================================
      * INITIALIZATION
@@ -2018,26 +2079,31 @@
 
     loadVehicles();
 
+
     /*
      * ============================================================
-     * LOAD
+     * PAGE LOAD
      * ============================================================
      *
      * IMPORTANT:
      *
-     * We DO NOT call scrollToHashWhenReady() repeatedly here.
+     * We intentionally do NOT repeatedly call
+     * scrollToHashWhenReady() at:
      *
-     * That was the source of the small/restarted scrolling.
-     * ============================================================
+     * 350ms
+     * 1000ms
+     * 2000ms
+     *
+     * Those repeated calls were capable of restarting
+     * the premium animation while it was already running.
      */
 
     window.addEventListener(
         "load",
         () => {
             decorateAllVehicles();
-
-            updateActiveLinkState();
         }
     );
+
 
 })(jQuery);
