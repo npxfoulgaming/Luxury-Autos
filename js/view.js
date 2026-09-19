@@ -11,28 +11,21 @@
      *
      * /view/special.html/#pulse
      *
-     * NOT:
+     * Link placement:
      *
-     * /view/special.html#pulse
+     * DETAILS LEFT:
+     * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
      *
-     * Features:
+     * DETAILS RIGHT:
+     * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
      *
-     * 1. Deep links work from Discord / browser / new tab.
-     * 2. Vehicle URLs always use .html/#model.
-     * 3. Initial deep links start from the top.
-     * 4. Smooth cinematic scrolling to the vehicle.
-     * 5. Scrolling works naturally both upward and downward.
-     * 6. Vehicle link icons are placed:
+     * Color files:
      *
-     *    Normal:
-     *    [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
-     *
-     *    Inverted:
-     *    [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
-     *
-     * 7. Active hash vehicle receives a highlighted link icon.
-     * 8. Dynamic vehicle loading is supported.
-     * 9. Hash survives page navigation and sharing.
+     * black -> _mb
+     * white -> _mw
+     * red   -> _r
+     * green -> _g
+     * blue  -> _b
      */
 
     const pageTitle =
@@ -56,17 +49,25 @@
      * ============================================================
      */
 
-    let initialHash = window.location.hash || "";
+    let initialHash =
+        window.location.hash || "";
+
     let initialHashModel = "";
 
-    if (initialHash && initialHash.length > 1) {
+    if (
+        initialHash &&
+        initialHash.length > 1
+    ) {
         try {
-            initialHashModel = decodeURIComponent(
-                initialHash.substring(1)
-            ).trim();
+            initialHashModel =
+                decodeURIComponent(
+                    initialHash.substring(1)
+                ).trim();
         } catch {
             initialHashModel =
-                initialHash.substring(1).trim();
+                initialHash
+                    .substring(1)
+                    .trim();
         }
     }
 
@@ -77,8 +78,12 @@
      */
 
     try {
-        if ("scrollRestoration" in window.history) {
-            window.history.scrollRestoration = "manual";
+        if (
+            "scrollRestoration" in
+            window.history
+        ) {
+            window.history.scrollRestoration =
+                "manual";
         }
     } catch {}
 
@@ -86,35 +91,31 @@
      * ============================================================
      * URL HELPERS
      * ============================================================
-     *
-     * ALWAYS produce:
-     *
-     * /view/special.html/#pulse
-     *
-     * The slash BEFORE the hash is intentional.
      */
 
-    function getCanonicalVehiclePath(pathname) {
-        let path = pathname || window.location.pathname;
+    function getCanonicalVehiclePath(
+        pathname
+    ) {
+        let path =
+            pathname ||
+            window.location.pathname;
 
         /*
-         * Remove any accidental trailing slashes first.
-         *
-         * Example:
-         *
-         * /view/special.html/
-         *        ↓
-         * /view/special.html
+         * Remove existing trailing slash.
          */
 
-        path = path.replace(/\/+$/, "");
+        path =
+            path.replace(
+                /\/+$/,
+                ""
+            );
 
         /*
-         * Now add exactly ONE slash.
+         * Always restore exactly one slash.
          *
-         * /view/special.html
-         *        ↓
-         * /view/special.html/
+         * /special.html
+         *       ↓
+         * /special.html/
          */
 
         if (!path.endsWith("/")) {
@@ -129,32 +130,32 @@
             return window.location.href;
         }
 
-        const url = new URL(window.location.href);
+        const url =
+            new URL(
+                window.location.href
+            );
 
-        /*
-         * Force canonical .html/ path.
-         */
+        url.pathname =
+            getCanonicalVehiclePath(
+                url.pathname
+            );
 
-        url.pathname = getCanonicalVehiclePath(
-            url.pathname
-        );
-
-        /*
-         * Set hash through URL API so special characters
-         * are handled safely.
-         */
-
-        url.hash = String(model).trim();
+        url.hash =
+            String(model).trim();
 
         return url.href;
     }
 
     function buildCleanCanonicalUrl() {
-        const url = new URL(window.location.href);
+        const url =
+            new URL(
+                window.location.href
+            );
 
-        url.pathname = getCanonicalVehiclePath(
-            url.pathname
-        );
+        url.pathname =
+            getCanonicalVehiclePath(
+                url.pathname
+            );
 
         url.hash = "";
 
@@ -163,18 +164,8 @@
 
     /*
      * ============================================================
-     * CANONICALIZE CURRENT PAGE
+     * CANONICALIZE CURRENT URL
      * ============================================================
-     *
-     * If the browser/Vercel currently gives us:
-     *
-     * /view/special.html#pulse
-     *
-     * convert it to:
-     *
-     * /view/special.html/#pulse
-     *
-     * without reloading the page.
      */
 
     function canonicalizeCurrentUrl() {
@@ -182,15 +173,24 @@
             window.location.pathname;
 
         const canonicalPath =
-            getCanonicalVehiclePath(currentPath);
+            getCanonicalVehiclePath(
+                currentPath
+            );
 
-        if (currentPath === canonicalPath) {
+        if (
+            currentPath ===
+            canonicalPath
+        ) {
             return;
         }
 
-        const url = new URL(window.location.href);
+        const url =
+            new URL(
+                window.location.href
+            );
 
-        url.pathname = canonicalPath;
+        url.pathname =
+            canonicalPath;
 
         try {
             window.history.replaceState(
@@ -202,21 +202,16 @@
     }
 
     /*
-     * IMPORTANT:
+     * Always keep:
      *
-     * Do this BEFORE temporarily removing the hash.
-     * This guarantees that a deep link such as:
-     *
-     * /special.html/#pulse
-     *
-     * is always converted back to the same canonical format.
+     * /special.html/#model
      */
 
     canonicalizeCurrentUrl();
 
     /*
      * ============================================================
-     * PREVENT NATIVE HASH JUMP DURING INITIAL LOAD
+     * PREVENT NATIVE HASH JUMP
      * ============================================================
      */
 
@@ -235,16 +230,15 @@
             );
         } catch {}
 
-        /*
-         * Always begin deep-link animation from the top.
-         */
-
-        window.scrollTo(0, 0);
+        window.scrollTo(
+            0,
+            0
+        );
     }
 
     /*
      * ============================================================
-     * VEHICLE LOOKUP
+     * FIND VEHICLE
      * ============================================================
      */
 
@@ -263,7 +257,9 @@
                 ".vehicle"
             );
 
-        for (const vehicle of vehicles) {
+        for (
+            const vehicle of vehicles
+        ) {
             const dataModel =
                 String(
                     vehicle.dataset.model ||
@@ -273,7 +269,10 @@
                     .trim()
                     .toLowerCase();
 
-            if (dataModel === wanted) {
+            if (
+                dataModel ===
+                wanted
+            ) {
                 return vehicle;
             }
         }
@@ -289,13 +288,17 @@
 
     function createLinkIcon(model) {
         const link =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
 
         link.className =
             "vehicle-link";
 
         link.href =
-            buildVehicleUrl(model);
+            buildVehicleUrl(
+                model
+            );
 
         link.dataset.model =
             model;
@@ -317,6 +320,7 @@
                 <path
                     d="M10.59 13.41a1.99 1.99 0 0 0 2.82 0l3.59-3.59a2 2 0 0 0-2.83-2.83l-2.12 2.12"
                 />
+
                 <path
                     d="M13.41 10.59a1.99 1.99 0 0 0-2.82 0L7 14.18a2 2 0 0 0 2.83 2.83l2.12-2.12"
                 />
@@ -349,42 +353,11 @@
             return;
         }
 
-        /*
-         * Canonical ID.
-         */
-
-        vehicle.id = model;
+        vehicle.id =
+            model;
 
         vehicle.dataset.model =
             model;
-
-        /*
-         * --------------------------------------------------------
-         * VEHICLE NAME
-         * --------------------------------------------------------
-         */
-
-        let name =
-            vehicle.querySelector(
-                ".vehicle-name"
-            );
-
-        if (!name) {
-            name =
-                document.createElement("div");
-
-            name.className =
-                "vehicle-name";
-
-            const inner =
-                vehicle.querySelector(
-                    ".inner"
-                );
-
-            if (inner) {
-                inner.prepend(name);
-            }
-        }
 
         /*
          * --------------------------------------------------------
@@ -399,17 +372,21 @@
 
         if (!colors) {
             colors =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             colors.className =
                 "colors";
 
-            vehicle.appendChild(colors);
+            vehicle.appendChild(
+                colors
+            );
         }
 
         /*
          * --------------------------------------------------------
-         * LINK ICON
+         * LINK
          * --------------------------------------------------------
          */
 
@@ -419,7 +396,7 @@
             );
 
         /*
-         * Remove duplicate link icons.
+         * Remove duplicate links.
          */
 
         const duplicateLinks =
@@ -427,9 +404,15 @@
                 ".vehicle-link"
             );
 
-        if (duplicateLinks.length > 1) {
+        if (
+            duplicateLinks.length >
+            1
+        ) {
             duplicateLinks.forEach(
-                (duplicate, index) => {
+                (
+                    duplicate,
+                    index
+                ) => {
                     if (index > 0) {
                         duplicate.remove();
                     }
@@ -439,34 +422,37 @@
 
         if (!link) {
             link =
-                createLinkIcon(model);
+                createLinkIcon(
+                    model
+                );
 
-            colors.appendChild(link);
+            colors.appendChild(
+                link
+            );
         }
 
-        /*
-         * Always update the href because the page may have
-         * been loaded from a different URL.
-         */
-
         link.href =
-            buildVehicleUrl(model);
+            buildVehicleUrl(
+                model
+            );
 
         link.dataset.model =
             model;
 
         /*
-         * --------------------------------------------------------
-         * LINK POSITION
-         * --------------------------------------------------------
+         * ========================================================
+         * IMPORTANT LINK POSITION FIX
+         * ========================================================
          *
-         * NORMAL:
+         * Details LEFT:
+         *
+         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
+         *
+         * Details RIGHT / INVERT:
          *
          * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
          *
-         * INVERT:
-         *
-         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
+         * The old code had these reversed.
          */
 
         if (
@@ -474,11 +460,25 @@
                 "invert"
             )
         ) {
-            colors.appendChild(link);
-        } else {
+            /*
+             * Details are on RIGHT.
+             *
+             * Link goes BEFORE black.
+             */
+
             colors.insertBefore(
                 link,
                 colors.firstElementChild
+            );
+        } else {
+            /*
+             * Details are on LEFT.
+             *
+             * Link goes AFTER blue.
+             */
+
+            colors.appendChild(
+                link
             );
         }
     }
@@ -491,7 +491,9 @@
 
     function decorateAllVehicles() {
         document
-            .querySelectorAll(".vehicle")
+            .querySelectorAll(
+                ".vehicle"
+            )
             .forEach(
                 decorateVehicle
             );
@@ -512,7 +514,10 @@
     function cancelPremiumScroll() {
         scrollAnimationToken++;
 
-        if (activeScrollFrame !== null) {
+        if (
+            activeScrollFrame !==
+            null
+        ) {
             cancelAnimationFrame(
                 activeScrollFrame
             );
@@ -522,13 +527,14 @@
         }
     }
 
-    /*
-     * Smooth cinematic easing.
-     */
-
     function easeInOutQuint(t) {
         return t < 0.5
-            ? 16 * t * t * t * t * t
+            ? 16 *
+                  t *
+                  t *
+                  t *
+                  t *
+                  t
             : 1 -
                   Math.pow(
                       -2 * t + 2,
@@ -541,15 +547,9 @@
         distance
     ) {
         const absolute =
-            Math.abs(distance);
-
-        /*
-         * Short movement:
-         * ~750ms
-         *
-         * Long movement:
-         * ~2400ms
-         */
+            Math.abs(
+                distance
+            );
 
         return Math.min(
             2400,
@@ -575,10 +575,13 @@
             window.scrollY;
 
         const distance =
-            targetY - startY;
+            targetY -
+            startY;
 
         if (
-            Math.abs(distance) < 2
+            Math.abs(
+                distance
+            ) < 2
         ) {
             window.scrollTo(
                 0,
@@ -600,7 +603,8 @@
             }
 
             const elapsed =
-                now - startTime;
+                now -
+                startTime;
 
             const progress =
                 Math.min(
@@ -616,7 +620,8 @@
 
             const currentY =
                 startY +
-                distance * eased;
+                distance *
+                    eased;
 
             window.scrollTo(
                 0,
@@ -673,12 +678,9 @@
             document.documentElement
                 .clientHeight;
 
-        /*
-         * Put the vehicle slightly above center.
-         */
-
         const mobile =
-            window.innerWidth <= 700;
+            window.innerWidth <=
+            700;
 
         const offset =
             mobile
@@ -714,7 +716,7 @@
 
     /*
      * ============================================================
-     * ACTIVE TARGET
+     * ACTIVE HASH TARGET
      * ============================================================
      */
 
@@ -744,7 +746,9 @@
         fromTop = false
     ) {
         const vehicle =
-            findVehicle(model);
+            findVehicle(
+                model
+            );
 
         if (!vehicle) {
             return false;
@@ -758,10 +762,6 @@
             "hash-target"
         );
 
-        /*
-         * Deep links ALWAYS start from top.
-         */
-
         if (fromTop) {
             window.scrollTo(
                 0,
@@ -769,47 +769,46 @@
             );
         }
 
-        /*
-         * Wait one frame so the browser has
-         * finished layout/rendering.
-         */
+        requestAnimationFrame(
+            () => {
+                requestAnimationFrame(
+                    () => {
+                        const targetY =
+                            calculateVehicleTarget(
+                                vehicle
+                            );
 
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                const targetY =
-                    calculateVehicleTarget(
-                        vehicle
-                    );
+                        const currentY =
+                            window.scrollY;
 
-                const currentY =
-                    window.scrollY;
+                        const distance =
+                            targetY -
+                            currentY;
 
-                const distance =
-                    targetY -
-                    currentY;
+                        if (
+                            !animated ||
+                            Math.abs(
+                                distance
+                            ) < 2
+                        ) {
+                            window.scrollTo(
+                                0,
+                                targetY
+                            );
 
-                if (
-                    !animated ||
-                    Math.abs(
-                        distance
-                    ) < 2
-                ) {
-                    window.scrollTo(
-                        0,
-                        targetY
-                    );
+                            return;
+                        }
 
-                    return;
-                }
-
-                premiumScrollTo(
-                    targetY,
-                    getScrollDuration(
-                        distance
-                    )
+                        premiumScrollTo(
+                            targetY,
+                            getScrollDuration(
+                                distance
+                            )
+                        );
+                    }
                 );
-            });
-        });
+            }
+        );
 
         return true;
     }
@@ -840,7 +839,9 @@
 
         function attempt() {
             const vehicle =
-                findVehicle(model);
+                findVehicle(
+                    model
+                );
 
             if (vehicle) {
                 decorateVehicle(
@@ -879,7 +880,9 @@
      */
 
     function restoreInitialHash() {
-        if (!initialHashModel) {
+        if (
+            !initialHashModel
+        ) {
             return;
         }
 
@@ -899,12 +902,6 @@
             );
         } catch {}
 
-        /*
-         * Make absolutely sure the URL is:
-         *
-         * /special.html/#pulse
-         */
-
         canonicalizeCurrentUrl();
     }
 
@@ -919,10 +916,6 @@
             document.querySelector(
                 "#page"
             );
-
-        /*
-         * No dynamic container.
-         */
 
         if (!container) {
             decorateAllVehicles();
@@ -947,7 +940,7 @@
 
         /*
          * --------------------------------------------------------
-         * STATIC VEHICLES
+         * STATIC
          * --------------------------------------------------------
          */
 
@@ -964,7 +957,7 @@
             if (
                 typeof window
                     .loadVehicleRotation ===
-                    "function"
+                "function"
             ) {
                 try {
                     window.loadVehicleRotation();
@@ -1000,7 +993,8 @@
                 await fetch(
                     `/json?_=${Date.now()}`,
                     {
-                        cache: "no-store"
+                        cache:
+                            "no-store"
                     }
                 );
 
@@ -1013,16 +1007,6 @@
             const data =
                 await response.json();
 
-            /*
-             * Support both:
-             *
-             * []
-             *
-             * and:
-             *
-             * { vehicles: [] }
-             */
-
             let vehicles =
                 Array.isArray(data)
                     ? data
@@ -1031,10 +1015,6 @@
                       )
                     ? data.vehicles
                     : [];
-
-            /*
-             * Sort alphabetically when possible.
-             */
 
             vehicles.sort(
                 (a, b) => {
@@ -1058,7 +1038,8 @@
                         bName,
                         undefined,
                         {
-                            numeric: true,
+                            numeric:
+                                true,
                             sensitivity:
                                 "base"
                         }
@@ -1087,17 +1068,12 @@
             if (
                 typeof window
                     .loadVehicleRotation ===
-                    "function"
+                "function"
             ) {
                 try {
                     window.loadVehicleRotation();
                 } catch {}
             }
-
-            /*
-             * Restore deep-link URL only after
-             * vehicles actually exist.
-             */
 
             if (
                 initialHashModel
@@ -1188,7 +1164,7 @@
             "vehicle";
 
         /*
-         * Preserve the existing alternating layout.
+         * Alternate vehicle direction.
          */
 
         const invert =
@@ -1208,6 +1184,7 @@
 
         vehicle.innerHTML = `
             <div class="details">
+
                 <div class="inner">
 
                     <div class="vehicle-name">
@@ -1232,45 +1209,53 @@
 
                         <div
                             class="color black"
-                            data-color="b"
+                            data-color="mb"
                             title="Black"
+                            aria-label="Black"
                         ></div>
 
                         <div
                             class="color white"
-                            data-color="w"
+                            data-color="mw"
                             title="White"
+                            aria-label="White"
                         ></div>
 
                         <div
                             class="color red"
                             data-color="r"
                             title="Red"
+                            aria-label="Red"
                         ></div>
 
                         <div
                             class="color green"
                             data-color="g"
                             title="Green"
+                            aria-label="Green"
                         ></div>
 
                         <div
                             class="color blue"
-                            data-color="blue"
+                            data-color="b"
                             title="Blue"
+                            aria-label="Blue"
                         ></div>
 
                     </div>
 
                 </div>
+
             </div>
 
             <div class="image">
+
                 <img
                     src="${image}"
                     alt="${label}"
                     loading="lazy"
                 >
+
             </div>
         `;
 
@@ -1305,14 +1290,6 @@
                 return;
             }
 
-            const model =
-                vehicle.dataset.model ||
-                vehicle.id;
-
-            if (!model) {
-                return;
-            }
-
             const image =
                 vehicle.querySelector(
                     ".image img"
@@ -1322,68 +1299,69 @@
                 return;
             }
 
-            /*
-             * Keep original extension.
-             */
-
             const source =
                 image.getAttribute(
                     "src"
                 ) || "";
 
-            const extensionMatch =
-                source.match(
-                    /(\.[a-z0-9]+)(?:[?#].*)?$/i
-                );
+            /*
+             * Canonical color suffix.
+             */
 
-            const extension =
-                extensionMatch
-                    ? extensionMatch[1]
-                    : ".png";
+            const suffixMap = {
+                mb: "_mb",
+                mw: "_mw",
+                r: "_r",
+                g: "_g",
+                b: "_b"
+            };
 
-            let suffix =
-                "";
+            const suffix =
+                suffixMap[
+                    color
+                        .toLowerCase()
+                ];
 
-            switch (
-                color.toLowerCase()
+            if (
+                typeof suffix ===
+                "undefined"
             ) {
-                case "b":
-                    suffix = "_mb";
-                    break;
-
-                case "w":
-                    suffix = "_mw";
-                    break;
-
-                case "r":
-                    suffix = "_r";
-                    break;
-
-                case "g":
-                    suffix = "_g";
-                    break;
-
-                case "blue":
-                    suffix = "_b";
-                    break;
-
-                default:
-                    suffix = "";
+                return;
             }
 
             /*
-             * Remove old color suffix if present.
+             * Remove any existing vehicle
+             * color suffix.
+             *
+             * Example:
+             *
+             * pulse_mb.png
+             *       ↓
+             * pulse_r.png
              */
 
-            const cleanBase =
-                source
-                    .replace(
-                        /_(?:mb|mw|r|g|b)(?=\.[a-z0-9]+(?:[?#]|$))/i,
-                        ""
-                    );
+            const cleanSource =
+                source.replace(
+                    /_(?:mb|mw|r|g|b)(?=\.[a-z0-9]+(?:[?#]|$))/i,
+                    ""
+                );
+
+            const extensionMatch =
+                cleanSource.match(
+                    /(\.[a-z0-9]+)(?:[?#].*)?$/i
+                );
+
+            if (
+                !extensionMatch
+            ) {
+                return;
+            }
+
+            const extension =
+                extensionMatch[1];
 
             const newSource =
-                cleanBase.replace(
+                cleanSource.replace(
                     extension,
                     `${suffix}${extension}`
                 );
@@ -1392,7 +1370,7 @@
                 newSource;
 
             /*
-             * Active color state.
+             * Active color.
              */
 
             vehicle
@@ -1434,41 +1412,23 @@
                 return;
             }
 
-            /*
-             * Always use:
-             *
-             * /special.html/#model
-             */
-
             const fullUrl =
                 buildVehicleUrl(
                     model
                 );
 
-            /*
-             * Update browser URL without
-             * causing native hash jump.
-             */
-
             try {
                 window.history.pushState(
                     {
-                        vehicle: model
+                        vehicle:
+                            model
                     },
                     "",
                     fullUrl
                 );
             } catch {}
 
-            /*
-             * Clear previous navigation state.
-             */
-
             cancelPremiumScroll();
-
-            /*
-             * Scroll from CURRENT position.
-             */
 
             scrollToVehicle(
                 model,
@@ -1477,23 +1437,14 @@
             );
 
             /*
-             * Copy exact canonical URL.
+             * Copy canonical URL.
              */
 
             try {
                 await navigator.clipboard.writeText(
                     fullUrl
                 );
-            } catch {
-                /*
-                 * Clipboard can fail in
-                 * insecure contexts.
-                 */
-            }
-
-            /*
-             * Visual copied state.
-             */
+            } catch {}
 
             this.classList.add(
                 "copied"
@@ -1537,10 +1488,6 @@
                 return;
             }
 
-            /*
-             * Make sure hash URL is canonical.
-             */
-
             const canonicalUrl =
                 buildVehicleUrl(
                     model
@@ -1553,7 +1500,8 @@
                 try {
                     window.history.replaceState(
                         {
-                            vehicle: model
+                            vehicle:
+                                model
                         },
                         "",
                         canonicalUrl
@@ -1637,9 +1585,9 @@
     loadVehicles();
 
     /*
-     * ------------------------------------------------------------
-     * LOAD
-     * ------------------------------------------------------------
+     * ============================================================
+     * WINDOW LOAD
+     * ============================================================
      */
 
     $(window).on(
@@ -1647,16 +1595,7 @@
         function () {
             decorateAllVehicles();
 
-            /*
-             * If browser/Vercel somehow gave us the
-             * non-slash version, repair it.
-             */
-
             canonicalizeCurrentUrl();
-
-            /*
-             * Extra safety for deep links.
-             */
 
             if (
                 window.location.hash
