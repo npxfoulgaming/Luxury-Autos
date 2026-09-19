@@ -6,26 +6,6 @@
      * LUXURY AUTOS
      * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
-     *
-     * Canonical vehicle URL:
-     *
-     * /view/special.html/#pulse
-     *
-     * Link placement:
-     *
-     * DETAILS LEFT:
-     * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
-     *
-     * DETAILS RIGHT:
-     * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
-     *
-     * Color files:
-     *
-     * black -> _mb
-     * white -> _mw
-     * red   -> _r
-     * green -> _g
-     * blue  -> _b
      */
 
     const pageTitle =
@@ -42,6 +22,7 @@
         typeof server !== "undefined"
             ? server
             : "";
+
 
     /*
      * ============================================================
@@ -65,15 +46,14 @@
                 ).trim();
         } catch {
             initialHashModel =
-                initialHash
-                    .substring(1)
-                    .trim();
+                initialHash.substring(1).trim();
         }
     }
 
+
     /*
      * ============================================================
-     * HISTORY / SCROLL RESTORATION
+     * HISTORY
      * ============================================================
      */
 
@@ -86,6 +66,7 @@
                 "manual";
         }
     } catch {}
+
 
     /*
      * ============================================================
@@ -100,30 +81,31 @@
             pathname ||
             window.location.pathname;
 
-        /*
-         * Remove existing trailing slash.
-         */
-
         path =
             path.replace(
                 /\/+$/,
                 ""
             );
 
+        if (!path) {
+            return "/";
+        }
+
         /*
-         * Always restore exactly one slash.
+         * IMPORTANT:
+         *
+         * Do NOT force:
+         *
+         * /special.html/
+         *
+         * Keep:
          *
          * /special.html
-         *       ↓
-         * /special.html/
          */
-
-        if (!path.endsWith("/")) {
-            path += "/";
-        }
 
         return path;
     }
+
 
     function buildVehicleUrl(model) {
         if (!model) {
@@ -146,6 +128,7 @@
         return url.href;
     }
 
+
     function buildCleanCanonicalUrl() {
         const url =
             new URL(
@@ -161,6 +144,7 @@
 
         return url.href;
     }
+
 
     /*
      * ============================================================
@@ -201,13 +185,9 @@
         } catch {}
     }
 
-    /*
-     * Always keep:
-     *
-     * /special.html/#model
-     */
 
     canonicalizeCurrentUrl();
+
 
     /*
      * ============================================================
@@ -235,6 +215,7 @@
             0
         );
     }
+
 
     /*
      * ============================================================
@@ -279,6 +260,7 @@
 
         return null;
     }
+
 
     /*
      * ============================================================
@@ -330,6 +312,7 @@
         return link;
     }
 
+
     /*
      * ============================================================
      * DECORATE VEHICLE
@@ -359,6 +342,50 @@
         vehicle.dataset.model =
             model;
 
+
+        /*
+         * --------------------------------------------------------
+         * VEHICLE NAME
+         * --------------------------------------------------------
+         *
+         * Make sure dynamic names have:
+         *
+         * <span>Vehicle Name</span>
+         */
+
+        const vehicleName =
+            vehicle.querySelector(
+                ".vehicle-name"
+            );
+
+        if (vehicleName) {
+            let nameSpan =
+                vehicleName.querySelector(
+                    ":scope > span"
+                );
+
+            if (!nameSpan) {
+                const currentText =
+                    vehicleName.textContent.trim();
+
+                vehicleName.textContent =
+                    "";
+
+                nameSpan =
+                    document.createElement(
+                        "span"
+                    );
+
+                nameSpan.textContent =
+                    currentText;
+
+                vehicleName.appendChild(
+                    nameSpan
+                );
+            }
+        }
+
+
         /*
          * --------------------------------------------------------
          * COLORS
@@ -384,6 +411,7 @@
             );
         }
 
+
         /*
          * --------------------------------------------------------
          * LINK
@@ -394,10 +422,6 @@
             colors.querySelector(
                 ".vehicle-link"
             );
-
-        /*
-         * Remove duplicate links.
-         */
 
         const duplicateLinks =
             colors.querySelectorAll(
@@ -439,20 +463,19 @@
         link.dataset.model =
             model;
 
+
         /*
-         * ========================================================
-         * IMPORTANT LINK POSITION FIX
-         * ========================================================
+         * --------------------------------------------------------
+         * LINK POSITION
+         * --------------------------------------------------------
          *
-         * Details LEFT:
-         *
-         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
-         *
-         * Details RIGHT / INVERT:
+         * INVERT:
          *
          * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
          *
-         * The old code had these reversed.
+         * NORMAL:
+         *
+         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
          */
 
         if (
@@ -460,28 +483,17 @@
                 "invert"
             )
         ) {
-            /*
-             * Details are on RIGHT.
-             *
-             * Link goes BEFORE black.
-             */
-
             colors.insertBefore(
                 link,
                 colors.firstElementChild
             );
         } else {
-            /*
-             * Details are on LEFT.
-             *
-             * Link goes AFTER blue.
-             */
-
             colors.appendChild(
                 link
             );
         }
     }
+
 
     /*
      * ============================================================
@@ -499,9 +511,10 @@
             );
     }
 
+
     /*
      * ============================================================
-     * PREMIUM SCROLL ENGINE
+     * PREMIUM SCROLL
      * ============================================================
      */
 
@@ -510,6 +523,7 @@
 
     let scrollAnimationToken =
         0;
+
 
     function cancelPremiumScroll() {
         scrollAnimationToken++;
@@ -527,6 +541,7 @@
         }
     }
 
+
     function easeInOutQuint(t) {
         return t < 0.5
             ? 16 *
@@ -542,6 +557,7 @@
                   ) /
                       2;
     }
+
 
     function getScrollDuration(
         distance
@@ -561,6 +577,7 @@
             )
         );
     }
+
 
     function premiumScrollTo(
         targetY,
@@ -652,6 +669,7 @@
             );
     }
 
+
     /*
      * ============================================================
      * TARGET POSITION
@@ -714,9 +732,10 @@
         );
     }
 
+
     /*
      * ============================================================
-     * ACTIVE HASH TARGET
+     * ACTIVE HASH
      * ============================================================
      */
 
@@ -733,6 +752,7 @@
                 }
             );
     }
+
 
     /*
      * ============================================================
@@ -813,6 +833,7 @@
         return true;
     }
 
+
     /*
      * ============================================================
      * WAIT FOR DYNAMIC VEHICLES
@@ -873,6 +894,7 @@
         attempt();
     }
 
+
     /*
      * ============================================================
      * RESTORE INITIAL HASH
@@ -904,6 +926,7 @@
 
         canonicalizeCurrentUrl();
     }
+
 
     /*
      * ============================================================
@@ -938,10 +961,9 @@
             return;
         }
 
+
         /*
-         * --------------------------------------------------------
          * STATIC
-         * --------------------------------------------------------
          */
 
         const staticVehicles =
@@ -982,10 +1004,9 @@
             return;
         }
 
+
         /*
-         * --------------------------------------------------------
          * DYNAMIC JSON
-         * --------------------------------------------------------
          */
 
         try {
@@ -1114,6 +1135,7 @@
         }
     }
 
+
     /*
      * ============================================================
      * RENDER VEHICLE
@@ -1163,8 +1185,9 @@
         vehicle.className =
             "vehicle";
 
+
         /*
-         * Alternate vehicle direction.
+         * Alternate direction.
          */
 
         const invert =
@@ -1182,13 +1205,27 @@
         vehicle.dataset.model =
             model;
 
+
+        /*
+         * IMPORTANT:
+         *
+         * The label is now wrapped
+         * inside <span>.
+         *
+         * This makes:
+         *
+         * .vehicle-name > span
+         *
+         * work correctly.
+         */
+
         vehicle.innerHTML = `
             <div class="details">
 
                 <div class="inner">
 
                     <div class="vehicle-name">
-                        ${label}
+                        <span>${label}</span>
                     </div>
 
                     ${
@@ -1259,15 +1296,44 @@
             </div>
         `;
 
+
+        /*
+         * Store original image.
+         *
+         * Used when the active color
+         * is clicked again.
+         */
+
+        const imageElement =
+            vehicle.querySelector(
+                ".image img"
+            );
+
+        if (imageElement) {
+            imageElement.dataset.originalSrc =
+                imageElement.getAttribute(
+                    "src"
+                ) || "";
+        }
+
+
         container.appendChild(
             vehicle
         );
     }
 
+
     /*
      * ============================================================
      * COLOR SWITCHING
      * ============================================================
+     *
+     * Clicking:
+     *
+     * BLACK -> select black
+     *
+     * BLACK again -> unselect black
+     *               restore original image
      */
 
     $(document).on(
@@ -1278,8 +1344,10 @@
             event.stopPropagation();
 
             const color =
-                this.dataset.color ||
-                "";
+                String(
+                    this.dataset.color ||
+                    ""
+                ).toLowerCase();
 
             const vehicle =
                 this.closest(
@@ -1299,13 +1367,87 @@
                 return;
             }
 
-            const source =
-                image.getAttribute(
-                    "src"
-                ) || "";
 
             /*
-             * Canonical color suffix.
+             * Save original image if
+             * this vehicle was created
+             * from static HTML.
+             */
+
+            if (
+                !image.dataset.originalSrc
+            ) {
+                image.dataset.originalSrc =
+                    image.getAttribute(
+                        "src"
+                    ) || "";
+            }
+
+
+            /*
+             * Check if this color is
+             * already selected.
+             */
+
+            const alreadyActive =
+                this.classList.contains(
+                    "active"
+                );
+
+
+            /*
+             * If clicking the already
+             * active color:
+             *
+             * UNSELECT IT
+             */
+
+            if (alreadyActive) {
+                this.classList.remove(
+                    "active"
+                );
+
+                const original =
+                    image.dataset.originalSrc;
+
+                if (original) {
+                    image.src =
+                        original;
+                }
+
+                return;
+            }
+
+
+            /*
+             * Otherwise remove active
+             * state from every color.
+             */
+
+            vehicle
+                .querySelectorAll(
+                    ".color"
+                )
+                .forEach(
+                    (item) => {
+                        item.classList.remove(
+                            "active"
+                        );
+                    }
+                );
+
+
+            /*
+             * Set clicked color active.
+             */
+
+            this.classList.add(
+                "active"
+            );
+
+
+            /*
+             * Color suffixes.
              */
 
             const suffixMap = {
@@ -1317,10 +1459,7 @@
             };
 
             const suffix =
-                suffixMap[
-                    color
-                        .toLowerCase()
-                ];
+                suffixMap[color];
 
             if (
                 typeof suffix ===
@@ -1329,22 +1468,27 @@
                 return;
             }
 
+
             /*
-             * Remove any existing vehicle
-             * color suffix.
-             *
-             * Example:
-             *
-             * pulse_mb.png
-             *       ↓
-             * pulse_r.png
+             * Remove existing color
+             * suffix.
              */
+
+            const source =
+                image.getAttribute(
+                    "src"
+                ) || "";
 
             const cleanSource =
                 source.replace(
                     /_(?:mb|mw|r|g|b)(?=\.[a-z0-9]+(?:[?#]|$))/i,
                     ""
                 );
+
+
+            /*
+             * Find extension.
+             */
 
             const extensionMatch =
                 cleanSource.match(
@@ -1360,6 +1504,15 @@
             const extension =
                 extensionMatch[1];
 
+
+            /*
+             * Create new image:
+             *
+             * pulse.png
+             *      ↓
+             * pulse_r.png
+             */
+
             const newSource =
                 cleanSource.replace(
                     extension,
@@ -1368,25 +1521,9 @@
 
             image.src =
                 newSource;
-
-            /*
-             * Active color.
-             */
-
-            vehicle
-                .querySelectorAll(
-                    ".color"
-                )
-                .forEach(
-                    (item) => {
-                        item.classList.toggle(
-                            "active",
-                            item === this
-                        );
-                    }
-                );
         }
     );
+
 
     /*
      * ============================================================
@@ -1436,6 +1573,7 @@
                 false
             );
 
+
             /*
              * Copy canonical URL.
              */
@@ -1445,6 +1583,11 @@
                     fullUrl
                 );
             } catch {}
+
+
+            /*
+             * Copied animation.
+             */
 
             this.classList.add(
                 "copied"
@@ -1460,6 +1603,7 @@
             );
         }
     );
+
 
     /*
      * ============================================================
@@ -1517,6 +1661,7 @@
         }
     );
 
+
     /*
      * ============================================================
      * POPSTATE
@@ -1533,6 +1678,8 @@
                     .substring(1);
 
             if (!model) {
+                clearHashTarget();
+
                 return;
             }
 
@@ -1550,6 +1697,7 @@
             );
         }
     );
+
 
     /*
      * ============================================================
@@ -1574,6 +1722,7 @@
         }
     );
 
+
     /*
      * ============================================================
      * INITIALIZATION
@@ -1583,6 +1732,7 @@
     decorateAllVehicles();
 
     loadVehicles();
+
 
     /*
      * ============================================================
@@ -1621,4 +1771,5 @@
             }
         }
     );
+
 })(jQuery);
