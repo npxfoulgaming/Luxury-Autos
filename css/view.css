@@ -222,7 +222,7 @@ h1 a {
    ========================================================= */
 
 /*
- * YOUR CURRENT HTML IS:
+ * ACTUAL HTML:
  *
  * <div class="inner">
  *     <span>1960 Thundersteel Roamer C ten</span>
@@ -230,17 +230,19 @@ h1 a {
  *     <pre>c10</pre>
  * </div>
  *
- * Therefore the important selector is:
+ * Make ONLY the text bold.
  *
- * .inner > span
+ * There is deliberately NO hover effect.
  */
 
 .vehicle .details .inner > span {
     display: inline-block;
 
-    font-size: 22px;
+    margin: 0;
 
     font-family: Montserrat, sans-serif;
+
+    font-size: 22px;
 
     font-weight: 700 !important;
 
@@ -250,27 +252,31 @@ h1 a {
 
     text-align: center;
 
-    transition:
-        transform 350ms ease,
-        text-shadow 350ms ease;
+    transform: none !important;
+
+    text-shadow: none !important;
 }
 
 
 /*
- * Also support the newer:
+ * Compatibility with:
  *
  * <div class="vehicle-name">
  *     <span>Vehicle Name</span>
  * </div>
  */
 
-.vehicle .details
-.vehicle-name > span {
-    display: inline-block;
+.vehicle .details .vehicle-name {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    white-space: nowrap;
 
     font-size: 22px;
-
-    font-family: Montserrat, sans-serif;
 
     font-weight: 700 !important;
 
@@ -278,28 +284,43 @@ h1 a {
 
     color: #000;
 
-    transition:
-        transform 350ms ease,
-        text-shadow 350ms ease;
+    transform: none !important;
+
+    text-shadow: none !important;
+}
+
+.vehicle .details
+.vehicle-name > span {
+    display: inline-block;
+
+    font-size: inherit;
+
+    font-weight: inherit;
+
+    line-height: inherit;
+
+    color: inherit;
+
+    transform: none !important;
+
+    text-shadow: none !important;
 }
 
 
 /*
- * Hover effect.
+ * IMPORTANT:
+ *
+ * No:
+ *
+ * .vehicle:hover .vehicle-name
+ *
+ * No:
+ *
+ * .vehicle:hover span
+ *
+ * Therefore the vehicle title does not
+ * move, glow, or change on hover.
  */
-
-.vehicle:hover
-.details .inner > span,
-
-.vehicle:hover
-.details .vehicle-name > span {
-    transform:
-        translateY(-1px);
-
-    text-shadow:
-        0 5px 20px
-        rgba(0, 0, 0, 0.13);
-}
 
 
 /* =========================================================
@@ -315,7 +336,11 @@ h1 a {
 
     font-weight: 600;
 
+    line-height: 1.25;
+
     text-align: right;
+
+    color: #000;
 }
 
 .vehicle.invert
@@ -390,7 +415,7 @@ h1 a {
 
 
 /*
- * RIGHT DETAILS:
+ * RIGHT DETAILS
  *
  * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
  */
@@ -398,6 +423,7 @@ h1 a {
 .vehicle.invert
 .details .colors {
     left: 5px;
+
     right: auto;
 
     justify-content: flex-start;
@@ -405,7 +431,7 @@ h1 a {
 
 
 /*
- * LEFT DETAILS:
+ * LEFT DETAILS
  *
  * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
  */
@@ -413,6 +439,7 @@ h1 a {
 .vehicle:not(.invert)
 .details .colors {
     right: 5px;
+
     left: auto;
 
     justify-content: flex-end;
@@ -420,7 +447,7 @@ h1 a {
 
 
 /* =========================================================
-   SHOW COLORS ON HOVER
+   NORMAL HOVER
    ========================================================= */
 
 .vehicle:hover
@@ -439,8 +466,13 @@ h1 a {
 
 
 /* =========================================================
-   ACTIVE HASH VEHICLE
+   ACTIVE HASH
    ========================================================= */
+
+/*
+ * Active vehicle keeps the row area alive,
+ * but colors are hidden until hover.
+ */
 
 .vehicle.hash-target
 .details .colors {
@@ -452,11 +484,9 @@ h1 a {
 }
 
 
-/*
- * Active section:
- *
- * ONLY LINK ICON visible.
- */
+/* =========================================================
+   ACTIVE HASH — HIDE COLORS
+   ========================================================= */
 
 .vehicle.hash-target
 .details .colors .color {
@@ -470,8 +500,8 @@ h1 a {
 
 
 /*
- * When hovering active section,
- * show the colors again.
+ * Show colors when the active vehicle
+ * is hovered.
  */
 
 .vehicle.hash-target:hover
@@ -790,7 +820,7 @@ h1 a {
 .vehicle .details
 .colors .color.active {
     transform:
-        scale(1.08);
+        scale(1.10);
 
     box-shadow:
         0 0 0 2px
@@ -799,7 +829,15 @@ h1 a {
             rgba(0, 0, 0, 0.22),
         0 5px 16px
             rgba(0, 0, 0, 0.25);
+
+    filter:
+        brightness(1.05);
 }
+
+
+/* =========================================================
+   COLOR ACTIVE RING
+   ========================================================= */
 
 .vehicle .details
 .colors .color::after {
@@ -1086,26 +1124,42 @@ h1 a {
     }
 
 
-    /*
-     * IMPORTANT:
-     * Direct span is the actual vehicle name
-     * in your current HTML.
-     */
+    /* Vehicle name */
 
     .vehicle .details
     .inner > span {
         font-size: 18px;
 
         font-weight: 700 !important;
+
+        transform: none !important;
+
+        text-shadow: none !important;
     }
 
 
     .vehicle .details
-    .vehicle-name > span {
+    .vehicle-name {
         font-size: 18px;
 
         font-weight: 700 !important;
+
+        transform: none !important;
+
+        text-shadow: none !important;
     }
+
+    .vehicle .details
+    .vehicle-name > span {
+        font-size: inherit;
+
+        font-weight: inherit;
+
+        transform: none !important;
+
+        text-shadow: none !important;
+    }
+
 
     .vehicle .details small {
         font-size: 13px;
@@ -1117,6 +1171,7 @@ h1 a {
         font-size: 12px;
     }
 
+
     .vehicle .details .colors {
         bottom: 5px;
 
@@ -1124,6 +1179,7 @@ h1 a {
 
         gap: 4px;
     }
+
 
     .vehicle .details
     .vehicle-link {
@@ -1136,10 +1192,12 @@ h1 a {
         flex-basis: 18px;
     }
 
+
     .vehicle-link svg {
         width: 14px;
         height: 14px;
     }
+
 
     .vehicle .details
     .colors .color {
@@ -1152,8 +1210,10 @@ h1 a {
         flex-basis: 18px;
     }
 
+
     #footer {
         left: 10px;
+
         bottom: 10px;
 
         padding: 6px 10px;

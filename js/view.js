@@ -6,6 +6,23 @@
      * LUXURY AUTOS
      * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
+     *
+     * Canonical URL:
+     *
+     * /view/legendary.html#mst
+     *
+     * NOT:
+     *
+     * /view/legendary.html/#mst
+     *
+     *
+     * Normal details:
+     *
+     * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
+     *
+     * Inverted details:
+     *
+     * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
      */
 
     const pageTitle =
@@ -24,11 +41,9 @@
             : "";
 
 
-    /*
-     * ============================================================
-     * INITIAL HASH
-     * ============================================================
-     */
+    /* ============================================================
+       INITIAL HASH
+       ============================================================ */
 
     let initialHash =
         window.location.hash || "";
@@ -46,16 +61,16 @@
                 ).trim();
         } catch {
             initialHashModel =
-                initialHash.substring(1).trim();
+                initialHash
+                    .substring(1)
+                    .trim();
         }
     }
 
 
-    /*
-     * ============================================================
-     * HISTORY
-     * ============================================================
-     */
+    /* ============================================================
+       HISTORY / SCROLL RESTORATION
+       ============================================================ */
 
     try {
         if (
@@ -68,42 +83,45 @@
     } catch {}
 
 
-    /*
-     * ============================================================
-     * URL HELPERS
-     * ============================================================
-     */
+    /* ============================================================
+       URL HELPERS
+       ============================================================ */
 
     function getCanonicalVehiclePath(
         pathname
     ) {
         let path =
             pathname ||
-            window.location.pathname;
-
-        path =
-            path.replace(
-                /\/+$/,
-                ""
-            );
-
-        if (!path) {
-            return "/";
-        }
+            window.location.pathname ||
+            "/";
 
         /*
          * IMPORTANT:
          *
-         * Do NOT force:
+         * Only remove the trailing slash
+         * when there is one.
          *
-         * /special.html/
+         * This converts:
          *
-         * Keep:
+         * /view/legendary.html/
          *
-         * /special.html
+         * into:
+         *
+         * /view/legendary.html
          */
 
-        return path;
+        if (
+            path.length > 1 &&
+            path.endsWith("/")
+        ) {
+            path =
+                path.replace(
+                    /\/+$/,
+                    ""
+                );
+        }
+
+        return path || "/";
     }
 
 
@@ -122,8 +140,16 @@
                 url.pathname
             );
 
+        /*
+         * URL.hash automatically creates:
+         *
+         * #mst
+         */
+
         url.hash =
-            String(model).trim();
+            String(
+                model
+            ).trim();
 
         return url.href;
     }
@@ -146,11 +172,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * CANONICALIZE CURRENT URL
-     * ============================================================
-     */
+    /* ============================================================
+       CANONICALIZE CURRENT URL
+       ============================================================ */
 
     function canonicalizeCurrentUrl() {
         const currentPath =
@@ -186,14 +210,24 @@
     }
 
 
+    /*
+     * Fix:
+     *
+     * /view/legendary.html/
+     *
+     * into:
+     *
+     * /view/legendary.html
+     *
+     * while preserving an existing #hash.
+     */
+
     canonicalizeCurrentUrl();
 
 
-    /*
-     * ============================================================
-     * PREVENT NATIVE HASH JUMP
-     * ============================================================
-     */
+    /* ============================================================
+       PREVENT NATIVE HASH JUMP
+       ============================================================ */
 
     if (initialHashModel) {
         const cleanUrl =
@@ -217,11 +251,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * FIND VEHICLE
-     * ============================================================
-     */
+    /* ============================================================
+       FIND VEHICLE
+       ============================================================ */
 
     function findVehicle(model) {
         if (!model) {
@@ -262,11 +294,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * LINK ICON
-     * ============================================================
-     */
+    /* ============================================================
+       LINK ICON
+       ============================================================ */
 
     function createLinkIcon(model) {
         const link =
@@ -313,11 +343,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * DECORATE VEHICLE
-     * ============================================================
-     */
+    /* ============================================================
+       DECORATE VEHICLE
+       ============================================================ */
 
     function decorateVehicle(vehicle) {
         if (!vehicle) {
@@ -330,7 +358,9 @@
             "";
 
         model =
-            String(model).trim();
+            String(
+                model
+            ).trim();
 
         if (!model) {
             return;
@@ -343,54 +373,66 @@
             model;
 
 
+        /* --------------------------------------------------------
+           VEHICLE NAME
+           -------------------------------------------------------- */
+
         /*
-         * --------------------------------------------------------
-         * VEHICLE NAME
-         * --------------------------------------------------------
+         * Supports the actual structure:
          *
-         * Make sure dynamic names have:
-         *
-         * <span>Vehicle Name</span>
+         * <div class="inner">
+         *     <span>Vehicle Name</span>
+         *     ...
+         * </div>
          */
 
-        const vehicleName =
+        const inner =
             vehicle.querySelector(
-                ".vehicle-name"
+                ".details .inner"
             );
 
-        if (vehicleName) {
-            let nameSpan =
-                vehicleName.querySelector(
-                    ":scope > span"
+        if (inner) {
+            const vehicleName =
+                inner.querySelector(
+                    ".vehicle-name"
                 );
 
-            if (!nameSpan) {
-                const currentText =
-                    vehicleName.textContent.trim();
+            /*
+             * Existing .vehicle-name structure.
+             */
 
-                vehicleName.textContent =
-                    "";
-
-                nameSpan =
-                    document.createElement(
-                        "span"
+            if (vehicleName) {
+                let nameSpan =
+                    vehicleName.querySelector(
+                        ":scope > span"
                     );
 
-                nameSpan.textContent =
-                    currentText;
+                if (!nameSpan) {
+                    const text =
+                        vehicleName.textContent.trim();
 
-                vehicleName.appendChild(
-                    nameSpan
-                );
+                    vehicleName.textContent =
+                        "";
+
+                    nameSpan =
+                        document.createElement(
+                            "span"
+                        );
+
+                    nameSpan.textContent =
+                        text;
+
+                    vehicleName.appendChild(
+                        nameSpan
+                    );
+                }
             }
         }
 
 
-        /*
-         * --------------------------------------------------------
-         * COLORS
-         * --------------------------------------------------------
-         */
+        /* --------------------------------------------------------
+           COLORS
+           -------------------------------------------------------- */
 
         let colors =
             vehicle.querySelector(
@@ -406,17 +448,26 @@
             colors.className =
                 "colors";
 
-            vehicle.appendChild(
-                colors
-            );
+            const details =
+                vehicle.querySelector(
+                    ".details"
+                );
+
+            if (details) {
+                details.appendChild(
+                    colors
+                );
+            } else {
+                vehicle.appendChild(
+                    colors
+                );
+            }
         }
 
 
-        /*
-         * --------------------------------------------------------
-         * LINK
-         * --------------------------------------------------------
-         */
+        /* --------------------------------------------------------
+           LINK
+           -------------------------------------------------------- */
 
         let link =
             colors.querySelector(
@@ -429,8 +480,7 @@
             );
 
         if (
-            duplicateLinks.length >
-            1
+            duplicateLinks.length > 1
         ) {
             duplicateLinks.forEach(
                 (
@@ -464,18 +514,14 @@
             model;
 
 
+        /* --------------------------------------------------------
+           LINK POSITION
+           -------------------------------------------------------- */
+
         /*
-         * --------------------------------------------------------
-         * LINK POSITION
-         * --------------------------------------------------------
-         *
          * INVERT:
          *
          * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
-         *
-         * NORMAL:
-         *
-         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
          */
 
         if (
@@ -487,7 +533,15 @@
                 link,
                 colors.firstElementChild
             );
-        } else {
+        }
+
+        /*
+         * NORMAL:
+         *
+         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
+         */
+
+        else {
             colors.appendChild(
                 link
             );
@@ -495,11 +549,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * DECORATE ALL VEHICLES
-     * ============================================================
-     */
+    /* ============================================================
+       DECORATE ALL
+       ============================================================ */
 
     function decorateAllVehicles() {
         document
@@ -512,11 +564,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * PREMIUM SCROLL
-     * ============================================================
-     */
+    /* ============================================================
+       PREMIUM SCROLL ENGINE
+       ============================================================ */
 
     let activeScrollFrame =
         null;
@@ -568,10 +618,10 @@
             );
 
         return Math.min(
-            2400,
+            2600,
             Math.max(
-                750,
-                650 +
+                800,
+                700 +
                     absolute *
                         1.05
             )
@@ -670,11 +720,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * TARGET POSITION
-     * ============================================================
-     */
+    /* ============================================================
+       TARGET POSITION
+       ============================================================ */
 
     function calculateVehicleTarget(
         vehicle
@@ -733,11 +781,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * ACTIVE HASH
-     * ============================================================
-     */
+    /* ============================================================
+       ACTIVE HASH
+       ============================================================ */
 
     function clearHashTarget() {
         document
@@ -754,11 +800,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * SCROLL TO VEHICLE
-     * ============================================================
-     */
+    /* ============================================================
+       SCROLL TO VEHICLE
+       ============================================================ */
 
     function scrollToVehicle(
         model,
@@ -834,11 +878,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * WAIT FOR DYNAMIC VEHICLES
-     * ============================================================
-     */
+    /* ============================================================
+       WAIT FOR VEHICLE
+       ============================================================ */
 
     function scrollToHashWhenReady(
         animated = true,
@@ -895,16 +937,12 @@
     }
 
 
-    /*
-     * ============================================================
-     * RESTORE INITIAL HASH
-     * ============================================================
-     */
+    /* ============================================================
+       RESTORE INITIAL HASH
+       ============================================================ */
 
     function restoreInitialHash() {
-        if (
-            !initialHashModel
-        ) {
+        if (!initialHashModel) {
             return;
         }
 
@@ -923,16 +961,12 @@
                 fullUrl
             );
         } catch {}
-
-        canonicalizeCurrentUrl();
     }
 
 
-    /*
-     * ============================================================
-     * LOAD VEHICLES
-     * ============================================================
-     */
+    /* ============================================================
+       LOAD VEHICLES
+       ============================================================ */
 
     async function loadVehicles() {
         const container =
@@ -940,12 +974,14 @@
                 "#page"
             );
 
+        /*
+         * No page container.
+         */
+
         if (!container) {
             decorateAllVehicles();
 
-            if (
-                initialHashModel
-            ) {
+            if (initialHashModel) {
                 restoreInitialHash();
 
                 scrollToHashWhenReady(
@@ -956,15 +992,16 @@
 
                 initialHashModel =
                     "";
+
             }
 
             return;
         }
 
 
-        /*
-         * STATIC
-         */
+        /* --------------------------------------------------------
+           STATIC VEHICLES
+           -------------------------------------------------------- */
 
         const staticVehicles =
             container.querySelectorAll(
@@ -986,9 +1023,7 @@
                 } catch {}
             }
 
-            if (
-                initialHashModel
-            ) {
+            if (initialHashModel) {
                 restoreInitialHash();
 
                 scrollToHashWhenReady(
@@ -1005,9 +1040,9 @@
         }
 
 
-        /*
-         * DYNAMIC JSON
-         */
+        /* --------------------------------------------------------
+           DYNAMIC JSON
+           -------------------------------------------------------- */
 
         try {
             const response =
@@ -1036,6 +1071,7 @@
                       )
                     ? data.vehicles
                     : [];
+
 
             vehicles.sort(
                 (a, b) => {
@@ -1068,8 +1104,10 @@
                 }
             );
 
+
             container.innerHTML =
                 "";
+
 
             vehicles.forEach(
                 (
@@ -1084,7 +1122,9 @@
                 }
             );
 
+
             decorateAllVehicles();
+
 
             if (
                 typeof window
@@ -1096,9 +1136,8 @@
                 } catch {}
             }
 
-            if (
-                initialHashModel
-            ) {
+
+            if (initialHashModel) {
                 restoreInitialHash();
 
                 scrollToHashWhenReady(
@@ -1110,6 +1149,7 @@
                 initialHashModel =
                     "";
             }
+
         } catch (error) {
             console.error(
                 "Luxury Autos: failed to load vehicles",
@@ -1118,9 +1158,7 @@
 
             decorateAllVehicles();
 
-            if (
-                initialHashModel
-            ) {
+            if (initialHashModel) {
                 restoreInitialHash();
 
                 scrollToHashWhenReady(
@@ -1136,11 +1174,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * RENDER VEHICLE
-     * ============================================================
-     */
+    /* ============================================================
+       RENDER VEHICLE
+       ============================================================ */
 
     function renderVehicle(
         container,
@@ -1177,6 +1213,7 @@
             data.img ||
             `/images/${model}.png`;
 
+
         const vehicle =
             document.createElement(
                 "div"
@@ -1199,6 +1236,7 @@
             );
         }
 
+
         vehicle.id =
             model;
 
@@ -1209,14 +1247,13 @@
         /*
          * IMPORTANT:
          *
-         * The label is now wrapped
-         * inside <span>.
+         * Matches your actual HTML:
          *
-         * This makes:
-         *
-         * .vehicle-name > span
-         *
-         * work correctly.
+         * <div class="inner">
+         *     <span>Vehicle Name</span>
+         *     <small>Price</small>
+         *     <pre>Model</pre>
+         * </div>
          */
 
         vehicle.innerHTML = `
@@ -1224,62 +1261,60 @@
 
                 <div class="inner">
 
-                    <div class="vehicle-name">
-                        <span>${label}</span>
-                    </div>
+                    <span>
+                        ${label}
+                    </span>
 
                     ${
                         price
                             ? `
-                                <div class="price">
+                                <small>
                                     ${price}
-                                </div>
+                                </small>
                               `
                             : ""
                     }
 
-                    <div class="model">
-                        ${model}
-                    </div>
+                    <pre>${model}</pre>
 
-                    <div class="colors">
+                </div>
 
-                        <div
-                            class="color black"
-                            data-color="mb"
-                            title="Black"
-                            aria-label="Black"
-                        ></div>
+                <div class="colors">
 
-                        <div
-                            class="color white"
-                            data-color="mw"
-                            title="White"
-                            aria-label="White"
-                        ></div>
+                    <div
+                        class="color"
+                        data-color="mb"
+                        title="Matte Black"
+                        aria-label="Matte Black"
+                    ></div>
 
-                        <div
-                            class="color red"
-                            data-color="r"
-                            title="Red"
-                            aria-label="Red"
-                        ></div>
+                    <div
+                        class="color"
+                        data-color="mw"
+                        title="Matte White"
+                        aria-label="Matte White"
+                    ></div>
 
-                        <div
-                            class="color green"
-                            data-color="g"
-                            title="Green"
-                            aria-label="Green"
-                        ></div>
+                    <div
+                        class="color"
+                        data-color="r"
+                        title="Red"
+                        aria-label="Red"
+                    ></div>
 
-                        <div
-                            class="color blue"
-                            data-color="b"
-                            title="Blue"
-                            aria-label="Blue"
-                        ></div>
+                    <div
+                        class="color"
+                        data-color="g"
+                        title="Green"
+                        aria-label="Green"
+                    ></div>
 
-                    </div>
+                    <div
+                        class="color"
+                        data-color="b"
+                        title="Blue"
+                        aria-label="Blue"
+                    ></div>
 
                 </div>
 
@@ -1299,9 +1334,6 @@
 
         /*
          * Store original image.
-         *
-         * Used when the active color
-         * is clicked again.
          */
 
         const imageElement =
@@ -1323,18 +1355,9 @@
     }
 
 
-    /*
-     * ============================================================
-     * COLOR SWITCHING
-     * ============================================================
-     *
-     * Clicking:
-     *
-     * BLACK -> select black
-     *
-     * BLACK again -> unselect black
-     *               restore original image
-     */
+    /* ============================================================
+       COLOR SWITCHING
+       ============================================================ */
 
     $(document).on(
         "click",
@@ -1369,9 +1392,8 @@
 
 
             /*
-             * Save original image if
-             * this vehicle was created
-             * from static HTML.
+             * Save original image for
+             * static vehicles too.
              */
 
             if (
@@ -1385,22 +1407,14 @@
 
 
             /*
-             * Check if this color is
-             * already selected.
+             * Clicking the already selected
+             * color unselects it.
              */
 
             const alreadyActive =
                 this.classList.contains(
                     "active"
                 );
-
-
-            /*
-             * If clicking the already
-             * active color:
-             *
-             * UNSELECT IT
-             */
 
             if (alreadyActive) {
                 this.classList.remove(
@@ -1420,8 +1434,8 @@
 
 
             /*
-             * Otherwise remove active
-             * state from every color.
+             * Remove active from
+             * all colors.
              */
 
             vehicle
@@ -1438,7 +1452,7 @@
 
 
             /*
-             * Set clicked color active.
+             * Select clicked color.
              */
 
             this.classList.add(
@@ -1465,13 +1479,17 @@
                 typeof suffix ===
                 "undefined"
             ) {
+                this.classList.remove(
+                    "active"
+                );
+
                 return;
             }
 
 
             /*
-             * Remove existing color
-             * suffix.
+             * Remove an existing
+             * vehicle color suffix.
              */
 
             const source =
@@ -1487,7 +1505,7 @@
 
 
             /*
-             * Find extension.
+             * Detect image extension.
              */
 
             const extensionMatch =
@@ -1498,6 +1516,10 @@
             if (
                 !extensionMatch
             ) {
+                this.classList.remove(
+                    "active"
+                );
+
                 return;
             }
 
@@ -1506,10 +1528,12 @@
 
 
             /*
-             * Create new image:
+             * Example:
              *
              * pulse.png
-             *      ↓
+             *
+             * ↓ red
+             *
              * pulse_r.png
              */
 
@@ -1525,11 +1549,9 @@
     );
 
 
-    /*
-     * ============================================================
-     * VEHICLE LINK CLICK
-     * ============================================================
-     */
+    /* ============================================================
+       VEHICLE LINK CLICK
+       ============================================================ */
 
     $(document).on(
         "click",
@@ -1549,10 +1571,23 @@
                 return;
             }
 
+
+            /*
+             * Creates:
+             *
+             * https://luxury-autos.vercel.app/view/legendary.html#mst
+             */
+
             const fullUrl =
                 buildVehicleUrl(
                     model
                 );
+
+
+            /*
+             * Update browser URL
+             * without reloading.
+             */
 
             try {
                 window.history.pushState(
@@ -1565,7 +1600,10 @@
                 );
             } catch {}
 
-            cancelPremiumScroll();
+
+            /*
+             * Scroll from current position.
+             */
 
             scrollToVehicle(
                 model,
@@ -1575,7 +1613,7 @@
 
 
             /*
-             * Copy canonical URL.
+             * Copy the exact canonical URL.
              */
 
             try {
@@ -1586,7 +1624,7 @@
 
 
             /*
-             * Copied animation.
+             * Copied state.
              */
 
             this.classList.add(
@@ -1605,11 +1643,9 @@
     );
 
 
-    /*
-     * ============================================================
-     * HASH CHANGE
-     * ============================================================
-     */
+    /* ============================================================
+       HASH CHANGE
+       ============================================================ */
 
     window.addEventListener(
         "hashchange",
@@ -1629,8 +1665,15 @@
                 model.trim();
 
             if (!model) {
+                clearHashTarget();
+
                 return;
             }
+
+
+            /*
+             * Normalize the current URL.
+             */
 
             const canonicalUrl =
                 buildVehicleUrl(
@@ -1653,6 +1696,7 @@
                 } catch {}
             }
 
+
             scrollToHashWhenReady(
                 true,
                 model,
@@ -1662,11 +1706,9 @@
     );
 
 
-    /*
-     * ============================================================
-     * POPSTATE
-     * ============================================================
-     */
+    /* ============================================================
+       POPSTATE
+       ============================================================ */
 
     window.addEventListener(
         "popstate",
@@ -1690,6 +1732,13 @@
                     );
             } catch {}
 
+            model =
+                model.trim();
+
+            if (!model) {
+                return;
+            }
+
             scrollToHashWhenReady(
                 true,
                 model,
@@ -1699,11 +1748,9 @@
     );
 
 
-    /*
-     * ============================================================
-     * ESCAPE
-     * ============================================================
-     */
+    /* ============================================================
+       ESCAPE
+       ============================================================ */
 
     $(document).on(
         "keydown",
@@ -1723,22 +1770,18 @@
     );
 
 
-    /*
-     * ============================================================
-     * INITIALIZATION
-     * ============================================================
-     */
+    /* ============================================================
+       INITIALIZATION
+       ============================================================ */
 
     decorateAllVehicles();
 
     loadVehicles();
 
 
-    /*
-     * ============================================================
-     * WINDOW LOAD
-     * ============================================================
-     */
+    /* ============================================================
+       WINDOW LOAD
+       ============================================================ */
 
     $(window).on(
         "load",
@@ -1760,6 +1803,9 @@
                             model
                         );
                 } catch {}
+
+                model =
+                    model.trim();
 
                 if (model) {
                     scrollToHashWhenReady(
