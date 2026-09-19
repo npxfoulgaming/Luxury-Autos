@@ -7,23 +7,23 @@
      * ADVANCED VEHICLE HASH NAVIGATION
      * ============================================================
      *
-     * Canonical URL:
-     *
-     * /view/legendary.html#mst
-     *
-     * NOT:
+     * Vehicle URL:
      *
      * /view/legendary.html/#mst
      *
-     *
-     * Normal details:
+     * NORMAL:
      *
      * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
      *
-     * Inverted details:
+     * INVERT:
      *
      * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
      */
+
+
+    /* ============================================================
+       PAGE DATA
+       ============================================================ */
 
     const pageTitle =
         typeof title !== "undefined"
@@ -69,7 +69,7 @@
 
 
     /* ============================================================
-       HISTORY / SCROLL RESTORATION
+       HISTORY
        ============================================================ */
 
     try {
@@ -84,61 +84,38 @@
 
 
     /* ============================================================
-    URL HELPERS
-    ============================================================ */
+       URL HELPERS
+       ============================================================ */
 
-    /*
-    * Always keep the page path with exactly ONE
-    * trailing slash before the hash.
-    *
-    * Example:
-    *
-    * /view/legendary.html
-    *
-    * becomes:
-    *
-    * /view/legendary.html/
-    *
-    * So the vehicle link becomes:
-    *
-    * /view/legendary.html/#rmodescort
-    */
-    function getCanonicalVehiclePath(pathname) {
+    function getCanonicalVehiclePath(
+        pathname
+    ) {
         let path =
             pathname ||
             window.location.pathname ||
             "/";
 
-        /*
-        * Remove all existing trailing slashes first.
-        */
         path =
             path.replace(
                 /\/+$/,
                 ""
             );
 
-        /*
-        * Root stays "/".
-        */
         if (!path) {
             return "/";
         }
 
         /*
-        * Add exactly ONE trailing slash.
-        */
+         * Keep exactly ONE slash before
+         * the hash:
+         *
+         * /view/legendary.html/#mst
+         */
+
         return `${path}/`;
     }
 
 
-    /*
-    * Build vehicle link.
-    *
-    * Example:
-    *
-    * https://luxury-autos.vercel.app/view/legendary.html/#rmodescort
-    */
     function buildVehicleUrl(model) {
         if (!model) {
             return window.location.href;
@@ -163,10 +140,6 @@
     }
 
 
-    /*
-    * Build clean page URL while
-    * keeping the trailing slash.
-    */
     function buildCleanCanonicalUrl() {
         const url =
             new URL(
@@ -185,8 +158,8 @@
 
 
     /* ============================================================
-    CANONICALIZE CURRENT URL
-    ============================================================ */
+       CANONICALIZE CURRENT URL
+       ============================================================ */
 
     function canonicalizeCurrentUrl() {
         const currentPath =
@@ -222,18 +195,6 @@
     }
 
 
-    /*
-     * Fix:
-     *
-     * /view/legendary.html/
-     *
-     * into:
-     *
-     * /view/legendary.html
-     *
-     * while preserving an existing #hash.
-     */
-
     canonicalizeCurrentUrl();
 
 
@@ -264,6 +225,149 @@
 
 
     /* ============================================================
+       BACKGROUND
+       ============================================================ */
+
+    function escapeCssUrlValue(value) {
+        return String(value)
+            .replace(
+                /\\/g,
+                "\\\\"
+            )
+            .replace(
+                /"/g,
+                '\\"'
+            )
+            .replace(
+                /\)/g,
+                "\\)"
+            );
+    }
+
+
+    function getConfiguredBackground() {
+        const candidates = [
+            document.body?.dataset?.background,
+            document.body?.dataset?.bg,
+            document.documentElement?.dataset?.background,
+            document.documentElement?.dataset?.bg,
+
+            document.querySelector(
+                "#page[data-background]"
+            )?.dataset?.background,
+
+            document.querySelector(
+                "#page[data-bg]"
+            )?.dataset?.bg,
+
+            document.querySelector(
+                "[data-background]"
+            )?.dataset?.background
+        ];
+
+
+        for (
+            const candidate of candidates
+        ) {
+            if (
+                candidate &&
+                String(
+                    candidate
+                ).trim()
+            ) {
+                return String(
+                    candidate
+                ).trim();
+            }
+        }
+
+
+        const inlineBackground =
+            document.body?.style?.backgroundImage ||
+            "";
+
+
+        if (
+            inlineBackground &&
+            inlineBackground !== "none"
+        ) {
+            const match =
+                inlineBackground.match(
+                    /url\(["']?(.*?)["']?\)/i
+                );
+
+            if (
+                match &&
+                match[1]
+            ) {
+                return match[1];
+            }
+        }
+
+
+        return "";
+    }
+
+
+    function setPageBackground() {
+        let source =
+            getConfiguredBackground();
+
+
+        /*
+         * Fallback:
+         *
+         * Use the first vehicle image
+         * if no explicit background exists.
+         */
+
+        if (!source) {
+            const firstImage =
+                document.querySelector(
+                    ".vehicle .image img"
+                );
+
+            if (firstImage) {
+                source =
+                    firstImage.currentSrc ||
+                    firstImage.src ||
+                    firstImage.getAttribute(
+                        "src"
+                    ) ||
+                    "";
+            }
+        }
+
+
+        if (!source) {
+            return;
+        }
+
+
+        try {
+            const absoluteUrl =
+                new URL(
+                    source,
+                    window.location.href
+                ).href;
+
+            document.documentElement.style.setProperty(
+                "--luxury-autos-background",
+                `url("${escapeCssUrlValue(absoluteUrl)}")`
+            );
+        } catch {
+            document.documentElement.style.setProperty(
+                "--luxury-autos-background",
+                `url("${escapeCssUrlValue(source)}")`
+            );
+        }
+    }
+
+
+    setPageBackground();
+
+
+    /* ============================================================
        FIND VEHICLE
        ============================================================ */
 
@@ -273,14 +377,18 @@
         }
 
         const wanted =
-            String(model)
+            String(
+                model
+            )
                 .trim()
                 .toLowerCase();
+
 
         const vehicles =
             document.querySelectorAll(
                 ".vehicle"
             );
+
 
         for (
             const vehicle of vehicles
@@ -294,6 +402,7 @@
                     .trim()
                     .toLowerCase();
 
+
             if (
                 dataModel ===
                 wanted
@@ -302,7 +411,126 @@
             }
         }
 
+
         return null;
+    }
+
+
+    /* ============================================================
+       CLEAR ACTIVE LINK STATE
+       ============================================================ */
+
+    function clearActiveLinks() {
+        document
+            .querySelectorAll(
+                ".vehicle.active-hash"
+            )
+            .forEach(
+                (vehicle) => {
+                    vehicle.classList.remove(
+                        "active-hash"
+                    );
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".vehicle.hash-target"
+            )
+            .forEach(
+                (vehicle) => {
+                    vehicle.classList.remove(
+                        "hash-target"
+                    );
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".vehicle-link.active-link"
+            )
+            .forEach(
+                (link) => {
+                    link.classList.remove(
+                        "active-link"
+                    );
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".colors.active-link-row"
+            )
+            .forEach(
+                (colors) => {
+                    colors.classList.remove(
+                        "active-link-row"
+                    );
+                }
+            );
+    }
+
+
+    /* ============================================================
+       SYNC ACTIVE LINK
+       ============================================================ */
+
+    function syncActiveLink(model) {
+        clearActiveLinks();
+
+        if (!model) {
+            return;
+        }
+
+
+        const vehicle =
+            findVehicle(
+                model
+            );
+
+
+        if (!vehicle) {
+            return;
+        }
+
+
+        const link =
+            vehicle.querySelector(
+                ".vehicle-link"
+            );
+
+
+        const colors =
+            vehicle.querySelector(
+                ".colors"
+            );
+
+
+        vehicle.classList.add(
+            "hash-target"
+        );
+
+
+        vehicle.classList.add(
+            "active-hash"
+        );
+
+
+        if (link) {
+            link.classList.add(
+                "active-link"
+            );
+        }
+
+
+        if (colors) {
+            colors.classList.add(
+                "active-link-row"
+            );
+        }
     }
 
 
@@ -316,24 +544,30 @@
                 "a"
             );
 
+
         link.className =
             "vehicle-link";
+
 
         link.href =
             buildVehicleUrl(
                 model
             );
 
+
         link.dataset.model =
             model;
+
 
         link.setAttribute(
             "aria-label",
             `Copy link to ${model}`
         );
 
+
         link.title =
             `Copy link to ${model}`;
+
 
         link.innerHTML = `
             <svg
@@ -351,6 +585,7 @@
             </svg>
         `;
 
+
         return link;
     }
 
@@ -364,22 +599,27 @@
             return;
         }
 
+
         let model =
             vehicle.dataset.model ||
             vehicle.id ||
             "";
+
 
         model =
             String(
                 model
             ).trim();
 
+
         if (!model) {
             return;
         }
 
+
         vehicle.id =
             model;
+
 
         vehicle.dataset.model =
             model;
@@ -389,19 +629,11 @@
            VEHICLE NAME
            -------------------------------------------------------- */
 
-        /*
-         * Supports the actual structure:
-         *
-         * <div class="inner">
-         *     <span>Vehicle Name</span>
-         *     ...
-         * </div>
-         */
-
         const inner =
             vehicle.querySelector(
                 ".details .inner"
             );
+
 
         if (inner) {
             const vehicleName =
@@ -409,9 +641,6 @@
                     ".vehicle-name"
                 );
 
-            /*
-             * Existing .vehicle-name structure.
-             */
 
             if (vehicleName) {
                 let nameSpan =
@@ -419,20 +648,27 @@
                         ":scope > span"
                     );
 
+
                 if (!nameSpan) {
                     const text =
-                        vehicleName.textContent.trim();
+                        vehicleName
+                            .textContent
+                            .trim();
+
 
                     vehicleName.textContent =
                         "";
+
 
                     nameSpan =
                         document.createElement(
                             "span"
                         );
 
+
                     nameSpan.textContent =
                         text;
+
 
                     vehicleName.appendChild(
                         nameSpan
@@ -451,19 +687,23 @@
                 ".colors"
             );
 
+
         if (!colors) {
             colors =
                 document.createElement(
                     "div"
                 );
 
+
             colors.className =
                 "colors";
+
 
             const details =
                 vehicle.querySelector(
                     ".details"
                 );
+
 
             if (details) {
                 details.appendChild(
@@ -486,13 +726,16 @@
                 ".vehicle-link"
             );
 
+
         const duplicateLinks =
             colors.querySelectorAll(
                 ".vehicle-link"
             );
 
+
         if (
-            duplicateLinks.length > 1
+            duplicateLinks.length >
+            1
         ) {
             duplicateLinks.forEach(
                 (
@@ -506,21 +749,25 @@
             );
         }
 
+
         if (!link) {
             link =
                 createLinkIcon(
                     model
                 );
 
+
             colors.appendChild(
                 link
             );
         }
 
+
         link.href =
             buildVehicleUrl(
                 model
             );
+
 
         link.dataset.model =
             model;
@@ -546,6 +793,7 @@
                 colors.firstElementChild
             );
         }
+
 
         /*
          * NORMAL:
@@ -583,12 +831,18 @@
     let activeScrollFrame =
         null;
 
+
     let scrollAnimationToken =
         0;
 
 
+    /*
+     * Stop the existing scroll animation.
+     */
+
     function cancelPremiumScroll() {
         scrollAnimationToken++;
+
 
         if (
             activeScrollFrame !==
@@ -598,11 +852,19 @@
                 activeScrollFrame
             );
 
+
             activeScrollFrame =
                 null;
         }
     }
 
+
+    /*
+     * Smooth cinematic easing.
+     *
+     * The beginning and ending are soft,
+     * while the middle moves naturally.
+     */
 
     function easeInOutQuint(t) {
         return t < 0.5
@@ -621,25 +883,63 @@
     }
 
 
+    /*
+     * Calculate duration based on distance.
+     *
+     * Long-distance navigation gets more
+     * time so it feels like actual scrolling
+     * instead of a teleport.
+     */
+
     function getScrollDuration(
         distance
     ) {
-        const absolute =
+        const absoluteDistance =
             Math.abs(
                 distance
             );
 
+
+        /*
+         * Minimum:
+         *
+         * 900ms
+         *
+         * Maximum:
+         *
+         * 3200ms
+         */
+
         return Math.min(
-            2600,
+            3200,
             Math.max(
-                800,
-                700 +
-                    absolute *
-                        1.05
+                900,
+                750 +
+                    absoluteDistance *
+                        1.15
             )
         );
     }
 
+
+    /*
+     * Actual continuous scrolling.
+     *
+     * IMPORTANT:
+     *
+     * startY is captured from the user's
+     * CURRENT position.
+     *
+     * This means:
+     *
+     * current top -> target below
+     *
+     * OR
+     *
+     * current bottom -> target above
+     *
+     * both animate continuously.
+     */
 
     function premiumScrollTo(
         targetY,
@@ -647,15 +947,25 @@
     ) {
         cancelPremiumScroll();
 
+
         const token =
             scrollAnimationToken;
 
+
         const startY =
-            window.scrollY;
+            window.scrollY ||
+            window.pageYOffset ||
+            0;
+
 
         const distance =
             targetY -
             startY;
+
+
+        /*
+         * Already at the target.
+         */
 
         if (
             Math.abs(
@@ -670,10 +980,17 @@
             return;
         }
 
+
         const startTime =
             performance.now();
 
+
         function frame(now) {
+            /*
+             * A newer navigation has
+             * cancelled this animation.
+             */
+
             if (
                 token !==
                 scrollAnimationToken
@@ -681,9 +998,11 @@
                 return;
             }
 
+
             const elapsed =
                 now -
                 startTime;
+
 
             const progress =
                 Math.min(
@@ -692,23 +1011,34 @@
                         duration
                 );
 
+
             const eased =
                 easeInOutQuint(
                     progress
                 );
+
+
+            /*
+             * Continuous movement:
+             *
+             * startY -> targetY
+             */
 
             const currentY =
                 startY +
                 distance *
                     eased;
 
+
             window.scrollTo(
                 0,
                 currentY
             );
 
+
             if (
-                progress < 1
+                progress <
+                1
             ) {
                 activeScrollFrame =
                     requestAnimationFrame(
@@ -718,12 +1048,18 @@
                 activeScrollFrame =
                     null;
 
+
+                /*
+                 * Final exact position.
+                 */
+
                 window.scrollTo(
                     0,
                     targetY
                 );
             }
         }
+
 
         activeScrollFrame =
             requestAnimationFrame(
@@ -743,37 +1079,53 @@
             return 0;
         }
 
+
         const rect =
             vehicle.getBoundingClientRect();
+
 
         const currentScroll =
             window.scrollY ||
             window.pageYOffset ||
             0;
 
+
         const viewportHeight =
             window.innerHeight ||
             document.documentElement
                 .clientHeight;
 
+
         const mobile =
             window.innerWidth <=
             700;
 
-        const offset =
+
+        /*
+         * Keep the target slightly above
+         * absolute center so fixed header/footer
+         * do not visually interfere.
+         */
+
+        const targetOffset =
             mobile
                 ? 25
                 : 35;
 
+
         const vehicleCenter =
             rect.top +
-            rect.height / 2;
+            rect.height /
+                2;
 
-        const target =
+
+        let target =
             currentScroll +
             vehicleCenter -
-            viewportHeight / 2 -
-            offset;
+            viewportHeight /
+                2 -
+            targetOffset;
+
 
         const maxScroll =
             Math.max(
@@ -783,32 +1135,18 @@
                     viewportHeight
             );
 
-        return Math.max(
-            0,
-            Math.min(
-                target,
-                maxScroll
-            )
-        );
-    }
 
-
-    /* ============================================================
-       ACTIVE HASH
-       ============================================================ */
-
-    function clearHashTarget() {
-        document
-            .querySelectorAll(
-                ".vehicle.hash-target"
-            )
-            .forEach(
-                (vehicle) => {
-                    vehicle.classList.remove(
-                        "hash-target"
-                    );
-                }
+        target =
+            Math.max(
+                0,
+                Math.min(
+                    target,
+                    maxScroll
+                )
             );
+
+
+        return target;
     }
 
 
@@ -826,17 +1164,47 @@
                 model
             );
 
+
         if (!vehicle) {
             return false;
         }
 
+
+        /*
+         * Stop the previous navigation.
+         */
+
         cancelPremiumScroll();
 
+
+        /*
+         * Update active link immediately.
+         */
+
+        syncActiveLink(
+            model
+        );
+
+
+        /*
+         * Update active vehicle.
+         */
+
         clearHashTarget();
+
 
         vehicle.classList.add(
             "hash-target"
         );
+
+
+        /*
+         * Deep-link behavior:
+         *
+         * Start from top.
+         *
+         * Then animate to the vehicle.
+         */
 
         if (fromTop) {
             window.scrollTo(
@@ -845,24 +1213,57 @@
             );
         }
 
+
+        /*
+         * Wait for layout to settle.
+         *
+         * This is especially important
+         * when vehicles were loaded from JSON.
+         */
+
         requestAnimationFrame(
             () => {
                 requestAnimationFrame(
                     () => {
+
                         const targetY =
                             calculateVehicleTarget(
                                 vehicle
                             );
 
+
                         const currentY =
-                            window.scrollY;
+                            window.scrollY ||
+                            window.pageYOffset ||
+                            0;
+
 
                         const distance =
                             targetY -
                             currentY;
 
+
+                        /*
+                         * No animation requested.
+                         */
+
                         if (
-                            !animated ||
+                            !animated
+                        ) {
+                            window.scrollTo(
+                                0,
+                                targetY
+                            );
+
+                            return;
+                        }
+
+
+                        /*
+                         * Already there.
+                         */
+
+                        if (
                             Math.abs(
                                 distance
                             ) < 2
@@ -875,6 +1276,13 @@
                             return;
                         }
 
+
+                        /*
+                         * Continuous cinematic
+                         * movement from current
+                         * position.
+                         */
+
                         premiumScrollTo(
                             targetY,
                             getScrollDuration(
@@ -885,6 +1293,7 @@
                 );
             }
         );
+
 
         return true;
     }
@@ -903,14 +1312,18 @@
             forcedModel ||
             initialHashModel;
 
+
         if (!model) {
             return;
         }
 
+
         let attempts = 0;
+
 
         const maxAttempts =
             120;
+
 
         function attempt() {
             const vehicle =
@@ -918,10 +1331,23 @@
                     model
                 );
 
+
             if (vehicle) {
+
                 decorateVehicle(
                     vehicle
                 );
+
+
+                /*
+                 * Active icon is set
+                 * before scrolling.
+                 */
+
+                syncActiveLink(
+                    model
+                );
+
 
                 scrollToVehicle(
                     model,
@@ -929,10 +1355,13 @@
                     fromTop
                 );
 
+
                 return;
             }
 
+
             attempts++;
+
 
             if (
                 attempts <
@@ -944,6 +1373,7 @@
                 );
             }
         }
+
 
         attempt();
     }
@@ -958,10 +1388,12 @@
             return;
         }
 
+
         const fullUrl =
             buildVehicleUrl(
                 initialHashModel
             );
+
 
         try {
             window.history.replaceState(
@@ -986,6 +1418,7 @@
                 "#page"
             );
 
+
         /*
          * No page container.
          */
@@ -993,8 +1426,12 @@
         if (!container) {
             decorateAllVehicles();
 
+            setPageBackground();
+
+
             if (initialHashModel) {
                 restoreInitialHash();
+
 
                 scrollToHashWhenReady(
                     true,
@@ -1002,10 +1439,11 @@
                     true
                 );
 
+
                 initialHashModel =
                     "";
-
             }
+
 
             return;
         }
@@ -1020,10 +1458,14 @@
                 ".vehicle"
             );
 
+
         if (
             staticVehicles.length
         ) {
             decorateAllVehicles();
+
+            setPageBackground();
+
 
             if (
                 typeof window
@@ -1035,8 +1477,10 @@
                 } catch {}
             }
 
+
             if (initialHashModel) {
                 restoreInitialHash();
+
 
                 scrollToHashWhenReady(
                     true,
@@ -1044,9 +1488,11 @@
                     true
                 );
 
+
                 initialHashModel =
                     "";
             }
+
 
             return;
         }
@@ -1066,14 +1512,17 @@
                     }
                 );
 
+
             if (!response.ok) {
                 throw new Error(
                     `HTTP ${response.status}`
                 );
             }
 
+
             const data =
                 await response.json();
+
 
             let vehicles =
                 Array.isArray(data)
@@ -1095,6 +1544,7 @@
                             ""
                         );
 
+
                     const bName =
                         String(
                             b.label ||
@@ -1102,6 +1552,7 @@
                             b.model ||
                             ""
                         );
+
 
                     return aName.localeCompare(
                         bName,
@@ -1137,6 +1588,8 @@
 
             decorateAllVehicles();
 
+            setPageBackground();
+
 
             if (
                 typeof window
@@ -1152,32 +1605,41 @@
             if (initialHashModel) {
                 restoreInitialHash();
 
+
                 scrollToHashWhenReady(
                     true,
                     initialHashModel,
                     true
                 );
+
 
                 initialHashModel =
                     "";
             }
 
         } catch (error) {
+
             console.error(
                 "Luxury Autos: failed to load vehicles",
                 error
             );
 
+
             decorateAllVehicles();
+
+            setPageBackground();
+
 
             if (initialHashModel) {
                 restoreInitialHash();
+
 
                 scrollToHashWhenReady(
                     true,
                     initialHashModel,
                     true
                 );
+
 
                 initialHashModel =
                     "";
@@ -1199,6 +1661,7 @@
             return;
         }
 
+
         const model =
             String(
                 data.model ||
@@ -1207,18 +1670,22 @@
                 ""
             ).trim();
 
+
         if (!model) {
             return;
         }
+
 
         const label =
             data.label ||
             data.name ||
             model;
 
+
         const price =
             data.price ||
             "";
+
 
         const image =
             data.image ||
@@ -1231,6 +1698,7 @@
                 "div"
             );
 
+
         vehicle.className =
             "vehicle";
 
@@ -1242,6 +1710,7 @@
         const invert =
             index % 2 === 0;
 
+
         if (invert) {
             vehicle.classList.add(
                 "invert"
@@ -1252,21 +1721,10 @@
         vehicle.id =
             model;
 
+
         vehicle.dataset.model =
             model;
 
-
-        /*
-         * IMPORTANT:
-         *
-         * Matches your actual HTML:
-         *
-         * <div class="inner">
-         *     <span>Vehicle Name</span>
-         *     <small>Price</small>
-         *     <pre>Model</pre>
-         * </div>
-         */
 
         vehicle.innerHTML = `
             <div class="details">
@@ -1353,6 +1811,7 @@
                 ".image img"
             );
 
+
         if (imageElement) {
             imageElement.dataset.originalSrc =
                 imageElement.getAttribute(
@@ -1376,7 +1835,9 @@
         ".vehicle .color",
         function (event) {
             event.preventDefault();
+
             event.stopPropagation();
+
 
             const color =
                 String(
@@ -1384,19 +1845,23 @@
                     ""
                 ).toLowerCase();
 
+
             const vehicle =
                 this.closest(
                     ".vehicle"
                 );
 
+
             if (!vehicle) {
                 return;
             }
+
 
             const image =
                 vehicle.querySelector(
                     ".image img"
                 );
+
 
             if (!image) {
                 return;
@@ -1404,8 +1869,7 @@
 
 
             /*
-             * Save original image for
-             * static vehicles too.
+             * Save original source.
              */
 
             if (
@@ -1419,8 +1883,8 @@
 
 
             /*
-             * Clicking the already selected
-             * color unselects it.
+             * Clicking the active color
+             * again removes it.
              */
 
             const alreadyActive =
@@ -1428,26 +1892,29 @@
                     "active"
                 );
 
+
             if (alreadyActive) {
                 this.classList.remove(
                     "active"
                 );
 
+
                 const original =
                     image.dataset.originalSrc;
+
 
                 if (original) {
                     image.src =
                         original;
                 }
 
+
                 return;
             }
 
 
             /*
-             * Remove active from
-             * all colors.
+             * Clear other colors.
              */
 
             vehicle
@@ -1464,17 +1931,13 @@
 
 
             /*
-             * Select clicked color.
+             * Set active color.
              */
 
             this.classList.add(
                 "active"
             );
 
-
-            /*
-             * Color suffixes.
-             */
 
             const suffixMap = {
                 mb: "_mb",
@@ -1484,8 +1947,10 @@
                 b: "_b"
             };
 
+
             const suffix =
                 suffixMap[color];
+
 
             if (
                 typeof suffix ===
@@ -1499,15 +1964,11 @@
             }
 
 
-            /*
-             * Remove an existing
-             * vehicle color suffix.
-             */
-
             const source =
                 image.getAttribute(
                     "src"
                 ) || "";
+
 
             const cleanSource =
                 source.replace(
@@ -1516,14 +1977,11 @@
                 );
 
 
-            /*
-             * Detect image extension.
-             */
-
             const extensionMatch =
                 cleanSource.match(
                     /(\.[a-z0-9]+)(?:[?#].*)?$/i
                 );
+
 
             if (
                 !extensionMatch
@@ -1535,25 +1993,17 @@
                 return;
             }
 
+
             const extension =
                 extensionMatch[1];
 
-
-            /*
-             * Example:
-             *
-             * pulse.png
-             *
-             * ↓ red
-             *
-             * pulse_r.png
-             */
 
             const newSource =
                 cleanSource.replace(
                     extension,
                     `${suffix}${extension}`
                 );
+
 
             image.src =
                 newSource;
@@ -1570,7 +2020,9 @@
         ".vehicle-link",
         async function (event) {
             event.preventDefault();
+
             event.stopPropagation();
+
 
             const model =
                 this.dataset.model ||
@@ -1579,15 +2031,16 @@
                 )?.dataset.model ||
                 "";
 
+
             if (!model) {
                 return;
             }
 
 
             /*
-             * Creates:
+             * Build exact share URL:
              *
-             * https://luxury-autos.vercel.app/view/legendary.html#mst
+             * /view/legendary.html/#model
              */
 
             const fullUrl =
@@ -1597,8 +2050,16 @@
 
 
             /*
-             * Update browser URL
-             * without reloading.
+             * Activate immediately.
+             */
+
+            syncActiveLink(
+                model
+            );
+
+
+            /*
+             * Change URL without reload.
              */
 
             try {
@@ -1614,7 +2075,9 @@
 
 
             /*
-             * Scroll from current position.
+             * Scroll from CURRENT position.
+             *
+             * false = do not jump to top.
              */
 
             scrollToVehicle(
@@ -1625,7 +2088,7 @@
 
 
             /*
-             * Copy the exact canonical URL.
+             * Copy link.
              */
 
             try {
@@ -1642,6 +2105,7 @@
             this.classList.add(
                 "copied"
             );
+
 
             window.setTimeout(
                 () => {
@@ -1666,6 +2130,7 @@
                 window.location.hash
                     .substring(1);
 
+
             try {
                 model =
                     decodeURIComponent(
@@ -1673,24 +2138,29 @@
                     );
             } catch {}
 
+
             model =
                 model.trim();
 
+
             if (!model) {
-                clearHashTarget();
+                clearActiveLinks();
 
                 return;
             }
 
 
             /*
-             * Normalize the current URL.
+             * Normalize to:
+             *
+             * /view/legendary.html/#model
              */
 
             const canonicalUrl =
                 buildVehicleUrl(
                     model
                 );
+
 
             if (
                 window.location.href !==
@@ -1708,6 +2178,20 @@
                 } catch {}
             }
 
+
+            /*
+             * Activate immediately.
+             */
+
+            syncActiveLink(
+                model
+            );
+
+
+            /*
+             * Scroll from the current
+             * position.
+             */
 
             scrollToHashWhenReady(
                 true,
@@ -1727,15 +2211,18 @@
         () => {
             canonicalizeCurrentUrl();
 
+
             let model =
                 window.location.hash
                     .substring(1);
 
+
             if (!model) {
-                clearHashTarget();
+                clearActiveLinks();
 
                 return;
             }
+
 
             try {
                 model =
@@ -1744,12 +2231,22 @@
                     );
             } catch {}
 
+
             model =
                 model.trim();
 
+
             if (!model) {
+                clearActiveLinks();
+
                 return;
             }
+
+
+            syncActiveLink(
+                model
+            );
+
 
             scrollToHashWhenReady(
                 true,
@@ -1788,6 +2285,8 @@
 
     decorateAllVehicles();
 
+    setPageBackground();
+
     loadVehicles();
 
 
@@ -1800,7 +2299,10 @@
         function () {
             decorateAllVehicles();
 
+            setPageBackground();
+
             canonicalizeCurrentUrl();
+
 
             if (
                 window.location.hash
@@ -1809,6 +2311,7 @@
                     window.location.hash
                         .substring(1);
 
+
                 try {
                     model =
                         decodeURIComponent(
@@ -1816,10 +2319,17 @@
                         );
                 } catch {}
 
+
                 model =
                     model.trim();
 
+
                 if (model) {
+                    syncActiveLink(
+                        model
+                    );
+
+
                     scrollToHashWhenReady(
                         true,
                         model,
