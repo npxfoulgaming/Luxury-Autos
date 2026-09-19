@@ -11,11 +11,11 @@
      *
      * /view/legendary.html#mst
      *
-     * Normal details:
+     * Normal:
      *
      * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
      *
-     * Inverted details:
+     * Inverted:
      *
      * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
      */
@@ -42,24 +42,12 @@
 
 
     /* ============================================================
-       PAGE BACKGROUND
+       BACKGROUND
        ============================================================ */
-
-    /*
-     * Same background behavior as the original vehicle page.
-     *
-     * Example:
-     *
-     * category = "legendary"
-     *
-     * becomes:
-     *
-     * /images/main/legendary_floor.png
-     */
 
     if (vehicleCategory) {
         $("head").append(`
-            <style>
+            <style id="luxury-autos-background-style">
                 body::before {
                     background-image:
                         url(/images/main/${vehicleCategory}_floor.png);
@@ -115,24 +103,27 @@
        URL HELPERS
        ============================================================ */
 
+    /*
+     * Keep the URL as:
+     *
+     * /view/legendary.html#mst
+     *
+     * NOT:
+     *
+     * /view/legendary.html/#mst
+     */
     function getCanonicalVehiclePath(pathname) {
         let path =
             pathname ||
             window.location.pathname ||
             "/";
 
-        /*
-         * Remove trailing slashes.
-         */
         path =
             path.replace(
                 /\/+$/,
                 ""
             );
 
-        /*
-         * Root remains "/".
-         */
         if (!path) {
             return "/";
         }
@@ -141,13 +132,6 @@
     }
 
 
-    /*
-     * Build vehicle URL.
-     *
-     * Example:
-     *
-     * https://luxury-autos.vercel.app/view/legendary.html#rmodescort
-     */
     function buildVehicleUrl(model) {
         if (!model) {
             return window.location.href;
@@ -172,9 +156,6 @@
     }
 
 
-    /*
-     * Build clean canonical URL.
-     */
     function buildCleanCanonicalUrl() {
         const url =
             new URL(
@@ -193,7 +174,7 @@
 
 
     /* ============================================================
-       CANONICALIZE CURRENT URL
+       CANONICALIZE URL
        ============================================================ */
 
     function canonicalizeCurrentUrl() {
@@ -251,10 +232,6 @@
             );
         } catch {}
 
-        /*
-         * Always begin deep-link navigation
-         * from the top.
-         */
         window.scrollTo(
             0,
             0
@@ -333,8 +310,18 @@
             `Copy link to ${model}`
         );
 
-        link.title =
-            `Copy link to ${model}`;
+        /*
+         * IMPORTANT:
+         *
+         * Do NOT use title here.
+         *
+         * The browser's native title tooltip was appearing
+         * over neighbouring vehicle content when the icon
+         * was hovered.
+         */
+        link.removeAttribute(
+            "title"
+        );
 
         link.innerHTML = `
             <svg
@@ -513,35 +500,39 @@
         link.dataset.model =
             model;
 
+        link.setAttribute(
+            "aria-label",
+            `Copy link to ${model}`
+        );
+
+        /*
+         * Remove browser native tooltip.
+         */
+        link.removeAttribute(
+            "title"
+        );
+
 
         /* --------------------------------------------------------
            LINK POSITION
            -------------------------------------------------------- */
-
-        /*
-         * INVERT:
-         *
-         * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
-         */
 
         if (
             vehicle.classList.contains(
                 "invert"
             )
         ) {
+            /*
+             * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
+             */
             colors.insertBefore(
                 link,
                 colors.firstElementChild
             );
-        }
-
-        /*
-         * NORMAL:
-         *
-         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
-         */
-
-        else {
+        } else {
+            /*
+             * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
+             */
             colors.appendChild(
                 link
             );
@@ -550,7 +541,7 @@
 
 
     /* ============================================================
-       DECORATE ALL
+       DECORATE ALL VEHICLES
        ============================================================ */
 
     function decorateAllVehicles() {
@@ -592,9 +583,6 @@
     }
 
 
-    /*
-     * Cinematic easing.
-     */
     function easeInOutQuint(t) {
         return t < 0.5
             ? 16 *
@@ -612,9 +600,6 @@
     }
 
 
-    /*
-     * Distance-based duration.
-     */
     function getScrollDuration(
         distance
     ) {
@@ -635,21 +620,6 @@
     }
 
 
-    /*
-     * Continuous smooth scrolling.
-     *
-     * Starts from the CURRENT position.
-     *
-     * Therefore:
-     *
-     * bottom -> top
-     *
-     * smoothly travels upward.
-     *
-     * top -> bottom
-     *
-     * smoothly travels downward.
-     */
     function premiumScrollTo(
         targetY,
         duration
@@ -776,9 +746,6 @@
                 ? 25
                 : 35;
 
-        /*
-         * Center vehicle in viewport.
-         */
         const vehicleCenter =
             rect.top +
             rect.height / 2;
@@ -811,7 +778,7 @@
 
 
     /* ============================================================
-       ACTIVE HASH
+       ACTIVE VEHICLE
        ============================================================ */
 
     function clearHashTarget() {
@@ -837,12 +804,26 @@
                     }
                 }
             );
+
+        /*
+         * Safety cleanup:
+         * no stale active links anywhere.
+         */
+        document
+            .querySelectorAll(
+                ".vehicle-link.active-link"
+            )
+            .forEach(
+                (link) => {
+                    link.classList.remove(
+                        "active-link"
+                    );
+                }
+            );
     }
 
 
-    function setActiveVehicle(
-        model
-    ) {
+    function setActiveVehicle(model) {
         clearHashTarget();
 
         if (!model) {
@@ -858,6 +839,10 @@
             return null;
         }
 
+        /*
+         * Only this vehicle receives
+         * the active state.
+         */
         vehicle.classList.add(
             "hash-target"
         );
@@ -898,20 +883,14 @@
         cancelPremiumScroll();
 
         /*
-         * Make the target active immediately.
+         * Activate only this vehicle.
          */
         setActiveVehicle(
             model
         );
 
         /*
-         * Initial deep-link:
-         *
-         * TOP
-         *  ↓
-         * smooth cinematic movement
-         *  ↓
-         * TARGET VEHICLE
+         * Initial deep-link starts from top.
          */
         if (fromTop) {
             window.scrollTo(
@@ -921,7 +900,7 @@
         }
 
         /*
-         * Wait for layout/image rendering.
+         * Wait for layout to settle.
          */
         requestAnimationFrame(
             () => {
@@ -1115,6 +1094,16 @@
                 } catch {}
             }
 
+            if (
+                typeof window
+                    .loadServerRotation ===
+                "function"
+            ) {
+                try {
+                    window.loadServerRotation();
+                } catch {}
+            }
+
             if (initialHashModel) {
                 restoreInitialHash();
 
@@ -1238,6 +1227,8 @@
                 try {
                     window.loadVehicleRotation();
                 } catch {}
+            } else {
+                loadServerRotation();
             }
 
 
@@ -1300,6 +1291,7 @@
                 data.model ||
                 data.hash ||
                 data.id ||
+                data.modelName ||
                 ""
             ).trim();
 
@@ -1316,10 +1308,13 @@
             data.price ||
             "";
 
+        /*
+         * Preserve explicit image values.
+         */
         const image =
             data.image ||
             data.img ||
-            `/images/${model}.png`;
+            `/images/${vehicleCategory}/${model}.png`;
 
 
         const vehicle =
@@ -1334,10 +1329,9 @@
         /*
          * Alternate direction.
          */
-        const invert =
-            index % 2 === 0;
-
-        if (invert) {
+        if (
+            index % 2 === 0
+        ) {
             vehicle.classList.add(
                 "invert"
             );
@@ -1499,8 +1493,8 @@
 
 
             /*
-             * Clicking active color
-             * restores original.
+             * Clicking the selected color
+             * restores the original image.
              */
             const alreadyActive =
                 this.classList.contains(
@@ -1525,8 +1519,7 @@
 
 
             /*
-             * Remove active from
-             * other colors.
+             * Remove active colors.
              */
             vehicle
                 .querySelectorAll(
@@ -1542,16 +1535,13 @@
 
 
             /*
-             * Select color.
+             * Activate clicked color.
              */
             this.classList.add(
                 "active"
             );
 
 
-            /*
-             * Color suffixes.
-             */
             const suffixMap = {
                 mb: "_mb",
                 mw: "_mw",
@@ -1575,10 +1565,6 @@
             }
 
 
-            /*
-             * Remove an existing
-             * color suffix.
-             */
             const source =
                 image.getAttribute(
                     "src"
@@ -1591,9 +1577,6 @@
                 );
 
 
-            /*
-             * Find extension.
-             */
             const extensionMatch =
                 cleanSource.match(
                     /(\.[a-z0-9]+)(?:[?#].*)?$/i
@@ -1612,16 +1595,6 @@
             const extension =
                 extensionMatch[1];
 
-
-            /*
-             * Example:
-             *
-             * pulse.png
-             *
-             * ->
-             *
-             * pulse_r.png
-             */
             const newSource =
                 cleanSource.replace(
                     extension,
@@ -1656,7 +1629,9 @@
 
                 if (
                     !data ||
-                    !data.rotation
+                    !Array.isArray(
+                        data.rotation
+                    )
                 ) {
                     return;
                 }
@@ -1665,12 +1640,9 @@
                     "not-in-rotation"
                 );
 
-                const rotation =
-                    data.rotation;
-
                 for (
                     const modelName
-                    of rotation
+                    of data.rotation
                 ) {
                     const vehicle =
                         $(
@@ -1692,6 +1664,12 @@
                         "not-in-rotation"
                     );
                 }
+            }
+        ).fail(
+            () => {
+                $("body").removeClass(
+                    "loading-rotation"
+                );
             }
         );
     }
@@ -1720,9 +1698,6 @@
             }
 
 
-            /*
-             * Build exact URL.
-             */
             const fullUrl =
                 buildVehicleUrl(
                     model
@@ -1730,7 +1705,7 @@
 
 
             /*
-             * Update URL without reload.
+             * Update URL.
              */
             try {
                 window.history.pushState(
@@ -1753,7 +1728,8 @@
 
 
             /*
-             * Scroll from CURRENT position.
+             * Smoothly travel from
+             * current scroll position.
              */
             scrollToVehicle(
                 model,
@@ -1763,12 +1739,20 @@
 
 
             /*
-             * Copy exact URL.
+             * Copy URL.
              */
             try {
-                await navigator.clipboard.writeText(
-                    fullUrl
-                );
+                if (
+                    navigator.clipboard &&
+                    typeof navigator
+                        .clipboard
+                        .writeText ===
+                        "function"
+                ) {
+                    await navigator.clipboard.writeText(
+                        fullUrl
+                    );
+                }
             } catch {}
 
 
@@ -1819,9 +1803,6 @@
             }
 
 
-            /*
-             * Normalize current URL.
-             */
             const canonicalUrl =
                 buildVehicleUrl(
                     model
@@ -1844,10 +1825,6 @@
             }
 
 
-            /*
-             * Existing page:
-             * scroll from current position.
-             */
             scrollToHashWhenReady(
                 true,
                 model,
@@ -1887,13 +1864,11 @@
                 model.trim();
 
             if (!model) {
+                clearHashTarget();
+
                 return;
             }
 
-            /*
-             * Back/forward also scrolls
-             * smoothly from current position.
-             */
             scrollToHashWhenReady(
                 true,
                 model,
@@ -1946,19 +1921,43 @@
             canonicalizeCurrentUrl();
 
             /*
-             * Apply background again after
-             * page resources have loaded.
+             * Reapply background after page load.
              */
             if (vehicleCategory) {
-                $("head").append(`
-                    <style>
-                        body::before {
-                            background-image:
-                                url(/images/main/${vehicleCategory}_floor.png);
-                        }
-                    </style>
-                `);
+                const backgroundStyle =
+                    document.getElementById(
+                        "luxury-autos-background-style"
+                    );
+
+                if (!backgroundStyle) {
+                    $("head").append(`
+                        <style id="luxury-autos-background-style">
+                            body::before {
+                                background-image:
+                                    url(/images/main/${vehicleCategory}_floor.png);
+                            }
+                        </style>
+                    `);
+                }
             }
+
+
+            /*
+             * Remove any stale native title
+             * tooltip source from generated links.
+             */
+            document
+                .querySelectorAll(
+                    ".vehicle-link"
+                )
+                .forEach(
+                    (link) => {
+                        link.removeAttribute(
+                            "title"
+                        );
+                    }
+                );
+
 
             if (
                 window.location.hash
