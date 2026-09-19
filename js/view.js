@@ -84,47 +84,61 @@
 
 
     /* ============================================================
-       URL HELPERS
-       ============================================================ */
+    URL HELPERS
+    ============================================================ */
 
-    function getCanonicalVehiclePath(
-        pathname
-    ) {
+    /*
+    * Always keep the page path with exactly ONE
+    * trailing slash before the hash.
+    *
+    * Example:
+    *
+    * /view/legendary.html
+    *
+    * becomes:
+    *
+    * /view/legendary.html/
+    *
+    * So the vehicle link becomes:
+    *
+    * /view/legendary.html/#rmodescort
+    */
+    function getCanonicalVehiclePath(pathname) {
         let path =
             pathname ||
             window.location.pathname ||
             "/";
 
         /*
-         * IMPORTANT:
-         *
-         * Only remove the trailing slash
-         * when there is one.
-         *
-         * This converts:
-         *
-         * /view/legendary.html/
-         *
-         * into:
-         *
-         * /view/legendary.html
-         */
+        * Remove all existing trailing slashes first.
+        */
+        path =
+            path.replace(
+                /\/+$/,
+                ""
+            );
 
-        if (
-            path.length > 1 &&
-            path.endsWith("/")
-        ) {
-            path =
-                path.replace(
-                    /\/+$/,
-                    ""
-                );
+        /*
+        * Root stays "/".
+        */
+        if (!path) {
+            return "/";
         }
 
-        return path || "/";
+        /*
+        * Add exactly ONE trailing slash.
+        */
+        return `${path}/`;
     }
 
 
+    /*
+    * Build vehicle link.
+    *
+    * Example:
+    *
+    * https://luxury-autos.vercel.app/view/legendary.html/#rmodescort
+    */
     function buildVehicleUrl(model) {
         if (!model) {
             return window.location.href;
@@ -140,12 +154,6 @@
                 url.pathname
             );
 
-        /*
-         * URL.hash automatically creates:
-         *
-         * #mst
-         */
-
         url.hash =
             String(
                 model
@@ -155,6 +163,10 @@
     }
 
 
+    /*
+    * Build clean page URL while
+    * keeping the trailing slash.
+    */
     function buildCleanCanonicalUrl() {
         const url =
             new URL(
@@ -173,8 +185,8 @@
 
 
     /* ============================================================
-       CANONICALIZE CURRENT URL
-       ============================================================ */
+    CANONICALIZE CURRENT URL
+    ============================================================ */
 
     function canonicalizeCurrentUrl() {
         const currentPath =
