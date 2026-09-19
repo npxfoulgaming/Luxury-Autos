@@ -159,9 +159,7 @@
         }
 
         const wanted =
-            String(model)
-                .trim()
-                .toLowerCase();
+            model.toLowerCase();
 
         const vehicles =
             container.querySelectorAll(
@@ -172,15 +170,10 @@
             const vehicle
             of vehicles
         ) {
-            const vehicleModel =
+            if (
                 getVehicleModel(
                     vehicle
-                )
-                    .trim()
-                    .toLowerCase();
-
-            if (
-                vehicleModel ===
+                ).toLowerCase() ===
                 wanted
             ) {
                 return vehicle;
@@ -345,9 +338,6 @@
 
         /*
          * Native fragment target.
-         *
-         * Keep the ID for accessibility / direct targeting,
-         * but our JavaScript controls the actual scrolling.
          */
         vehicle.id =
             model;
@@ -412,8 +402,10 @@
          * --------------------------------------------------------
          * Link icon
          *
-         * It is inserted directly into .details.
-         * Existing CSS controls its position.
+         * IMPORTANT:
+         * It is inserted DIRECTLY into .details.
+         *
+         * CSS places it in the same bottom row as .colors.
          * --------------------------------------------------------
          */
 
@@ -469,11 +461,7 @@
 
     function easeInOutQuart(t) {
         return t < 0.5
-            ? 8 *
-                t *
-                t *
-                t *
-                t
+            ? 8 * t * t * t * t
             : 1 -
                 Math.pow(
                     -2 * t + 2,
@@ -483,134 +471,31 @@
     }
 
     /* ============================================================
-       SCROLL STATE
-       ============================================================ */
-
-    let activeScrollFrame =
-        null;
-
-    let activeScrollToken =
-        0;
-
-    let hashTimer =
-        null;
-
-    let lastHandledHash =
-        "";
-
-    let initialHash =
-        "";
-
-    /*
-     * Capture the hash immediately.
-     *
-     * This is important because the browser may attempt its own
-     * native fragment jump before the dynamic vehicle list exists.
-     */
-    initialHash =
-        getHashModel();
-
-    /* ============================================================
-       SCROLL LIMIT
-       ============================================================ */
-
-    function getMaxScrollY() {
-        return Math.max(
-            0,
-            document.documentElement
-                .scrollHeight -
-                window.innerHeight
-        );
-    }
-
-    function clampScrollY(value) {
-        return Math.max(
-            0,
-            Math.min(
-                Number(value) || 0,
-                getMaxScrollY()
-            )
-        );
-    }
-
-    /* ============================================================
-       CANCEL ACTIVE SCROLL
-       ============================================================ */
-
-    function cancelActiveScroll() {
-        activeScrollToken++;
-
-        if (
-            activeScrollFrame !==
-            null
-        ) {
-            cancelAnimationFrame(
-                activeScrollFrame
-            );
-
-            activeScrollFrame =
-                null;
-        }
-    }
-
-    /* ============================================================
        PREMIUM SMOOTH SCROLL
        ============================================================ */
 
     function premiumScrollTo(
         targetY,
-        duration
+        duration = 1450
     ) {
-        cancelActiveScroll();
-
-        const token =
-            activeScrollToken;
-
         const startY =
             window.scrollY;
 
-        const finalY =
-            clampScrollY(
-                targetY
-            );
-
         const distance =
-            finalY -
+            targetY -
             startY;
 
         if (
             Math.abs(distance) <
-            2
+            3
         ) {
             window.scrollTo(
                 0,
-                finalY
+                targetY
             );
 
             return;
         }
-
-        /*
-         * Distance-aware duration.
-         *
-         * Short jumps stay quick.
-         * Long jumps get a smooth cinematic movement.
-         */
-        const calculatedDuration =
-            typeof duration ===
-            "number"
-                ? duration
-                : Math.min(
-                      1900,
-                      Math.max(
-                          650,
-                          520 +
-                              Math.abs(
-                                  distance
-                              ) *
-                                  0.32
-                      )
-                  );
 
         let startTime =
             null;
@@ -618,19 +503,8 @@
         function animate(
             currentTime
         ) {
-            /*
-             * Another scroll has started.
-             */
             if (
-                token !==
-                activeScrollToken
-            ) {
-                return;
-            }
-
-            if (
-                startTime ===
-                null
+                startTime === null
             ) {
                 startTime =
                     currentTime;
@@ -643,7 +517,7 @@
             const progress =
                 Math.min(
                     elapsed /
-                        calculatedDuration,
+                        duration,
                     1
                 );
 
@@ -660,91 +534,16 @@
             );
 
             if (
-                progress <
-                1
+                progress < 1
             ) {
-                activeScrollFrame =
-                    requestAnimationFrame(
-                        animate
-                    );
-            } else {
-                activeScrollFrame =
-                    null;
-
-                /*
-                 * Final exact correction.
-                 */
-                window.scrollTo(
-                    0,
-                    clampScrollY(
-                        finalY
-                    )
+                requestAnimationFrame(
+                    animate
                 );
             }
         }
 
-        activeScrollFrame =
-            requestAnimationFrame(
-                animate
-            );
-    }
-
-    /* ============================================================
-       GET VEHICLE TARGET POSITION
-       ============================================================ */
-
-    function getVehicleScrollTarget(
-        vehicle
-    ) {
-        if (!vehicle) {
-            return 0;
-        }
-
-        const rect =
-            vehicle.getBoundingClientRect();
-
-        /*
-         * Keep the vehicle comfortably below the top navigation
-         * while still showing most/all of the vehicle section.
-         */
-        const topBias =
-            window.innerWidth <=
-            700
-                ? 72
-                : 92;
-
-        /*
-         * Prefer centering the vehicle.
-         *
-         * If the vehicle is taller than the viewport,
-         * place its upper area below the heading instead.
-         */
-        let desiredTop;
-
-        if (
-            rect.height +
-                topBias <
-            window.innerHeight
-        ) {
-            desiredTop =
-                (
-                    window.innerHeight -
-                    rect.height
-                ) /
-                    2 +
-                topBias;
-        } else {
-            desiredTop =
-                topBias;
-        }
-
-        const targetY =
-            window.scrollY +
-            rect.top -
-            desiredTop;
-
-        return clampScrollY(
-            targetY
+        requestAnimationFrame(
+            animate
         );
     }
 
@@ -764,11 +563,6 @@
         }
 
         /*
-         * Cancel any previous movement.
-         */
-        cancelActiveScroll();
-
-        /*
          * Remove previous focus.
          */
         document
@@ -784,157 +578,84 @@
             );
 
         /*
-         * Activate selected vehicle.
+         * Activate selected section.
          */
         vehicle.classList.add(
             "hash-target"
         );
 
         /*
-         * Scroll after two animation frames.
-         *
-         * This gives dynamic DOM/CSS layout time to settle.
+         * Wait for CSS transition/layout.
          */
         requestAnimationFrame(
             () => {
-                requestAnimationFrame(
+                const rect =
+                    vehicle.getBoundingClientRect();
+
+                const viewportHeight =
+                    window.innerHeight;
+
+                /*
+                 * Center the entire vehicle
+                 * elegantly in the viewport.
+                 */
+                const vehicleCenter =
+                    rect.top +
+                    rect.height / 2;
+
+                const viewportCenter =
+                    viewportHeight / 2;
+
+                const delta =
+                    vehicleCenter -
+                    viewportCenter;
+
+                let targetY =
+                    window.scrollY +
+                    delta;
+
+                /*
+                 * Slightly account for
+                 * the fixed heading.
+                 */
+                const headerOffset =
+                    window.innerWidth <=
+                    700
+                        ? 25
+                        : 35;
+
+                targetY -=
+                    headerOffset;
+
+                targetY =
+                    Math.max(
+                        0,
+                        targetY
+                    );
+
+                if (animated) {
+                    premiumScrollTo(
+                        targetY,
+                        1500
+                    );
+                } else {
+                    window.scrollTo(
+                        0,
+                        targetY
+                    );
+                }
+
+                /*
+                 * Keep focus effect for
+                 * a polished finish.
+                 */
+                setTimeout(
                     () => {
-                        if (
-                            !document.documentElement.contains(
-                                vehicle
-                            )
-                        ) {
-                            return;
-                        }
-
-                        const targetY =
-                            getVehicleScrollTarget(
-                                vehicle
-                            );
-
-                        if (
-                            animated
-                        ) {
-                            premiumScrollTo(
-                                targetY
-                            );
-                        } else {
-                            window.scrollTo(
-                                0,
-                                targetY
-                            );
-                        }
-
-                        /*
-                         * ------------------------------------------------
-                         * IMAGE / LAYOUT CORRECTION
-                         * ------------------------------------------------
-                         *
-                         * Vehicle images may change layout after loading.
-                         * Measure again once the browser has painted.
-                         */
-                        requestAnimationFrame(
-                            () => {
-                                requestAnimationFrame(
-                                    () => {
-                                        if (
-                                            !document
-                                                .documentElement
-                                                .contains(
-                                                    vehicle
-                                                )
-                                        ) {
-                                            return;
-                                        }
-
-                                        const correctedY =
-                                            getVehicleScrollTarget(
-                                                vehicle
-                                            );
-
-                                        if (
-                                            Math.abs(
-                                                correctedY -
-                                                    window.scrollY
-                                            ) >
-                                            8
-                                        ) {
-                                            premiumScrollTo(
-                                                correctedY,
-                                                550
-                                            );
-                                        }
-                                    }
-                                );
-                            }
+                        vehicle.classList.remove(
+                            "hash-target"
                         );
-
-                        /*
-                         * ------------------------------------------------
-                         * IMAGE LOAD CORRECTION
-                         * ------------------------------------------------
-                         */
-                        const images =
-                            vehicle.querySelectorAll(
-                                "img"
-                            );
-
-                        images.forEach(
-                            (image) => {
-                                if (
-                                    !image.complete
-                                ) {
-                                    image.addEventListener(
-                                        "load",
-                                        () => {
-                                            if (
-                                                !document
-                                                    .documentElement
-                                                    .contains(
-                                                        vehicle
-                                                    )
-                                            ) {
-                                                return;
-                                            }
-
-                                            const correctedY =
-                                                getVehicleScrollTarget(
-                                                    vehicle
-                                                );
-
-                                            if (
-                                                Math.abs(
-                                                    correctedY -
-                                                        window.scrollY
-                                                ) >
-                                                8
-                                            ) {
-                                                premiumScrollTo(
-                                                    correctedY,
-                                                    500
-                                                );
-                                            }
-                                        },
-                                        {
-                                            once: true
-                                        }
-                                    );
-                                }
-                            }
-                        );
-
-                        /*
-                         * Remove highlight after a few seconds.
-                         */
-                        setTimeout(
-                            () => {
-                                vehicle.classList.remove(
-                                    "hash-target"
-                                );
-                            },
-                            3200
-                        );
-                    }
+                    },
+                    3200
                 );
             }
         );
@@ -943,42 +664,14 @@
     }
 
     /* ============================================================
-       PREVENT NATIVE HASH JUMP
-       ============================================================ */
-
-    function preventNativeHashJump() {
-        const model =
-            getHashModel();
-
-        if (!model) {
-            return;
-        }
-
-        /*
-         * The browser can automatically jump to #model before
-         * dynamically generated content exists.
-         *
-         * Reset to the top immediately, then our own controller
-         * performs the correct animated movement later.
-         */
-        window.scrollTo(
-            0,
-            0
-        );
-    }
-
-    /*
-     * Run as early as possible.
-     */
-    preventNativeHashJump();
-
-    /* ============================================================
        WAIT FOR HASH TARGET
        ============================================================ */
 
+    let hashTimer =
+        null;
+
     function scrollToHashWhenReady(
-        animated = true,
-        force = false
+        animated = true
     ) {
         const model =
             getHashModel();
@@ -987,77 +680,41 @@
             return;
         }
 
-        /*
-         * Prevent the same hash from repeatedly starting a new
-         * animation because load/render callbacks may fire more
-         * than once.
-         */
-        const hashKey =
-            model.toLowerCase();
-
-        if (
-            !force &&
-            lastHandledHash ===
-                hashKey
-        ) {
-            return;
-        }
-
         if (hashTimer) {
             clearTimeout(
                 hashTimer
             );
-
-            hashTimer =
-                null;
         }
 
-        let attempts =
-            0;
+        let attempts = 0;
 
         function attempt() {
             attempts++;
 
-            /*
-             * Dynamic rendering may have just created the vehicle.
-             */
             decorateAllVehicles();
 
-            const vehicle =
-                findVehicle(
-                    model
-                );
-
-            if (vehicle) {
-                lastHandledHash =
-                    hashKey;
-
+            const found =
                 scrollToVehicle(
                     model,
                     animated
                 );
 
-                hashTimer =
-                    null;
-
+            if (found) {
                 return;
             }
 
             /*
-             * Wait up to 12 seconds.
+             * Wait up to 12 seconds for
+             * dynamically loaded vehicles.
              */
             if (
-                attempts <
-                120
+                attempts < 120
             ) {
                 hashTimer =
                     setTimeout(
                         attempt,
                         100
                     );
-            } else {
-                hashTimer =
-                    null;
             }
         }
 
@@ -1102,8 +759,7 @@
         }
 
         if (
-            index ===
-            count - 1
+            index === count - 1
         ) {
             mask =
                 invert
@@ -1289,10 +945,6 @@
             getVehiclesContainer();
 
         if (!container) {
-            /*
-             * Keep checking because the container can be created
-             * by another script.
-             */
             scrollToHashWhenReady(
                 false
             );
@@ -1558,18 +1210,11 @@
                 );
 
             /*
-             * Mark this hash as a new navigation.
-             */
-            lastHandledHash =
-                "";
-
-            /*
-             * Update browser URL WITHOUT reload.
+             * Update browser URL.
              */
             window.history.pushState(
                 {
-                    vehicle:
-                        model
+                    vehicle: model
                 },
                 "",
                 fullUrl
@@ -1578,8 +1223,8 @@
             /*
              * Smooth navigation.
              */
-            scrollToHashWhenReady(
-                true,
+            scrollToVehicle(
+                model,
                 true
             );
 
@@ -1621,14 +1266,7 @@
     window.addEventListener(
         "hashchange",
         () => {
-            /*
-             * New hash means new navigation.
-             */
-            lastHandledHash =
-                "";
-
             scrollToHashWhenReady(
-                true,
                 true
             );
         }
@@ -1641,20 +1279,8 @@
     window.addEventListener(
         "popstate",
         () => {
-            lastHandledHash =
-                "";
-
-            /*
-             * Give the browser one frame to update
-             * location/hash state.
-             */
-            requestAnimationFrame(
-                () => {
-                    scrollToHashWhenReady(
-                        true,
-                        true
-                    );
-                }
+            scrollToHashWhenReady(
+                true
             );
         }
     );
@@ -1667,8 +1293,7 @@
         "keyup",
         (event) => {
             if (
-                event.key ===
-                "Escape"
+                event.key === "Escape"
             ) {
                 try {
                     window.parent.postMessage(
@@ -1676,9 +1301,7 @@
                         "*"
                     );
                 } catch {
-                    /*
-                     * Normal browser.
-                     */
+                    // Normal browser.
                 }
             }
         }
@@ -1700,96 +1323,51 @@
     loadVehicles();
 
     /*
-     * ------------------------------------------------------------
-     * INITIAL HASH HANDLING
-     * ------------------------------------------------------------
-     *
-     * DO NOT repeatedly call the scroll function at 350ms,
-     * 1000ms and 2000ms.
-     *
-     * That was one of the main causes of the scroll animation
-     * restarting/fighting itself.
+     * Extra deep-link checks after
+     * browser layout settles.
      */
     window.addEventListener(
         "load",
         () => {
             decorateAllVehicles();
 
-            /*
-             * Use the hash that existed when the script started.
-             */
-            if (initialHash) {
-                lastHandledHash =
-                    "";
-
-                scrollToHashWhenReady(
-                    true,
-                    true
-                );
-            }
-        }
-    );
-
-    /* ============================================================
-       FINAL HASH FALLBACK
-       ============================================================ */
-
-    /*
-     * If the JSON request finishes slightly after load,
-     * this observer notices the vehicle DOM being created.
-     *
-     * It does NOT continuously scroll.
-     * It only acts while the requested hash has not been handled.
-     */
-    if (
-        initialHash &&
-        typeof MutationObserver !==
-            "undefined"
-    ) {
-        const observer =
-            new MutationObserver(
-                () => {
-                    if (
-                        lastHandledHash
-                    ) {
-                        return;
-                    }
-
-                    const vehicle =
-                        findVehicle(
-                            initialHash
-                        );
-
-                    if (
-                        vehicle
-                    ) {
-                        observer.disconnect();
-
-                        scrollToHashWhenReady(
-                            true,
-                            true
-                        );
-                    }
-                }
+            scrollToHashWhenReady(
+                true
             );
 
-        observer.observe(
-            document.body,
-            {
-                childList: true,
-                subtree: true
-            }
-        );
+            setTimeout(
+                () => {
+                    decorateAllVehicles();
 
-        /*
-         * Safety timeout.
-         */
-        setTimeout(
-            () => {
-                observer.disconnect();
-            },
-            15000
-        );
-    }
+                    scrollToHashWhenReady(
+                        true
+                    );
+                },
+                350
+            );
+
+            setTimeout(
+                () => {
+                    decorateAllVehicles();
+
+                    scrollToHashWhenReady(
+                        true
+                    );
+                },
+                1000
+            );
+
+            setTimeout(
+                () => {
+                    decorateAllVehicles();
+
+                    scrollToHashWhenReady(
+                        true
+                    );
+                },
+                2000
+            );
+        }
+    );
 
 })(jQuery);

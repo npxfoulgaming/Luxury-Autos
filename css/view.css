@@ -856,21 +856,3 @@ body.loading-rotation
         font-size: 11px;
     }
 }
-
-/* =========================================================
-   DEEP-LINK SCROLL REFINEMENT
-   ========================================================= */
-
-.vehicle.hash-target {
-    isolation: isolate;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .vehicle,
-    .vehicle .details,
-    .vehicle .image,
-    .vehicle img {
-        transition: none !important;
-        animation: none !important;
-    }
-}
