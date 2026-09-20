@@ -9,7 +9,7 @@
      *
      * Canonical URL:
      *
-     * /view/legendary.html#mst
+     * /view/legendary.html/#mst
      *
      * Normal details:
      *
@@ -122,7 +122,7 @@
             "/";
 
         /*
-         * Remove trailing slashes.
+         * Remove all existing trailing slashes first.
          */
         path =
             path.replace(
@@ -137,7 +137,20 @@
             return "/";
         }
 
-        return path;
+        /*
+         * IMPORTANT:
+         *
+         * Always add exactly ONE trailing slash.
+         *
+         * Example:
+         *
+         * /view/heroic.html
+         *
+         * becomes:
+         *
+         * /view/heroic.html/
+         */
+        return `${path}/`;
     }
 
 
@@ -146,7 +159,7 @@
      *
      * Example:
      *
-     * https://luxury-autos.vercel.app/view/legendary.html#rmodescort
+     * https://luxury-autos.vercel.app/view/heroic.html/#filthynsx
      */
     function buildVehicleUrl(model) {
         if (!model) {
