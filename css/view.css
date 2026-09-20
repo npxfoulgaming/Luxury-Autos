@@ -93,8 +93,13 @@ h1 {
     color:
         #000;
 
+    /*
+     * FIX:
+     * Keep the page title above the active
+     * vehicle/hash layer.
+     */
     z-index:
-        1;
+        1000;
 
     margin:
         0;
@@ -269,20 +274,6 @@ body.loading-rotation
    VEHICLE NAME
    ========================================================= */
 
-/*
- * Actual markup:
- *
- * <div class="inner">
- *     <span>Vehicle Name</span>
- *     <small>Price</small>
- *     <pre>model</pre>
- * </div>
- *
- * Bold.
- *
- * NO hover effect.
- */
-
 .vehicle .details .inner > span {
     display:
         inline-block;
@@ -312,12 +303,6 @@ body.loading-rotation
         none !important;
 }
 
-
-/*
- * Compatibility with:
- *
- * .vehicle-name > span
- */
 
 .vehicle .details .vehicle-name {
     font-size:
@@ -359,14 +344,6 @@ body.loading-rotation
     text-shadow:
         none !important;
 }
-
-
-/*
- * IMPORTANT:
- *
- * There are intentionally NO hover
- * rules for the vehicle text.
- */
 
 
 /* =========================================================
@@ -744,19 +721,6 @@ body.loading-rotation
    ACTIVE HASH VEHICLE
    ========================================================= */
 
-/*
- * IMPORTANT:
- *
- * Do NOT rely on:
- *
- * .vehicle.active-hash .colors
- *
- * to make the icon visible.
- *
- * The hash-target itself directly controls
- * the row.
- */
-
 .vehicle.hash-target
 .details .colors {
     opacity:
@@ -772,10 +736,6 @@ body.loading-rotation
    NON-HOVER STATE
    ========================================================= */
 
-/*
- * Hide every color while active.
- */
-
 .vehicle.hash-target
 .details .colors .color {
     opacity:
@@ -787,14 +747,6 @@ body.loading-rotation
     pointer-events:
         none;
 }
-
-
-/*
- * Show ONLY the link icon.
- *
- * This works regardless of whether
- * .active-link was added by JS.
- */
 
 .vehicle.hash-target
 .details .colors .vehicle-link,
@@ -835,11 +787,6 @@ body.loading-rotation
    ACTIVE VEHICLE — HOVER
    ========================================================= */
 
-/*
- * When hovering the active vehicle,
- * reveal the color buttons again.
- */
-
 .vehicle.hash-target:hover
 .details .colors {
     pointer-events:
@@ -857,11 +804,6 @@ body.loading-rotation
     pointer-events:
         auto;
 }
-
-
-/*
- * Link remains visible on hover too.
- */
 
 .vehicle.hash-target:hover
 .details .colors .vehicle-link {
@@ -1055,4 +997,10 @@ body.loading-rotation
             100% 100%,
             0 100%
         );
+
+    /*
+     * Keep footer above vehicle layers too.
+     */
+    z-index:
+        1000;
 }
