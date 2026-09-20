@@ -94,8 +94,9 @@ h1 {
         #000;
 
     /*
-     * Keep the page title above every
-     * vehicle / active-hash layer.
+     * FIX:
+     * Keep the page title above the active
+     * vehicle/hash layer.
      */
     z-index:
         1000;
@@ -302,12 +303,6 @@ body.loading-rotation
         none !important;
 }
 
-
-/*
- * Compatibility with:
- *
- * .vehicle-name > span
- */
 
 .vehicle .details .vehicle-name {
     font-size:
@@ -738,6 +733,7 @@ body.loading-rotation
 
 /* =========================================================
    ACTIVE VEHICLE — ONLY LINK
+   NON-HOVER STATE
    ========================================================= */
 
 .vehicle.hash-target
@@ -950,11 +946,6 @@ body.loading-rotation
     position:
         relative;
 
-    /*
-     * Keep active vehicle above neighboring
-     * overlapping vehicles, but below the
-     * fixed header/footer.
-     */
     z-index:
         100;
 }
@@ -998,12 +989,6 @@ body.loading-rotation
     font-style:
         italic;
 
-    /*
-     * Keep footer above active vehicles.
-     */
-    z-index:
-        1000;
-
     clip-path:
         polygon(
             0 0,
@@ -1012,4 +997,10 @@ body.loading-rotation
             100% 100%,
             0 100%
         );
+
+    /*
+     * Keep footer above vehicle layers too.
+     */
+    z-index:
+        1000;
 }
