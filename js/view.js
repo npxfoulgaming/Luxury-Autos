@@ -5,6 +5,7 @@
      * ============================================================
      * LUXURY AUTOS
      * ADVANCED VEHICLE HASH NAVIGATION
+     * + DYNAMIC SOCIAL SHARING / EMBED METADATA
      * ============================================================
      *
      * Canonical URL:
@@ -18,6 +19,24 @@
      * Inverted details:
      *
      * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
+     *
+     *
+     * SOCIAL EMBED:
+     *
+     * Normal page:
+     *
+     * /view/heroic.html
+     *
+     *      -> /images/main/banner_min.png
+     *
+     *
+     * Vehicle:
+     *
+     * /view/heroic.html#rmodmk7
+     *
+     *      -> vehicle image
+     *      -> vehicle title
+     *      -> vehicle description
      */
 
 
@@ -44,18 +63,6 @@
     /* ============================================================
        PAGE BACKGROUND
        ============================================================ */
-
-    /*
-     * Same background behavior as the original vehicle page.
-     *
-     * Example:
-     *
-     * category = "legendary"
-     *
-     * becomes:
-     *
-     * /images/main/legendary_floor.png
-     */
 
     if (vehicleCategory) {
         $("head").append(`
@@ -121,18 +128,12 @@
             window.location.pathname ||
             "/";
 
-        /*
-         * Remove trailing slashes.
-         */
         path =
             path.replace(
                 /\/+$/,
                 ""
             );
 
-        /*
-         * Root remains "/".
-         */
         if (!path) {
             return "/";
         }
@@ -141,13 +142,6 @@
     }
 
 
-    /*
-     * Build vehicle URL.
-     *
-     * Example:
-     *
-     * https://luxury-autos.vercel.app/view/legendary.html#rmodescort
-     */
     function buildVehicleUrl(model) {
         if (!model) {
             return window.location.href;
@@ -172,9 +166,6 @@
     }
 
 
-    /*
-     * Build clean canonical URL.
-     */
     function buildCleanCanonicalUrl() {
         const url =
             new URL(
@@ -189,6 +180,463 @@
         url.hash = "";
 
         return url.href;
+    }
+
+
+    /* ============================================================
+       ABSOLUTE URL
+       ============================================================ */
+
+    function makeAbsoluteUrl(
+        source
+    ) {
+        if (!source) {
+            return "";
+        }
+
+        try {
+            return new URL(
+                source,
+                window.location.origin
+            ).href;
+        } catch {
+            return source;
+        }
+    }
+
+
+    /* ============================================================
+       SOCIAL META HELPERS
+       ============================================================ */
+
+    function getOrCreateMeta(
+        attribute,
+        value
+    ) {
+        let element =
+            document.head.querySelector(
+                `meta[${attribute}="${CSS.escape(value)}"]`
+            );
+
+        if (!element) {
+            element =
+                document.createElement(
+                    "meta"
+                );
+
+            element.setAttribute(
+                attribute,
+                value
+            );
+
+            document.head.appendChild(
+                element
+            );
+        }
+
+        return element;
+    }
+
+
+    function setMeta(
+        property,
+        content
+    ) {
+        if (!content) {
+            return;
+        }
+
+        const meta =
+            getOrCreateMeta(
+                "property",
+                property
+            );
+
+        meta.setAttribute(
+            "content",
+            content
+        );
+    }
+
+
+    function setNameMeta(
+        name,
+        content
+    ) {
+        if (!content) {
+            return;
+        }
+
+        const meta =
+            getOrCreateMeta(
+                "name",
+                name
+            );
+
+        meta.setAttribute(
+            "content",
+            content
+        );
+    }
+
+
+    /* ============================================================
+       PAGE BANNER
+       ============================================================ */
+
+    function getPageBannerImage() {
+        /*
+         * Requested normal page image:
+         *
+         * /images/main/banner_min.png
+         */
+
+        return makeAbsoluteUrl(
+            "/images/main/banner_min.png"
+        );
+    }
+
+
+    /* ============================================================
+       VEHICLE EMBED DATA
+       ============================================================ */
+
+    function getVehicleEmbedData(
+        vehicle
+    ) {
+        if (!vehicle) {
+            return null;
+        }
+
+        const model =
+            String(
+                vehicle.dataset.model ||
+                vehicle.id ||
+                ""
+            ).trim();
+
+        if (!model) {
+            return null;
+        }
+
+
+        /* --------------------------------------------------------
+           VEHICLE NAME
+           -------------------------------------------------------- */
+
+        const nameElement =
+            vehicle.querySelector(
+                ".details .inner .vehicle-name"
+            );
+
+        let name = "";
+
+        if (nameElement) {
+            name =
+                nameElement.textContent.trim();
+        }
+
+
+        /*
+         * Dynamic-rendered vehicles use the
+         * first span as the vehicle name.
+         */
+
+        if (!name) {
+            const firstSpan =
+                vehicle.querySelector(
+                    ".details .inner > span"
+                );
+
+            if (firstSpan) {
+                name =
+                    firstSpan.textContent.trim();
+            }
+        }
+
+
+        /*
+         * Fallback to page model.
+         */
+
+        if (!name) {
+            name = model;
+        }
+
+
+        /* --------------------------------------------------------
+           PRICE
+           -------------------------------------------------------- */
+
+        const priceElement =
+            vehicle.querySelector(
+                ".details .inner small"
+            );
+
+        const price =
+            priceElement
+                ? priceElement.textContent.trim()
+                : "";
+
+
+        /* --------------------------------------------------------
+           IMAGE
+           -------------------------------------------------------- */
+
+        const imageElement =
+            vehicle.querySelector(
+                ".image img"
+            );
+
+        let image =
+            "";
+
+        if (imageElement) {
+            image =
+                imageElement.getAttribute(
+                    "src"
+                ) || "";
+        }
+
+
+        /*
+         * Fallback vehicle image.
+         */
+
+        if (!image) {
+            image =
+                `/images/${model}.png`;
+        }
+
+
+        image =
+            makeAbsoluteUrl(
+                image
+            );
+
+
+        /* --------------------------------------------------------
+           DESCRIPTION
+           -------------------------------------------------------- */
+
+        let description =
+            `${name} from the ${pageTitle || vehicleCategory || "Luxury Autos"} catalog.`;
+
+        if (price) {
+            description +=
+                ` ${price}.`;
+        }
+
+
+        return {
+            model,
+            name,
+            price,
+            image,
+            description
+        };
+    }
+
+
+    /* ============================================================
+       UPDATE SOCIAL EMBED
+       ============================================================ */
+
+    function updateSocialEmbed(
+        model = ""
+    ) {
+        let vehicle = null;
+
+        if (model) {
+            vehicle =
+                findVehicle(
+                    model
+                );
+        }
+
+
+        /* --------------------------------------------------------
+           VEHICLE EMBED
+           -------------------------------------------------------- */
+
+        if (vehicle) {
+            const data =
+                getVehicleEmbedData(
+                    vehicle
+                );
+
+            if (!data) {
+                return;
+            }
+
+            const embedTitle =
+                pageTitle
+                    ? `${data.name} - ${pageTitle}`
+                    : data.name;
+
+
+            /*
+             * Browser title.
+             */
+
+            document.title =
+                embedTitle;
+
+
+            /*
+             * Open Graph.
+             */
+
+            setMeta(
+                "og:title",
+                embedTitle
+            );
+
+            setMeta(
+                "og:description",
+                data.description
+            );
+
+            setMeta(
+                "og:image",
+                data.image
+            );
+
+            setMeta(
+                "og:url",
+                buildVehicleUrl(
+                    data.model
+                )
+            );
+
+            setMeta(
+                "og:type",
+                "website"
+            );
+
+
+            /*
+             * Twitter / X.
+             */
+
+            setNameMeta(
+                "twitter:card",
+                "summary_large_image"
+            );
+
+            setNameMeta(
+                "twitter:title",
+                embedTitle
+            );
+
+            setNameMeta(
+                "twitter:description",
+                data.description
+            );
+
+            setNameMeta(
+                "twitter:image",
+                data.image
+            );
+
+
+            /*
+             * Image alt.
+             */
+
+            setMeta(
+                "og:image:alt",
+                data.name
+            );
+
+            return;
+        }
+
+
+        /* --------------------------------------------------------
+           NORMAL PAGE EMBED
+           -------------------------------------------------------- */
+
+        const normalTitle =
+            pageTitle ||
+            document.title ||
+            "Luxury Autos";
+
+
+        const normalDescription =
+            `A catalog for ${normalTitle} to help you find your import dream car easily.`;
+
+
+        const normalImage =
+            getPageBannerImage();
+
+
+        /*
+         * Browser title.
+         */
+
+        document.title =
+            normalTitle;
+
+
+        /*
+         * Open Graph.
+         */
+
+        setMeta(
+            "og:title",
+            normalTitle
+        );
+
+        setMeta(
+            "og:description",
+            normalDescription
+        );
+
+        setMeta(
+            "og:image",
+            normalImage
+        );
+
+        setMeta(
+            "og:url",
+            buildCleanCanonicalUrl()
+        );
+
+        setMeta(
+            "og:type",
+            "website"
+        );
+
+        setMeta(
+            "og:image:alt",
+            normalTitle
+        );
+
+
+        /*
+         * Twitter / X.
+         */
+
+        setNameMeta(
+            "twitter:card",
+            "summary_large_image"
+        );
+
+        setNameMeta(
+            "twitter:title",
+            normalTitle
+        );
+
+        setNameMeta(
+            "twitter:description",
+            normalDescription
+        );
+
+        setNameMeta(
+            "twitter:image",
+            normalImage
+        );
     }
 
 
@@ -251,10 +699,6 @@
             );
         } catch {}
 
-        /*
-         * Always begin deep-link navigation
-         * from the top.
-         */
         window.scrollTo(
             0,
             0
@@ -518,12 +962,6 @@
            LINK POSITION
            -------------------------------------------------------- */
 
-        /*
-         * INVERT:
-         *
-         * [LINK] [BLACK] [WHITE] [RED] [GREEN] [BLUE]
-         */
-
         if (
             vehicle.classList.contains(
                 "invert"
@@ -533,15 +971,7 @@
                 link,
                 colors.firstElementChild
             );
-        }
-
-        /*
-         * NORMAL:
-         *
-         * [BLACK] [WHITE] [RED] [GREEN] [BLUE] [LINK]
-         */
-
-        else {
+        } else {
             colors.appendChild(
                 link
             );
@@ -592,9 +1022,6 @@
     }
 
 
-    /*
-     * Cinematic easing.
-     */
     function easeInOutQuint(t) {
         return t < 0.5
             ? 16 *
@@ -612,9 +1039,6 @@
     }
 
 
-    /*
-     * Distance-based duration.
-     */
     function getScrollDuration(
         distance
     ) {
@@ -635,21 +1059,6 @@
     }
 
 
-    /*
-     * Continuous smooth scrolling.
-     *
-     * Starts from the CURRENT position.
-     *
-     * Therefore:
-     *
-     * bottom -> top
-     *
-     * smoothly travels upward.
-     *
-     * top -> bottom
-     *
-     * smoothly travels downward.
-     */
     function premiumScrollTo(
         targetY,
         duration
@@ -776,9 +1185,6 @@
                 ? 25
                 : 35;
 
-        /*
-         * Center vehicle in viewport.
-         */
         const vehicleCenter =
             rect.top +
             rect.height / 2;
@@ -873,6 +1279,14 @@
             );
         }
 
+        /*
+         * Update sharing metadata
+         * whenever a vehicle becomes active.
+         */
+        updateSocialEmbed(
+            model
+        );
+
         return vehicle;
     }
 
@@ -897,22 +1311,10 @@
 
         cancelPremiumScroll();
 
-        /*
-         * Make the target active immediately.
-         */
         setActiveVehicle(
             model
         );
 
-        /*
-         * Initial deep-link:
-         *
-         * TOP
-         *  ↓
-         * smooth cinematic movement
-         *  ↓
-         * TARGET VEHICLE
-         */
         if (fromTop) {
             window.scrollTo(
                 0,
@@ -920,9 +1322,6 @@
             );
         }
 
-        /*
-         * Wait for layout/image rendering.
-         */
         requestAnimationFrame(
             () => {
                 requestAnimationFrame(
@@ -1001,6 +1400,13 @@
             if (vehicle) {
                 decorateVehicle(
                     vehicle
+                );
+
+                /*
+                 * Give image metadata time to exist.
+                 */
+                updateSocialEmbed(
+                    model
                 );
 
                 scrollToVehicle(
@@ -1085,6 +1491,8 @@
 
                 initialHashModel =
                     "";
+            } else {
+                updateSocialEmbed();
             }
 
             return;
@@ -1126,6 +1534,8 @@
 
                 initialHashModel =
                     "";
+            } else {
+                updateSocialEmbed();
             }
 
             return;
@@ -1256,6 +1666,8 @@
 
                 initialHashModel =
                     "";
+            } else {
+                updateSocialEmbed();
             }
 
         } catch (error) {
@@ -1277,6 +1689,8 @@
 
                 initialHashModel =
                     "";
+            } else {
+                updateSocialEmbed();
             }
         }
     }
@@ -1331,9 +1745,6 @@
             "vehicle";
 
 
-        /*
-         * Alternate direction.
-         */
         const invert =
             index % 2 === 0;
 
@@ -1356,7 +1767,7 @@
 
                 <div class="inner">
 
-                    <span>
+                    <span class="vehicle-name">
                         ${label}
                     </span>
 
@@ -1427,9 +1838,6 @@
         `;
 
 
-        /*
-         * Store original image.
-         */
         const imageElement =
             vehicle.querySelector(
                 ".image img"
@@ -1485,9 +1893,6 @@
             }
 
 
-            /*
-             * Save original image.
-             */
             if (
                 !image.dataset.originalSrc
             ) {
@@ -1498,10 +1903,6 @@
             }
 
 
-            /*
-             * Clicking active color
-             * restores original.
-             */
             const alreadyActive =
                 this.classList.contains(
                     "active"
@@ -1524,10 +1925,6 @@
             }
 
 
-            /*
-             * Remove active from
-             * other colors.
-             */
             vehicle
                 .querySelectorAll(
                     ".color"
@@ -1541,17 +1938,11 @@
                 );
 
 
-            /*
-             * Select color.
-             */
             this.classList.add(
                 "active"
             );
 
 
-            /*
-             * Color suffixes.
-             */
             const suffixMap = {
                 mb: "_mb",
                 mw: "_mw",
@@ -1575,10 +1966,6 @@
             }
 
 
-            /*
-             * Remove an existing
-             * color suffix.
-             */
             const source =
                 image.getAttribute(
                     "src"
@@ -1591,9 +1978,6 @@
                 );
 
 
-            /*
-             * Find extension.
-             */
             const extensionMatch =
                 cleanSource.match(
                     /(\.[a-z0-9]+)(?:[?#].*)?$/i
@@ -1613,15 +1997,6 @@
                 extensionMatch[1];
 
 
-            /*
-             * Example:
-             *
-             * pulse.png
-             *
-             * ->
-             *
-             * pulse_r.png
-             */
             const newSource =
                 cleanSource.replace(
                     extension,
@@ -1720,18 +2095,12 @@
             }
 
 
-            /*
-             * Build exact URL.
-             */
             const fullUrl =
                 buildVehicleUrl(
                     model
                 );
 
 
-            /*
-             * Update URL without reload.
-             */
             try {
                 window.history.pushState(
                     {
@@ -1744,17 +2113,11 @@
             } catch {}
 
 
-            /*
-             * Activate target.
-             */
             setActiveVehicle(
                 model
             );
 
 
-            /*
-             * Scroll from CURRENT position.
-             */
             scrollToVehicle(
                 model,
                 true,
@@ -1762,9 +2125,6 @@
             );
 
 
-            /*
-             * Copy exact URL.
-             */
             try {
                 await navigator.clipboard.writeText(
                     fullUrl
@@ -1772,9 +2132,6 @@
             } catch {}
 
 
-            /*
-             * Copied state.
-             */
             this.classList.add(
                 "copied"
             );
@@ -1815,13 +2172,12 @@
             if (!model) {
                 clearHashTarget();
 
+                updateSocialEmbed();
+
                 return;
             }
 
 
-            /*
-             * Normalize current URL.
-             */
             const canonicalUrl =
                 buildVehicleUrl(
                     model
@@ -1844,10 +2200,11 @@
             }
 
 
-            /*
-             * Existing page:
-             * scroll from current position.
-             */
+            updateSocialEmbed(
+                model
+            );
+
+
             scrollToHashWhenReady(
                 true,
                 model,
@@ -1873,6 +2230,8 @@
             if (!model) {
                 clearHashTarget();
 
+                updateSocialEmbed();
+
                 return;
             }
 
@@ -1887,13 +2246,17 @@
                 model.trim();
 
             if (!model) {
+                updateSocialEmbed();
+
                 return;
             }
 
-            /*
-             * Back/forward also scrolls
-             * smoothly from current position.
-             */
+
+            updateSocialEmbed(
+                model
+            );
+
+
             scrollToHashWhenReady(
                 true,
                 model,
@@ -1931,6 +2294,15 @@
 
     decorateAllVehicles();
 
+    /*
+     * Set normal-page metadata immediately.
+     *
+     * If a hash exists, the vehicle metadata
+     * will replace this once the vehicle is available.
+     */
+    updateSocialEmbed();
+
+
     loadVehicles();
 
 
@@ -1945,10 +2317,11 @@
 
             canonicalizeCurrentUrl();
 
-            /*
-             * Apply background again after
-             * page resources have loaded.
-             */
+
+            /* ----------------------------------------------------
+               BACKGROUND
+               ---------------------------------------------------- */
+
             if (vehicleCategory) {
                 $("head").append(`
                     <style>
@@ -1959,6 +2332,11 @@
                     </style>
                 `);
             }
+
+
+            /* ----------------------------------------------------
+               SOCIAL EMBED
+               ---------------------------------------------------- */
 
             if (
                 window.location.hash
@@ -1978,12 +2356,18 @@
                     model.trim();
 
                 if (model) {
+                    updateSocialEmbed(
+                        model
+                    );
+
                     scrollToHashWhenReady(
                         true,
                         model,
                         false
                     );
                 }
+            } else {
+                updateSocialEmbed();
             }
         }
     );
